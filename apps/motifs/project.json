@@ -1,9 +1,9 @@
 {
-  "name": "landings",
+  "name": "motifs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "apps/landings/src",
+  "prefix": "mt",
+  "sourceRoot": "apps/motifs/src",
   "tags": [],
   "targets": {
     "build": {
@@ -11,19 +11,19 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/landings",
-        "browser": "apps/landings/src/main.ts",
-        "tsConfig": "apps/landings/tsconfig.app.json",
+        "outputPath": "dist/apps/motifs",
+        "browser": "apps/motifs/src/main.ts",
+        "tsConfig": "apps/motifs/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/landings/public"
+            "input": "apps/motifs/public"
           }
         ],
-        "styles": ["apps/landings/src/styles.css"],
-        "server": "apps/landings/src/main.server.ts",
+        "styles": ["apps/motifs/src/styles.css"],
+        "server": "apps/motifs/src/main.server.ts",
         "ssr": {
-          "entry": "apps/landings/src/server.ts"
+          "entry": "apps/motifs/src/server.ts"
         },
         "outputMode": "server",
         "security": {
@@ -62,10 +62,10 @@
       "defaultConfiguration": "development",
       "configurations": {
         "production": {
-          "buildTarget": "landings:build:production"
+          "buildTarget": "motifs:build:production"
         },
         "development": {
-          "buildTarget": "landings:build:development"
+          "buildTarget": "motifs:build:development"
         }
       }
     },
@@ -83,8 +83,8 @@
       "dependsOn": ["build"],
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "landings:build",
-        "staticFilePath": "dist/apps/landings/browser",
+        "buildTarget": "motifs:build",
+        "staticFilePath": "dist/apps/motifs/browser",
         "spa": true
       }
     }

@@ -34,7 +34,11 @@
       "e2eTestRunner": "none",
       "linter": "eslint",
       "style": "css",
-      "unitTestRunner": "vitest-angular"
+      "unitTestRunner": "vitest-angular",
+      "prefix": "mt"
+    },
+    "@nx/angular:library": {
+      "prefix": "mt"
     }
   }
 }
