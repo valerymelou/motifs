@@ -19,6 +19,15 @@
     "@angular/build:unit-test": {
       "cache": true,
       "inputs": ["default", "^production"]
+    },
+    "@nx/angular:ng-packagr-lite": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@nx/angular:unit-test": {
+      "cache": true,
+      "inputs": ["default", "^production"]
     }
   },
   "plugins": [
@@ -44,7 +53,12 @@
       "prefix": "mt"
     },
     "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "vitest-angular",
       "prefix": "mt"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   }
 }

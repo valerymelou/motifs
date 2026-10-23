@@ -22,6 +22,7 @@ Use the versions below. `pnpm-lock.yaml` holds the exact resolved version of eve
 | UI tooling      | `@ndop/cli`                                             | 1.1.0                  | to install                     |
 | UI peer         | `@angular/cdk`                                          | 22.2.x                 | to install, `~22.2.0`          |
 | Styling         | `tailwindcss`, `@tailwindcss/postcss`                   | 4.3.3                  | to install                     |
+| Library build   | `ng-packagr`                                            | 22.2.4                 | `~22.2.0`                      |
 | Unit tests      | `vitest`, `jsdom`                                       | 4.1.12, 27.4.0         | `^4.0.8`, `^27.1.0`            |
 | E2E tests       | `@playwright/test`                                      | 1.64.1                 | `^1.64.1`                      |
 | Accessibility   | `@axe-core/playwright`                                  | 4.14.0                 | `^4.14.0`                      |
@@ -33,6 +34,7 @@ Notes on the choices:
 - Angular 22.2 supports Node `^22.22.3 || ^24.15.0 || >=26.0.0`, and Ndop 1.1.0 supports Angular 21 and 22, so the two majors fit together.
 - `@ndop/primitives` lists `@angular/cdk` as a peer dependency, so the CDK is installed only because Ndop needs it, as the spec allows.
 - Tailwind v4 is wired through `@tailwindcss/postcss` (with `postcss`). Angular's build looks for `.postcssrc.json` or `postcss.config.json` in the project folder, then the workspace root. Each app gets its own `.postcssrc.json` (ADR-0002).
+- The shared libraries are buildable with `ng-packagr` only because Nx's `vitest-angular` runner, which the apps also use, requires a build target for libraries. They are not published.
 - pnpm keeps its default supply-chain policy: a package must be at least one day old before it installs. No package is excluded from it. When a fresh release is needed, wait for it to age instead of adding an exclusion.
 
 ## Consequences
