@@ -21,7 +21,8 @@
     "paths": {
       "@motifs/pages-manifest": ["./libs/pages-manifest/src/index.ts"],
       "@motifs/motion": ["./libs/motion/src/index.ts"],
-      "@motifs/site": ["./libs/site/src/index.ts"]
+      "@motifs/site": ["./libs/site/src/index.ts"],
+      "@motifs/workspace-plugin": ["./tools/workspace-plugin/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

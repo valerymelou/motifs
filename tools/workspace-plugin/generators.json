@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "landing-page": {
+      "factory": "./src/generators/landing-page/landing-page",
+      "schema": "./src/generators/landing-page/schema.json",
+      "description": "Creates a Motifs landing page app and its e2e project"
+    }
+  }
+}

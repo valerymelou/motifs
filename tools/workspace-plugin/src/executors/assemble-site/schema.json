@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Assemble site",
+  "description": "Copies the series index and every built landing page into one static site, with a sitemap, robots.txt and a 404 page.",
+  "type": "object",
+  "properties": {
+    "outputPath": {
+      "type": "string",
+      "description": "Folder to write the site to, relative to the workspace root.",
+      "default": "dist/site"
+    },
+    "indexProject": {
+      "type": "string",
+      "description": "The app served at the site root.",
+      "default": "motifs"
+    },
+    "pageTag": {
+      "type": "string",
+      "description": "Tag that marks a landing page app; each is served at /<project name>/.",
+      "default": "type:landing"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,8 @@
+/**
+ * <%- name %>'s copy. Sections read their words from here, never from
+ * templates.
+ */
+export const hero = {
+  title: <%- json(name) %>,
+  tagline: <%- json(tagline) %>,
+} as const;

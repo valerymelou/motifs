@@ -20,7 +20,7 @@ apps/<slug>/
 ├── ndop.json          # where this app's items go
 ├── ndop.lock.json     # installed item versions and file hashes
 └── src/
-    ├── styles.css     # Tailwind, @ndop/core/styles.css, theme tokens
+    ├── theme.css      # the app's only global stylesheet: Tailwind, @ndop/core/styles.css, theme tokens
     └── app/
         ├── ui/        # copied components, restyled freely
         ├── lib/       # utils.ts, icons.ts
@@ -33,7 +33,7 @@ apps/<slug>/
 {
   "$schema": "https://ndop.dev/schema/config.json",
   "style": "default",
-  "tailwind": { "css": "src/styles.css" },
+  "tailwind": { "css": "src/theme.css" },
   "aliases": {
     "ui": "src/app/ui",
     "lib": "src/app/lib",
@@ -47,7 +47,7 @@ apps/<slug>/
 Setting up an app follows Ndop's manual Nx steps, adapted to the per-app config:
 
 1. Write `apps/<slug>/ndop.json` as above.
-2. Import Tailwind and Ndop's token mechanics at the top of `apps/<slug>/src/styles.css`: `@import 'tailwindcss';` then `@import '@ndop/core/styles.css';`.
+2. Make `apps/<slug>/src/theme.css` the app's global stylesheet and import Tailwind and Ndop's token mechanics at its top: `@import 'tailwindcss' source('./');` then `@import '@ndop/core/styles.css';`. The theme's tokens land in the same file, which is what the spec calls the page's theme; `ndop doctor` requires the file `ndop.json` points at to import Tailwind.
 3. Add a `.postcssrc.json` that loads `@tailwindcss/postcss` in the app folder. Angular's build looks there first, and `ndop doctor --cwd apps/<slug>` checks the same file.
 4. From the workspace root, add the theme and the helper files: `pnpm exec ndop add default utils icons --cwd apps/<slug>`.
 5. Register `provideNdop()` and `provideIcons()` in the app's `app.config.ts`.

@@ -1,0 +1,10 @@
+import { Component } from '@angular/core';
+import { SeriesFooter } from '@motifs/site';
+import { HeroSection } from './sections/hero-section/hero-section';
+
+@Component({
+  selector: 'mt-root',
+  imports: [HeroSection, SeriesFooter],
+  templateUrl: './app.html',
+})
+export class App {}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "LandingPage",
+  "title": "Motifs landing page",
+  "description": "Creates apps/<slug> and apps/<slug>-e2e for a page listed in the pages manifest.",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "description": "The page's slug in libs/pages-manifest, such as atelier-ndop.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which page (slug from the pages manifest)?"
+    }
+  },
+  "required": ["slug"]
+}

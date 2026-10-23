@@ -21,7 +21,14 @@ One Nx workspace, managed with pnpm. Each page is its own Angular application, p
 ```sh
 pnpm install
 pnpm nx serve motifs
-pnpm nx run-many -t build test lint
+pnpm nx run-many -t build test lint e2e
+```
+
+Start a new page (it must be listed in `libs/pages-manifest` first), then build the whole site into `dist/site`:
+
+```sh
+pnpm nx g @motifs/workspace-plugin:landing-page <slug>
+pnpm nx run workspace-plugin:assemble-site
 ```
 
 ## License

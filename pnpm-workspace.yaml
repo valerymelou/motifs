@@ -4,3 +4,5 @@ allowBuilds:
   lmdb: true
   msgpackr-extract: true
   nx: true
+  unrs-resolver: false
+  '@swc/core': false

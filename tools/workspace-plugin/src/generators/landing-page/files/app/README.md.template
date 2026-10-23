@@ -1,0 +1,22 @@
+# <%- name %>
+
+<%- tagline %>
+
+Part of [Motifs](../../README.md), served at `/<%- slug %>/`. Mood: <%- mood %>.
+
+## Brand idea
+
+<!-- The concept and art direction, in a few sentences. -->
+
+## Ndop items
+
+Planned: <%- ndopItems.map((item) => '`' + item + '`').join(', ') %>.
+
+<!-- For each item, how it was restyled: tokens first, then edits to the copied files. -->
+
+## Asset credits
+
+| Asset | Source | License |
+| ----- | ------ | ------- |
+
+<!-- Every image, font, sound and icon, including public/og.png (1200×630) and the favicon. -->

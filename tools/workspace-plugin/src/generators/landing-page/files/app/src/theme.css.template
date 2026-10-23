@@ -1,0 +1,7 @@
+@import 'tailwindcss' source('./');
+@import '@ndop/core/styles.css';
+
+/*
+ * <%- name %>'s theme: colors (OKLCH), radius, fonts, shadows and motion
+ * tokens. `ndop add` writes the default theme below; restyle from there.
+ */

@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "assemble-site": {
+      "implementation": "./src/executors/assemble-site/assemble-site",
+      "schema": "./src/executors/assemble-site/schema.json",
+      "description": "Assembles every built page and the index into one static site"
+    }
+  }
+}
