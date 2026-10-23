@@ -1,0 +1,39 @@
+<section class="border-t border-border">
+  <div class="mx-auto max-w-7xl px-4 py-24 sm:px-8 sm:py-32">
+    <p
+      class="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase"
+    >
+      {{ copy.label }}
+    </p>
+    <h2
+      class="mt-6 font-serif text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.92] tracking-[-0.01em]"
+    >
+      {{ copy.title }}<br />
+      <em class="italic">{{ copy.titleEmphasis }}</em>
+    </h2>
+    <ol class="mt-16 grid gap-10 md:grid-cols-3">
+      @for (point of copy.points; track point.title) {
+        <li class="border-t border-border pt-6">
+          <span class="font-mono text-xs text-muted-foreground">{{
+            '0' + ($index + 1)
+          }}</span>
+          <h3 class="mt-3 font-serif text-2xl">{{ point.title }}</h3>
+          <p class="mt-3 leading-relaxed text-muted-foreground">
+            {{ point.text }}
+          </p>
+        </li>
+      }
+    </ol>
+    <figure class="mt-16 max-w-2xl">
+      <figcaption
+        class="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase"
+      >
+        {{ copy.codeLabel }}
+      </figcaption>
+      <pre
+        class="mt-4 rounded-[var(--radius)] border border-border bg-card p-5 font-mono text-sm leading-7 break-all whitespace-pre-wrap"
+      ><code>@for (command of commands; track command) {<span class="text-muted-foreground select-none" aria-hidden="true">$ </span>{{ command }}
+}</code></pre>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<!-- On large screens both columns stay pinned while the section scrolls; on
+     small ones the text scrolls by and only the card and its picker stay. -->
+<div
+  class="mx-auto grid h-full max-w-7xl grid-rows-[auto_1fr] gap-12 px-4 sm:px-8 lg:sticky lg:top-0 lg:h-auto lg:min-h-svh lg:grid-cols-2 lg:grid-rows-1 lg:items-center motion-reduce:static"
+>
+  <div class="pt-24 lg:py-24">
+    <p
+      class="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase"
+    >
+      {{ copy.label }}
+    </p>
+    <h2
+      class="mt-6 font-serif text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.92] tracking-[-0.01em]"
+    >
+      {{ copy.title }}<br />
+      <em class="italic">{{ copy.titleEmphasis }}</em>
+    </h2>
+    @for (paragraph of copy.body; track $index) {
+      <p class="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
+        {{ paragraph }}
+      </p>
+    }
+  </div>
+  <div
+    class="sticky top-0 flex min-h-svh flex-col justify-center gap-8 self-start py-10 lg:static lg:min-h-0 lg:self-auto lg:py-24 motion-reduce:static motion-reduce:min-h-0"
+  >
+    <mt-specimen-card
+      [page]="page()"
+      [specimen]="specimen()"
+      class="mx-auto w-full max-w-md"
+    />
+    <div
+      ndToggleGroup
+      variant="outline"
+      size="sm"
+      [spacing]="1"
+      class="mx-auto flex max-w-md flex-wrap justify-center"
+      [attr.aria-label]="copy.pickerLabel"
+      [(value)]="picked"
+    >
+      @for (entry of entries; track entry.page.slug) {
+        <button
+          ndToggleGroupItem
+          [value]="entry.page.slug"
+          [attr.aria-label]="entry.number + ' ' + entry.page.name"
+          class="gap-1.5 font-mono"
+        >
+          <span
+            class="size-4 rounded-[3px] bg-size-[100%_100%]"
+            [style.background-color]="entry.page.accent"
+            [style.background-image]="entry.tile"
+            aria-hidden="true"
+          ></span>
+          {{ entry.number }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

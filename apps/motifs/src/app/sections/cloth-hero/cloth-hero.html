@@ -1,0 +1,55 @@
+<section>
+  <nav [attr.aria-label]="copy.clothLabel" class="cloth">
+    <ul>
+      @for (band of bands; track band.slug) {
+        <li
+          class="band"
+          [style.--i]="$index"
+          [style.background-color]="band.accent"
+        >
+          <a class="band-link" [href]="'#' + band.slug">
+            <span
+              class="band-track"
+              [style.background-image]="band.tile"
+              aria-hidden="true"
+            ></span>
+            <span class="band-label">
+              <span class="font-mono">{{ band.number }}</span>
+              {{ band.name }}
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="mx-auto max-w-7xl px-4 pt-14 pb-24 sm:px-8 sm:pt-20">
+    <p
+      class="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase"
+    >
+      {{ copy.eyebrow }}
+    </p>
+    <h1
+      class="mt-6 font-serif text-[clamp(3.75rem,12vw,11rem)] leading-[0.86] tracking-[-0.02em]"
+    >
+      {{ copy.title }}<br />
+      <em class="italic">{{ copy.titleEmphasis }}</em>
+    </h1>
+    <div class="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+      <p class="max-w-2xl text-xl leading-relaxed sm:text-2xl">
+        {{ copy.lead }}
+      </p>
+      <div class="lg:pt-2">
+        <div class="flex flex-wrap gap-3">
+          <a ndButton size="lg" href="#motifs">{{ copy.explore }}</a>
+          <a ndButton size="lg" variant="outline" [href]="site.repoUrl">{{
+            copy.source
+          }}</a>
+        </div>
+        <p class="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
+          {{ copy.origin }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

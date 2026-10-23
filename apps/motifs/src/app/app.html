@@ -1,5 +1,15 @@
+<mt-site-header />
 <main>
-  <mt-intro-section />
-  <mt-pages-section />
+  <mt-cloth-hero />
+  <!-- The two interactive sections hydrate with the page: a click that lands
+       while a deferred block hydrates can be lost. -->
+  <mt-identities-section mtScrollProgress="contain" />
+  <mt-motifs-section />
+  <!-- Static, below the fold: prerendered in full, hydrated once in view. -->
+  @defer (on viewport; hydrate on viewport) {
+    <mt-making-section />
+  } @placeholder {
+    <div class="h-svh"></div>
+  }
 </main>
 <mt-site-footer />

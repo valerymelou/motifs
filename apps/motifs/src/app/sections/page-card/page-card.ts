@@ -1,39 +1,32 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import type { Page } from '@motifs/pages-manifest';
-import { pagesSection } from '../../content';
+import { motifs } from '../../content';
+import { motifOf, motifTile, threadOn } from '../../motifs/motifs';
 import { Badge } from '../../ui/badge/badge';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../../ui/card/card';
 
 /**
- * One page in the index grid. Live pages show their Open Graph image and link
- * to the page; the others show their accent color and a "coming soon" badge.
+ * One page in the collection: its motif as a swatch of cloth, then its
+ * name and voice. Live pages show their Open Graph image and link to the
+ * page; the others say they are coming.
  */
 @Component({
   selector: 'mt-page-card',
-  imports: [
-    NgOptimizedImage,
-    Badge,
-    Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  ],
+  imports: [NgOptimizedImage, Badge],
   templateUrl: './page-card.html',
-  host: { class: 'block h-full' },
+  styleUrl: './page-card.css',
+  host: { class: 'block' },
 })
 export class PageCard {
   readonly page = input.required<Page>();
+  /** The page's place in launch order, such as "01". */
+  readonly number = input.required<string>();
 
-  protected readonly copy = pagesSection;
+  protected readonly copy = motifs;
   protected readonly live = computed(() => this.page().status === 'live');
   protected readonly href = computed(() => `/${this.page().slug}/`);
   protected readonly image = computed(() => `/${this.page().slug}/og.png`);
+  protected readonly tile = computed(() =>
+    motifTile(motifOf(this.page().slug), threadOn(this.page().accent)),
+  );
 }

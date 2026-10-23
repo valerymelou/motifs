@@ -18,6 +18,11 @@
           {
             "glob": "**/*",
             "input": "apps/motifs/public"
+          },
+          {
+            "glob": "instrument-serif-latin-400-{normal,italic}.woff2",
+            "input": "node_modules/@fontsource/instrument-serif/files",
+            "output": "fonts"
           }
         ],
         "styles": ["apps/motifs/src/theme.css"],
@@ -25,6 +30,10 @@
         "outputMode": "static",
         "security": {
           "allowedHosts": []
+        },
+        "index": {
+          "input": "apps/motifs/src/index.html",
+          "preloadInitial": false
         }
       },
       "configurations": {
@@ -69,7 +78,8 @@
     "test": {
       "executor": "@angular/build:unit-test",
       "options": {
-        "watch": false
+        "watch": false,
+        "setupFiles": ["apps/motifs/src/test-setup.ts"]
       }
     },
     "serve-static": {
@@ -84,6 +94,19 @@
         "staticFilePath": "dist/apps/motifs/browser",
         "spa": false
       }
+    },
+    "og": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --no-warnings apps/motifs/og/render-og.mts apps/motifs/public/og.png"
+      },
+      "inputs": [
+        "{projectRoot}/og/**",
+        "{projectRoot}/src/app/motifs/**",
+        "{workspaceRoot}/libs/pages-manifest/src/**"
+      ],
+      "outputs": ["{projectRoot}/public/og.png"],
+      "cache": true
     }
   }
 }

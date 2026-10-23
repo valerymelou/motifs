@@ -1,25 +1,31 @@
-<!-- The title link stretches over the card; the ring shows its focus. -->
-<article
-  ndCard
-  class="relative h-full overflow-hidden pt-0 has-[a:focus-visible]:ring-[3px] has-[a:focus-visible]:ring-ring/50"
->
-  @if (live()) {
-    <img
-      [ngSrc]="image()"
-      width="1200"
-      height="630"
-      alt=""
-      class="aspect-[1200/630] w-full object-cover"
-    />
-  } @else {
-    <div
-      class="aspect-[1200/630] w-full"
-      [style.background-color]="page().accent"
-      aria-hidden="true"
-    ></div>
-  }
-  <div ndCardHeader>
-    <h3 ndCardTitle>
+<!-- The title link stretches over the card; the swatch ring shows focus. -->
+<article class="group relative">
+  <div
+    class="swatch relative aspect-[4/3] overflow-hidden rounded-[calc(var(--radius)+4px)]"
+    [style.background-color]="page().accent"
+  >
+    @if (live()) {
+      <img
+        [ngSrc]="image()"
+        width="1200"
+        height="630"
+        alt=""
+        class="absolute inset-0 size-full object-cover"
+      />
+    } @else {
+      <div
+        class="swatch-tile absolute -inset-1/4 bg-size-[4.5rem_auto]"
+        [style.background-image]="tile()"
+        aria-hidden="true"
+      ></div>
+    }
+    <span
+      class="absolute top-3 left-3 rounded-full bg-background/85 px-2.5 py-0.5 font-mono text-xs"
+      >{{ number() }}</span
+    >
+  </div>
+  <div class="mt-5 flex items-baseline justify-between gap-4">
+    <h3 class="font-serif text-3xl leading-tight">
       @if (live()) {
         <a [href]="href()" class="outline-none after:absolute after:inset-0">{{
           page().name
@@ -28,12 +34,18 @@
         {{ page().name }}
       }
     </h3>
-    <p ndCardDescription>{{ page().tagline }}</p>
+    <span ndBadge variant="outline" class="shrink-0">{{
+      copy.moods[page().mood]
+    }}</span>
   </div>
-  <div ndCardFooter class="mt-auto flex flex-wrap gap-2">
-    <span ndBadge variant="secondary">{{ copy.moods[page().mood] }}</span>
-    @if (!live()) {
-      <span ndBadge variant="outline">{{ copy.comingSoon }}</span>
+  <p class="mt-2 leading-relaxed text-muted-foreground">
+    {{ page().tagline }}
+  </p>
+  <p class="mt-4 font-mono text-xs tracking-[0.18em] uppercase">
+    @if (live()) {
+      {{ copy.visit }} <span aria-hidden="true">→</span>
+    } @else {
+      {{ copy.comingSoon }}
     }
-  </div>
+  </p>
 </article>

@@ -1,0 +1,22 @@
+.swatch-tile {
+  transition: transform 0.9s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.group:hover .swatch-tile {
+  transform: scale(1.12) rotate(-3deg);
+}
+
+.group:has(a:focus-visible) .swatch {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swatch-tile {
+    transition: none;
+  }
+
+  .group:hover .swatch-tile {
+    transform: none;
+  }
+}

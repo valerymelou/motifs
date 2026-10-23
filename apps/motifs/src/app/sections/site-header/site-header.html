@@ -1,0 +1,15 @@
+<header
+  class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-5 sm:px-8"
+>
+  <a href="/" class="font-serif text-2xl tracking-tight">{{ copy.name }}</a>
+  <div
+    class="flex items-center gap-6 font-mono text-xs tracking-[0.18em] text-muted-foreground uppercase"
+  >
+    <span>{{ count }}</span>
+    <a
+      [href]="site.repoUrl"
+      class="underline-offset-4 transition-colors hover:text-foreground hover:underline"
+      >{{ copy.source }} <span aria-hidden="true">↗</span></a
+    >
+  </div>
+</header>

@@ -33,6 +33,13 @@ module.exports = {
       staticDistDir: site,
       url: ['/', ...pages],
       numberOfRuns: 3,
+      settings: {
+        // Apply the slow-4G and CPU throttling for real instead of simulating
+        // it. Served from localhost, the JS arrives before the first paint,
+        // so the simulation counts it against LCP although a phone paints
+        // the prerendered page long before its JS downloads.
+        throttlingMethod: 'devtools',
+      },
     },
     assert: {
       assertions: {

@@ -1,0 +1,42 @@
+<!-- The card's box stays the same for every page: one radius, and fixed
+     line counts, so only the theme changes and nothing moves. -->
+<article
+  ndCard
+  class="gap-0 overflow-hidden rounded-[1.25rem] py-0 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)]"
+>
+  <div
+    class="h-24 bg-size-[auto_100%] bg-repeat-x"
+    [style.background-color]="page().accent"
+    [style.background-image]="tile()"
+    aria-hidden="true"
+  ></div>
+  <div ndCardHeader class="gap-2 px-6 pt-6 sm:px-8 sm:pt-8">
+    <p class="truncate text-xs leading-5 tracking-[0.18em] uppercase">
+      {{ page().name }}
+    </p>
+    <h3
+      ndCardTitle
+      class="line-clamp-2 min-h-[2lh] text-2xl leading-tight"
+      [class.uppercase]="theme().uppercase"
+    >
+      {{ specimen().title }}
+    </h3>
+    <p ndCardDescription class="line-clamp-2 min-h-[2lh] text-base leading-6">
+      {{ specimen().text }}
+    </p>
+  </div>
+  <div
+    ndCardFooter
+    class="flex flex-nowrap items-center gap-3 px-6 pt-6 pb-6 sm:px-8 sm:pb-8"
+  >
+    <span
+      [class]="buttonClass"
+      class="min-w-0 truncate"
+      [class.uppercase]="theme().uppercase"
+      >{{ specimen().action }}</span
+    >
+    <span ndBadge variant="outline" class="transition-none">{{
+      specimen().badge
+    }}</span>
+  </div>
+</article>

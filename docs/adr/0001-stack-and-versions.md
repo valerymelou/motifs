@@ -23,6 +23,7 @@ Use the versions below. `pnpm-lock.yaml` holds the exact resolved version of eve
 | UI peer          | `@angular/cdk`                                                | 22.2.4                        | `~22.2.0`                         |
 | Styling          | `tailwindcss`, `@tailwindcss/postcss`                         | 4.3.3                         | `^4.3.3`                          |
 | Theme assets     | `@fontsource-variable/geist`, `geist-mono`, `@lucide/angular` | 5.3.0, 5.3.0, 1.61.0          | `^5.3.0`, `^5.3.0`, `^1.61.0`     |
+| Display face     | `@fontsource/instrument-serif`                                | 5.3.0                         | `^5.3.0`                          |
 | Library build    | `ng-packagr`                                                  | 22.2.4                        | `~22.2.0`                         |
 | Workspace plugin | `@nx/plugin`, `@nx/vitest`, `vite`, `@swc-node/register`      | 24.0.0, 24.0.0, 8.3.5, 1.11.1 | exact, exact, `^8.0.0`, `~1.11.1` |
 | Unit tests       | `vitest`, `jsdom`                                             | 4.1.12, 27.4.0                | `^4.0.8`, `^27.1.0`               |

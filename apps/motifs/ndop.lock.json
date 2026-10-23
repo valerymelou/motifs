@@ -13,6 +13,17 @@
         }
       ]
     },
+    "@ndop/button": {
+      "name": "button",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/button/button.ts",
+          "sha256": "38b1dc2238fd3f9800223d78bca9c92634790592c48d7d9b0e7e5e6752e529cf"
+        }
+      ]
+    },
     "@ndop/card": {
       "name": "card",
       "registry": "@ndop",

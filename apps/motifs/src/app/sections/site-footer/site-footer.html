@@ -1,16 +1,28 @@
-<footer
-  class="mx-auto mt-12 max-w-5xl space-y-1 border-t px-4 py-8 text-sm text-muted-foreground"
->
-  <p>{{ copy.credit }}</p>
-  <p>
-    {{ copy.license }}
-    <a class="underline underline-offset-4" [href]="site.repoUrl">{{
-      links.source
-    }}</a>
-    ·
-    <a class="underline underline-offset-4" [href]="site.ndopUrl">{{
-      links.ndop
-    }}</a>
-  </p>
-  <p>{{ copy.fiction }}</p>
+<footer class="border-t border-border">
+  <div
+    class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-8 md:grid-cols-[1fr_auto] md:items-end"
+  >
+    <div>
+      <p class="font-serif text-[clamp(3rem,8vw,6rem)] leading-none italic">
+        {{ site.name }}
+      </p>
+      <p class="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+        {{ copy.credit }} {{ copy.license }} {{ copy.fiction }}
+      </p>
+    </div>
+    <ul
+      class="flex flex-wrap gap-6 font-mono text-xs tracking-[0.18em] uppercase"
+    >
+      <li>
+        <a class="underline underline-offset-4" [href]="site.repoUrl">{{
+          copy.links.source
+        }}</a>
+      </li>
+      <li>
+        <a class="underline underline-offset-4" [href]="site.ndopUrl">{{
+          copy.links.ndop
+        }}</a>
+      </li>
+    </ul>
+  </div>
 </footer>

@@ -1,0 +1,98 @@
+.cloth ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.band {
+  --dir: 1;
+  overflow: hidden;
+  height: clamp(1.75rem, 4.2svh, 3rem);
+}
+
+.band:nth-child(even) {
+  --dir: -1;
+}
+
+.band-link {
+  position: relative;
+  display: block;
+  height: 100%;
+  outline: none;
+}
+
+.band-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+/* Wider than the band, so it can slide without showing an edge. */
+.band-track {
+  position: absolute;
+  inset: 0 -25%;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  animation: weave-in 1.6s cubic-bezier(0.2, 0, 0, 1) calc(var(--i) * 70ms) both;
+}
+
+/* Bands weave in from alternating sides, like weft through warp. */
+@keyframes weave-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir) * -18%));
+  }
+}
+
+/* Where scroll-driven animations exist, the cloth keeps drifting as the
+   page scrolls, at the reader's own pace. */
+@supports (animation-timeline: scroll()) {
+  .band-track {
+    animation:
+      weave-in 1.6s cubic-bezier(0.2, 0, 0, 1) calc(var(--i) * 70ms) both,
+      drift linear both;
+    animation-timeline: auto, scroll(root);
+  }
+
+  @keyframes drift {
+    to {
+      translate: calc(var(--dir) * 16%) 0;
+    }
+  }
+}
+
+.band-label {
+  position: absolute;
+  top: 50%;
+  left: clamp(1rem, 4vw, 2rem);
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-0.5rem, -50%);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.band-link:hover .band-label,
+.band-link:focus-visible .band-label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band-track {
+    animation: none;
+  }
+
+  .band-label {
+    transition: none;
+  }
+}
