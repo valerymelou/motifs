@@ -14,6 +14,8 @@ Planned: <%- ndopItems.map((item) => '`' + item + '`').join(', ') %>.
 
 <!-- For each item, how it was restyled: tokens first, then edits to the copied files. -->
 
+<!-- Before launch, trim src/app/lib/icons.ts to the icons these items draw: the default registers 65. -->
+
 ## Asset credits
 
 | Asset | Source | License |

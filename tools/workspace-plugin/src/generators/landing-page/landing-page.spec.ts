@@ -78,6 +78,13 @@ describe('landing-page generator', () => {
     );
   });
 
+  it('leaves the router out of a single-route page', () => {
+    expect(tree.exists(`${root}/src/app/app.routes.ts`)).toBe(false);
+    expect(read(`${root}/src/app/app.config.ts`)).not.toContain(
+      'provideRouter',
+    );
+  });
+
   it('starts with a hero section and no Nx boilerplate', () => {
     expect(
       tree.exists(`${root}/src/app/sections/hero-section/hero-section.ts`),

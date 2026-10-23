@@ -6,17 +6,14 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
 import { provideLandingMeta } from '@motifs/site';
 import { provideNdop } from '@ndop/core';
-import { appRoutes } from './app.routes';
 import { provideIcons } from './lib/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
-    provideRouter(appRoutes),
     provideNdop(),
     provideIcons(),
     provideLandingMeta('<%- slug %>'),

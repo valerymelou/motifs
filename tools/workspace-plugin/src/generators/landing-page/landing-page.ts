@@ -140,6 +140,8 @@ function configureStaticBuild(tree: Tree, slug: string, port: number): void {
 
 function removeBoilerplate(tree: Tree, root: string): void {
   for (const file of [
+    // One route per page, so no router until a brief asks for more pages.
+    'src/app/app.routes.ts',
     'src/server.ts',
     'src/styles.css',
     'src/app/app.css',
