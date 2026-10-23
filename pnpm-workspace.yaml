@@ -6,3 +6,4 @@ allowBuilds:
   nx: true
   unrs-resolver: false
   '@swc/core': false
+  workerd: false

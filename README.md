@@ -37,6 +37,16 @@ pnpm nx g @motifs/workspace-plugin:landing-page <slug>
 pnpm nx run workspace-plugin:assemble-site
 ```
 
+## CI and deployment
+
+GitHub Actions checks every pull request and every push to `main`: formatting, lint, unit tests, builds, e2e tests with axe, and Lighthouse on every page against the spec's quality bar. Pull requests that pass deploy a preview to [Cloudflare Pages](https://developers.cloudflare.com/pages/), and pushes to `main` that pass deploy `dist/site` to production. Pull requests from forks keep the assembled site as a `site` artifact instead. See ADR-0003.
+
+Run the Lighthouse check locally (it needs Chrome):
+
+```sh
+pnpm nx run workspace-plugin:lighthouse
+```
+
 ## License
 
 MIT

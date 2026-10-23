@@ -28,6 +28,8 @@ Use the versions below. `pnpm-lock.yaml` holds the exact resolved version of eve
 | Unit tests       | `vitest`, `jsdom`                                             | 4.1.12, 27.4.0                | `^4.0.8`, `^27.1.0`               |
 | E2E tests        | `@playwright/test`                                            | 1.64.1                        | `^1.64.1`                         |
 | Accessibility    | `@axe-core/playwright`                                        | 4.14.0                        | `^4.14.0`                         |
+| Performance      | `@lhci/cli` (Lighthouse 12.6.1)                               | 0.15.1                        | `^0.15.1`                         |
+| Deploy           | `wrangler` (ADR-0003)                                         | 4.152.0                       | exact                             |
 | Lint             | `eslint`, `angular-eslint`, `typescript-eslint`               | 9.39.5, 22.6.0, 8.72.0        | `^9.8.0`, `^22.5.0`, `^8.58.0`    |
 | Format           | `prettier`                                                    | 3.6.2                         | `~3.6.2`                          |
 
@@ -37,6 +39,7 @@ Notes on the choices:
 - `@ndop/primitives` lists `@angular/cdk` as a peer dependency, so the CDK is installed only because Ndop needs it, as the spec allows.
 - Tailwind v4 is wired through `@tailwindcss/postcss` (with `postcss`). Angular's build looks for `.postcssrc.json` or `postcss.config.json` in the project folder, then the workspace root. Each app gets its own `.postcssrc.json` (ADR-0002).
 - The shared libraries are buildable with `ng-packagr` only because Nx's `vitest-angular` runner, which the apps also use, requires a build target for libraries. They are not published.
+- Wrangler only deploys here: `wrangler pages deploy` uploads `dist/site` and runs no Workers code. Its `workerd` dependency's install script is denied in `allowBuilds`, since only local Workers development needs it.
 - pnpm keeps its default supply-chain policy: a package must be at least one day old before it installs. No package is excluded from it. When a fresh release is needed, wait for it to age instead of adding an exclusion.
 
 ## Consequences

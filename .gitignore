@@ -48,3 +48,6 @@ Thumbs.db
 __screenshots__/
 vitest.config.*.timestamp*
 .vitest
+
+# Lighthouse CI reports
+.lighthouseci
