@@ -67,8 +67,11 @@ describe('landing-page generator', () => {
   });
 
   it('writes the page meta, content and footer from the manifest', () => {
-    expect(read(`${root}/src/app/app.config.ts`)).toContain(
+    expect(read(`${root}/src/app/app.config.server.ts`)).toContain(
       "provideLandingMeta('soya-nights')",
+    );
+    expect(read(`${root}/src/app/app.config.ts`)).not.toContain(
+      'provideLandingMeta',
     );
     expect(read(`${root}/src/app/content.ts`)).toContain(
       `"Yaoundé's weekly night market of soya grills and plantains."`,

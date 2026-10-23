@@ -51,6 +51,9 @@ export function landingMeta(slug?: string): LandingMeta {
  * prerendered HTML.
  *
  * Each app ships its 1200×630 Open Graph image as `public/og.png`.
+ *
+ * Provide it in the server config only: the tags are already in the HTML the
+ * browser receives, so the browser bundle would carry it for nothing.
  */
 export function provideLandingMeta(slug?: string): EnvironmentProviders {
   return makeEnvironmentProviders([
