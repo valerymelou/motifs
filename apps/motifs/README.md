@@ -10,7 +10,7 @@ The series index, served at `/`. Its idea: the twelve pages are motifs in one cl
 
 An indigo night (`oklch(0.17 0.045 268)`) with raw-cotton type and a faint woven texture from two repeating gradients, set in `src/theme.css`. Instrument Serif for display, Geist and Geist Mono for text and labels.
 
-The headline's face is declared and preloaded in `index.html` rather than in `theme.css`, because the build defers the full stylesheet and the headline is the page's largest paint.
+The headline's face is declared in `index.html` rather than in `theme.css`, because the build defers the full stylesheet and the headline is the page's largest paint. It isn't preloaded: in testing, a preload made the first paint slower and less steady.
 
 ## Ndop items
 
