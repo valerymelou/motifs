@@ -1,0 +1,97 @@
+{
+  "name": "atelier-ndop",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "mt",
+  "sourceRoot": "apps/atelier-ndop/src",
+  "tags": ["type:landing"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/atelier-ndop",
+          "browser": "atelier-ndop"
+        },
+        "browser": "apps/atelier-ndop/src/main.ts",
+        "tsConfig": "apps/atelier-ndop/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/atelier-ndop/public"
+          }
+        ],
+        "styles": ["apps/atelier-ndop/src/theme.css"],
+        "server": "apps/atelier-ndop/src/main.server.ts",
+        "outputMode": "static",
+        "security": {
+          "allowedHosts": []
+        },
+        "baseHref": "/atelier-ndop/"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4301
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "atelier-ndop:build:production"
+        },
+        "development": {
+          "buildTarget": "atelier-ndop:build:development"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"],
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "atelier-ndop:build",
+        "port": 4301,
+        "staticFilePath": "dist/apps/atelier-ndop",
+        "spa": false
+      }
+    }
+  }
+}

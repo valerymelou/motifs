@@ -1,0 +1,86 @@
+@import 'tailwindcss' source('./');
+@import '@ndop/core/styles.css';
+@import '@fontsource-variable/fraunces/opsz.css';
+@import '@fontsource-variable/fraunces/opsz-italic.css';
+@import '@fontsource-variable/hanken-grotesk';
+
+/*
+ * Atelier Ndop: raw cotton and indigo, the colors of the cloth itself, with
+ * the vat's night and green, raffia and laterite earth around them.
+ */
+
+@theme {
+  --font-sans: 'Hanken Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+
+  --color-cotton: var(--cotton);
+  --color-indigo: var(--indigo);
+  --color-vat-night: var(--vat-night);
+  --color-vat-green: var(--vat-green);
+  --color-raffia: var(--raffia);
+  --color-laterite: var(--laterite);
+}
+
+:root {
+  /* The atelier's materials. */
+  --cotton: oklch(0.95 0.017 88);
+  --indigo: oklch(0.337 0.112 267.4);
+  --vat-night: oklch(0.28 0.099 267.7);
+  --vat-green: oklch(0.487 0.056 168.8);
+  --raffia: oklch(0.751 0.095 81);
+  --laterite: oklch(0.513 0.077 52.3);
+  --ink: oklch(0.26 0.059 273.4);
+
+  /* Ndop's tokens, from those materials. */
+  --background: var(--cotton);
+  --foreground: var(--ink);
+  --card: oklch(0.975 0.012 88);
+  --card-foreground: var(--ink);
+  --popover: oklch(0.975 0.012 88);
+  --popover-foreground: var(--ink);
+  --primary: var(--indigo);
+  --primary-foreground: var(--cotton);
+  --secondary: var(--vat-night);
+  --secondary-foreground: var(--cotton);
+  --muted: oklch(0.915 0.02 82);
+  /* Dark enough to read on cotton and on the pale indigo of a pressed row. */
+  --muted-foreground: oklch(0.4 0.06 52);
+  /* Hover and pressed surfaces: a pale wash of indigo. */
+  --accent: oklch(0.885 0.035 267);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.26 0.059 273.4 / 18%);
+  --input: oklch(0.26 0.059 273.4 / 26%);
+  /* A deeper raffia than the thread itself, so focus shows on cotton. */
+  --ring: oklch(0.58 0.11 75);
+  --radius: 0.25rem;
+
+  /* Motion: slow, like dye taking. */
+  --mt-reveal-duration: 1100ms;
+  --mt-reveal-easing: cubic-bezier(0.2, 0, 0, 1);
+  --mt-reveal-distance: 1.5rem;
+}
+
+@layer base {
+  body {
+    /* A faint cotton weave: two 1px thread lines, tiled by the browser. */
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        oklch(0.26 0.059 273.4 / 2.5%) 0 1px,
+        transparent 1px 3px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        oklch(0.26 0.059 273.4 / 2%) 0 1px,
+        transparent 1px 3px
+      );
+    font-feature-settings: 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--indigo);
+    color: var(--cotton);
+  }
+}

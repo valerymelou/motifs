@@ -1,0 +1,9 @@
+{
+  "name": "atelier-ndop-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/atelier-ndop-e2e/src",
+  "implicitDependencies": ["atelier-ndop"],
+  "// targets": "to see all targets run: nx show project atelier-ndop-e2e --web",
+  "targets": {}
+}

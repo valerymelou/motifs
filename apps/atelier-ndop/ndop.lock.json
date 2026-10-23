@@ -1,0 +1,144 @@
+{
+  "$schema": "https://ndop.dev/schema/lock.json",
+  "lockfileVersion": 1,
+  "items": {
+    "@ndop/button": {
+      "name": "button",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/button/button.ts",
+          "sha256": "38b1dc2238fd3f9800223d78bca9c92634790592c48d7d9b0e7e5e6752e529cf"
+        }
+      ]
+    },
+    "@ndop/card": {
+      "name": "card",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/card/card.ts",
+          "sha256": "0bae505a5faf85821d8b3a0716c1a19b095b423e7f8b95c9115c7c3b3c41f729"
+        }
+      ]
+    },
+    "@ndop/default": {
+      "name": "default",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": []
+    },
+    "@ndop/dialog": {
+      "name": "dialog",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/dialog/dialog.ts",
+          "sha256": "c98bfb49cf39730966bfc5c0c246c6168925034448bd65f8d0f681f92fb64d80"
+        }
+      ]
+    },
+    "@ndop/icons": {
+      "name": "icons",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/icons.ts",
+          "sha256": "4cdc274c96220c42c09a47a708519c064636e87001fdc4a475c1eec04c99d7b5"
+        }
+      ]
+    },
+    "@ndop/label": {
+      "name": "label",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/label/label.ts",
+          "sha256": "5a3b9eb9074f1957517768791945876477dd6b5ef0f77028e3564a2dbe7667ff"
+        }
+      ]
+    },
+    "@ndop/popover": {
+      "name": "popover",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/popover/popover.ts",
+          "sha256": "68562a3672c4fc3a007ba48722238c542551aecad147cb704777783553ec5d3e"
+        }
+      ]
+    },
+    "@ndop/slider": {
+      "name": "slider",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/slider/slider.ts",
+          "sha256": "fbf8c498a0d70d2ff6731145ec5838c6dac0b207b862df3609bb9e37bf679114"
+        }
+      ]
+    },
+    "@ndop/switch": {
+      "name": "switch",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/switch/switch.ts",
+          "sha256": "810d933adddc58d34f096d212b1ce709a0e48bd81801d658625f6c5ebf2ac802"
+        }
+      ]
+    },
+    "@ndop/toggle": {
+      "name": "toggle",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/toggle/toggle.ts",
+          "sha256": "98093c296ff51d9a26108f5b9f791f16c2098c93feda2baf723f37bcd6d320e2"
+        }
+      ]
+    },
+    "@ndop/toggle-group": {
+      "name": "toggle-group",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/toggle-group/toggle-group.ts",
+          "sha256": "1a69f50216f2d00f3057567fbbd407dca06ff1cca3f80d98638e09e53c6d8b39"
+        }
+      ]
+    },
+    "@ndop/tooltip": {
+      "name": "tooltip",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/tooltip/tooltip.ts",
+          "sha256": "571b3c1d10d4e2f3dc5e32c9c884e6a6536bfc5f75c8f4ad383091604cbd2e86"
+        }
+      ]
+    },
+    "@ndop/utils": {
+      "name": "utils",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/utils.ts",
+          "sha256": "cce7a4c0003b6d9d1775cb302d79661be40e48d24fbe976f5b1e0b61072c0c82"
+        }
+      ]
+    }
+  }
+}

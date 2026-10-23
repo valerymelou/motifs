@@ -1,0 +1,20 @@
+/* The section sits in the vat's night: Ndop's tokens are turned around here,
+   so the same controls read light on dark. Popovers, tooltips and the dialog
+   open outside it, on the page's raw cotton. */
+.vat {
+  --background: var(--vat-night);
+  --foreground: var(--cotton);
+  --primary: var(--cotton);
+  --primary-foreground: var(--vat-night);
+  --muted: oklch(0.36 0.09 267);
+  --muted-foreground: oklch(0.84 0.03 85);
+  /* Pressed buttons turn raw cotton, so the chosen motif stands out. */
+  --accent: var(--cotton);
+  --accent-foreground: var(--vat-night);
+  --border: oklch(0.95 0.017 88 / 24%);
+  --input: oklch(0.95 0.017 88 / 30%);
+  --ring: var(--raffia);
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
