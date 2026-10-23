@@ -1,0 +1,12 @@
+{
+  "name": "@motifs/site",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^22.2.0",
+    "@angular/core": "^22.2.0",
+    "@angular/platform-browser": "~22.2.0",
+    "@motifs/pages-manifest": "0.0.1"
+  },
+  "sideEffects": false,
+  "private": true
+}
