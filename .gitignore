@@ -51,3 +51,7 @@ vitest.config.*.timestamp*
 
 # Lighthouse CI reports
 .lighthouseci
+
+# Original photos; each app's images target turns them into the committed
+# files in public/images.
+apps/*/images-src/

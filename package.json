@@ -68,6 +68,7 @@
     "nx": "24.0.0",
     "postcss": "^8.4.5",
     "prettier": "~3.6.2",
+    "sharp": "^0.35.5",
     "tslib": "^2.3.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.58.0",

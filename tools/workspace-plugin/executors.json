@@ -4,6 +4,11 @@
       "implementation": "./src/executors/assemble-site/assemble-site",
       "schema": "./src/executors/assemble-site/schema.json",
       "description": "Assembles every built page and the index into one static site"
+    },
+    "optimize-images": {
+      "implementation": "./src/executors/optimize-images/optimize-images",
+      "schema": "./src/executors/optimize-images/schema.json",
+      "description": "Makes AVIF and WebP sizes of a page's photos and lists them"
     }
   }
 }

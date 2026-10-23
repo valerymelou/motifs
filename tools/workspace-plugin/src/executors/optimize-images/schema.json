@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Optimize images",
+  "description": "Makes AVIF and WebP files at several widths from a page's original photos, and writes a TypeScript list of what it made.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "string",
+      "description": "Folder of original photos (PNG, JPEG or WebP), relative to the workspace root. Missing means no photos yet."
+    },
+    "output": {
+      "type": "string",
+      "description": "Folder the sized files are written to, emptied first. Usually the app's public/images."
+    },
+    "manifest": {
+      "type": "string",
+      "description": "TypeScript file listing each photo's size and the widths made."
+    },
+    "widths": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Widths to make, in pixels. Widths larger than the original are skipped.",
+      "default": [480, 768, 1080, 1440, 1920]
+    },
+    "avifQuality": {
+      "type": "number",
+      "default": 50
+    },
+    "webpQuality": {
+      "type": "number",
+      "default": 72
+    },
+    "formats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["webp", "avif"]
+      },
+      "description": "Formats to make. WebP alone suits NgOptimizedImage, whose preload of a priority image uses the img's format.",
+      "default": ["webp"]
+    }
+  },
+  "required": ["input", "output", "manifest"]
+}
