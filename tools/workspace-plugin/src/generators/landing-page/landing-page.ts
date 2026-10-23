@@ -7,6 +7,7 @@ import {
   getPackageManagerCommand,
   installPackagesTask,
   readProjectConfiguration,
+  removeDependenciesFromPackageJson,
   runTasksInSerial,
   updateJson,
   updateProjectConfiguration,
@@ -99,6 +100,8 @@ export async function landingPageGenerator(
     return tsconfig;
   });
 
+  // Angular's SSR setup adds Express for a server these static pages never run.
+  removeDependenciesFromPackageJson(tree, ['express'], ['@types/express']);
   const installDependencies = addDependenciesToPackageJson(
     tree,
     DEPENDENCIES,

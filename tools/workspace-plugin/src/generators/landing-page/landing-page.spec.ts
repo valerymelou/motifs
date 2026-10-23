@@ -121,6 +121,16 @@ describe('landing-page generator', () => {
     expect(devDependencies).toMatchObject({ '@ndop/cli': '^1.1.0' });
   });
 
+  it('leaves out the Express server that Angular SSR adds', () => {
+    const { dependencies = {}, devDependencies = {} } = readJson(
+      tree,
+      'package.json',
+    );
+
+    expect(dependencies).not.toHaveProperty('express');
+    expect(devDependencies).not.toHaveProperty('@types/express');
+  });
+
   it('refuses a slug that is not in the manifest', async () => {
     await expect(
       landingPageGenerator(createTreeWithEmptyWorkspace(), { slug: 'nope' }),
