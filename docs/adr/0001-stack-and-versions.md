@@ -11,24 +11,25 @@ Motifs is a public reference for building with Angular and Ndop UI. Readers copy
 
 Use the versions below. `pnpm-lock.yaml` holds the exact resolved version of every package; this table records the ones the series depends on and the range each is declared with in `package.json`.
 
-| Concern          | Package                                                  | Version                       | Declared as                       |
-| ---------------- | -------------------------------------------------------- | ----------------------------- | --------------------------------- |
-| Runtime          | Node.js                                                  | 26.0.0                        | (local)                           |
-| Package manager  | pnpm                                                     | 12.8.1                        | `packageManager`                  |
-| Monorepo         | `nx`, `@nx/angular`, `@nx/playwright` and other `@nx/*`  | 24.0.0                        | exact                             |
-| Framework        | `@angular/*` (core, build, cli, ssr, router, forms)      | 22.2.3                        | `~22.2.0`                         |
-| Language         | `typescript`                                             | 6.0.3                         | `~6.0.3`                          |
-| UI               | `@ndop/core`, `@ndop/primitives`                         | 1.1.0                         | to install                        |
-| UI tooling       | `@ndop/cli`                                              | 1.1.0                         | to install                        |
-| UI peer          | `@angular/cdk`                                           | 22.2.x                        | to install, `~22.2.0`             |
-| Styling          | `tailwindcss`, `@tailwindcss/postcss`                    | 4.3.3                         | to install                        |
-| Library build    | `ng-packagr`                                             | 22.2.4                        | `~22.2.0`                         |
-| Workspace plugin | `@nx/plugin`, `@nx/vitest`, `vite`, `@swc-node/register` | 24.0.0, 24.0.0, 8.3.5, 1.11.1 | exact, exact, `^8.0.0`, `~1.11.1` |
-| Unit tests       | `vitest`, `jsdom`                                        | 4.1.12, 27.4.0                | `^4.0.8`, `^27.1.0`               |
-| E2E tests        | `@playwright/test`                                       | 1.64.1                        | `^1.64.1`                         |
-| Accessibility    | `@axe-core/playwright`                                   | 4.14.0                        | `^4.14.0`                         |
-| Lint             | `eslint`, `angular-eslint`, `typescript-eslint`          | 9.39.5, 22.6.0, 8.72.0        | `^9.8.0`, `^22.5.0`, `^8.58.0`    |
-| Format           | `prettier`                                               | 3.6.2                         | `~3.6.2`                          |
+| Concern          | Package                                                       | Version                       | Declared as                       |
+| ---------------- | ------------------------------------------------------------- | ----------------------------- | --------------------------------- |
+| Runtime          | Node.js                                                       | 26.0.0                        | (local)                           |
+| Package manager  | pnpm                                                          | 12.8.1                        | `packageManager`                  |
+| Monorepo         | `nx`, `@nx/angular`, `@nx/playwright` and other `@nx/*`       | 24.0.0                        | exact                             |
+| Framework        | `@angular/*` (core, build, cli, ssr, router, forms)           | 22.2.3                        | `~22.2.0`                         |
+| Language         | `typescript`                                                  | 6.0.3                         | `~6.0.3`                          |
+| UI               | `@ndop/core`, `@ndop/primitives`                              | 1.1.0                         | `^1.1.0`                          |
+| UI tooling       | `@ndop/cli`                                                   | 1.1.0                         | `^1.1.0`                          |
+| UI peer          | `@angular/cdk`                                                | 22.2.4                        | `~22.2.0`                         |
+| Styling          | `tailwindcss`, `@tailwindcss/postcss`                         | 4.3.3                         | `^4.3.3`                          |
+| Theme assets     | `@fontsource-variable/geist`, `geist-mono`, `@lucide/angular` | 5.3.0, 5.3.0, 1.61.0          | `^5.3.0`, `^5.3.0`, `^1.61.0`     |
+| Library build    | `ng-packagr`                                                  | 22.2.4                        | `~22.2.0`                         |
+| Workspace plugin | `@nx/plugin`, `@nx/vitest`, `vite`, `@swc-node/register`      | 24.0.0, 24.0.0, 8.3.5, 1.11.1 | exact, exact, `^8.0.0`, `~1.11.1` |
+| Unit tests       | `vitest`, `jsdom`                                             | 4.1.12, 27.4.0                | `^4.0.8`, `^27.1.0`               |
+| E2E tests        | `@playwright/test`                                            | 1.64.1                        | `^1.64.1`                         |
+| Accessibility    | `@axe-core/playwright`                                        | 4.14.0                        | `^4.14.0`                         |
+| Lint             | `eslint`, `angular-eslint`, `typescript-eslint`               | 9.39.5, 22.6.0, 8.72.0        | `^9.8.0`, `^22.5.0`, `^8.58.0`    |
+| Format           | `prettier`                                                    | 3.6.2                         | `~3.6.2`                          |
 
 Notes on the choices:
 
@@ -41,5 +42,6 @@ Notes on the choices:
 ## Consequences
 
 - Upgrades go through `nx migrate` (Nx and Angular) or `pnpm update` (the rest), with the same change updating this table. A major version change gets a new ADR that supersedes this one.
-- Rows marked "to install" are added by the landing-page generator with the first page it creates (or with the series index, if that comes first), at the versions above; that change updates the "Declared as" column.
+- The theme assets come with Ndop's default theme and icon set, installed by `ndop add default icons`. Each page swaps the fonts for its own.
+- No app runs a server: every app builds with `outputMode: 'static'`, so Express is not a dependency.
 - The Node version is the one the workspace was set up and tested with. CI pins the same major once it exists.

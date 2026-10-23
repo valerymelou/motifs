@@ -1,0 +1,23 @@
+<section class="mx-auto max-w-5xl px-4 py-12">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="text-3xl font-semibold tracking-tight">{{ copy.title }}</h2>
+    <div
+      ndToggleGroup
+      variant="outline"
+      [attr.aria-label]="copy.filterLabel"
+      [(value)]="selected"
+    >
+      @for (mood of moods; track mood) {
+        <button ndToggleGroupItem [value]="mood">
+          {{ copy.moods[mood] }}
+        </button>
+      }
+    </div>
+  </div>
+  <p class="sr-only" aria-live="polite">{{ summary() }}</p>
+  <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    @for (page of pages(); track page.slug) {
+      <li><mt-page-card [page]="page" /></li>
+    }
+  </ul>
+</section>

@@ -37,4 +37,19 @@ export default [
       '@angular-eslint/template/no-any': 'error',
     },
   },
+  {
+    // Components copied in with `ndop add` keep Ndop's `nd` prefix, so
+    // `ndop update` can still merge upstream changes into them.
+    files: ['**/src/app/ui/**/*.ts'],
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: ['mt', 'nd'], style: 'camelCase' },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: ['mt', 'nd'], style: 'kebab-case' },
+      ],
+    },
+  },
 ];

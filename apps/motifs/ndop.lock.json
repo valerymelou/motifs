@@ -1,0 +1,78 @@
+{
+  "$schema": "https://ndop.dev/schema/lock.json",
+  "lockfileVersion": 1,
+  "items": {
+    "@ndop/badge": {
+      "name": "badge",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/badge/badge.ts",
+          "sha256": "654940fa556e46db301755db0099f042898b3ba21466512201abc678ec8173bc"
+        }
+      ]
+    },
+    "@ndop/card": {
+      "name": "card",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/card/card.ts",
+          "sha256": "0bae505a5faf85821d8b3a0716c1a19b095b423e7f8b95c9115c7c3b3c41f729"
+        }
+      ]
+    },
+    "@ndop/default": {
+      "name": "default",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": []
+    },
+    "@ndop/icons": {
+      "name": "icons",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/icons.ts",
+          "sha256": "4cdc274c96220c42c09a47a708519c064636e87001fdc4a475c1eec04c99d7b5"
+        }
+      ]
+    },
+    "@ndop/toggle": {
+      "name": "toggle",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/toggle/toggle.ts",
+          "sha256": "98093c296ff51d9a26108f5b9f791f16c2098c93feda2baf723f37bcd6d320e2"
+        }
+      ]
+    },
+    "@ndop/toggle-group": {
+      "name": "toggle-group",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/toggle-group/toggle-group.ts",
+          "sha256": "1a69f50216f2d00f3057567fbbd407dca06ff1cca3f80d98638e09e53c6d8b39"
+        }
+      ]
+    },
+    "@ndop/utils": {
+      "name": "utils",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/utils.ts",
+          "sha256": "cce7a4c0003b6d9d1775cb302d79661be40e48d24fbe976f5b1e0b61072c0c82"
+        }
+      ]
+    }
+  }
+}

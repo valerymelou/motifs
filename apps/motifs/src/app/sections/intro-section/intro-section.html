@@ -1,0 +1,21 @@
+<section class="mx-auto max-w-5xl px-4 pt-24 pb-12">
+  <h1 class="text-5xl font-semibold tracking-tight sm:text-6xl">
+    {{ intro.title }}
+  </h1>
+  <p class="mt-6 max-w-2xl text-xl">{{ intro.lead }}</p>
+  @for (paragraph of intro.body; track $index) {
+    <p class="mt-4 max-w-2xl text-muted-foreground">{{ paragraph }}</p>
+  }
+  <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-medium">
+    <li>
+      <a class="underline underline-offset-4" [href]="site.repoUrl">{{
+        intro.links.source
+      }}</a>
+    </li>
+    <li>
+      <a class="underline underline-offset-4" [href]="site.ndopUrl">{{
+        intro.links.ndop
+      }}</a>
+    </li>
+  </ul>
+</section>

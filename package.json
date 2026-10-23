@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "~22.2.0",
+    "@angular/cdk": "~22.2.0",
     "@angular/common": "~22.2.0",
     "@angular/compiler": "~22.2.0",
     "@angular/core": "~22.2.0",
@@ -14,8 +15,14 @@
     "@angular/platform-server": "~22.2.0",
     "@angular/router": "~22.2.0",
     "@angular/ssr": "~22.2.0",
-    "express": "^4.21.2",
-    "rxjs": "~7.8.0"
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@lucide/angular": "^1.61.0",
+    "@ndop/core": "^1.1.0",
+    "@ndop/primitives": "^1.1.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "rxjs": "~7.8.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@angular-devkit/core": "~22.2.0",
@@ -26,6 +33,7 @@
     "@angular/language-service": "~22.2.0",
     "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.8.0",
+    "@ndop/cli": "^1.1.0",
     "@nx/angular": "24.0.0",
     "@nx/devkit": "24.0.0",
     "@nx/eslint": "24.0.0",
@@ -42,7 +50,6 @@
     "@swc/cli": "~0.8.1",
     "@swc/core": "~1.15.5",
     "@swc/helpers": "~0.5.18",
-    "@types/express": "^4.17.21",
     "@types/node": "^22.0.0",
     "@typescript-eslint/utils": "^8.58.0",
     "@vitest/coverage-v8": "^4.0.0",

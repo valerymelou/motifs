@@ -20,12 +20,9 @@
             "input": "apps/motifs/public"
           }
         ],
-        "styles": ["apps/motifs/src/styles.css"],
+        "styles": ["apps/motifs/src/theme.css"],
         "server": "apps/motifs/src/main.server.ts",
-        "ssr": {
-          "entry": "apps/motifs/src/server.ts"
-        },
-        "outputMode": "server",
+        "outputMode": "static",
         "security": {
           "allowedHosts": []
         }
@@ -85,7 +82,7 @@
       "options": {
         "buildTarget": "motifs:build",
         "staticFilePath": "dist/apps/motifs/browser",
-        "spa": true
+        "spa": false
       }
     }
   }

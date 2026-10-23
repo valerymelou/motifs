@@ -12,9 +12,15 @@ The series is designed and reviewed by Valery Melou and implemented with AI codi
 
 One Nx workspace, managed with pnpm. Each page is its own Angular application, prerendered to static HTML.
 
-| Project  | Path          | Serves                     |
-| -------- | ------------- | -------------------------- |
-| `motifs` | `apps/motifs` | The series index site, `/` |
+| Project            | Path                     | Purpose                                               |
+| ------------------ | ------------------------ | ----------------------------------------------------- |
+| `motifs`           | `apps/motifs`            | The series index, served at `/`                       |
+| `pages-manifest`   | `libs/pages-manifest`    | The typed list of pages the index and footers read    |
+| `motion`           | `libs/motion`            | Reveal, stagger, parallax and scroll-progress helpers |
+| `site`             | `libs/site`              | The series footer and the page meta provider          |
+| `workspace-plugin` | `tools/workspace-plugin` | The landing-page generator and site assembly          |
+
+Each page will live in `apps/<slug>`, served at `/<slug>/`.
 
 ## Commands
 

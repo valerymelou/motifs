@@ -1,18 +1,21 @@
 import {
-  ApplicationConfig,
+  type ApplicationConfig,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { appRoutes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
+import { provideLandingMeta } from '@motifs/site';
+import { provideNdop } from '@ndop/core';
+import { provideIcons } from './lib/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(withEventReplay()),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(appRoutes),
+    provideClientHydration(withEventReplay()),
+    provideNdop(),
+    provideIcons(),
+    provideLandingMeta(),
   ],
 };

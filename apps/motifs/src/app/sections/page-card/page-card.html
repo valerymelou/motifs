@@ -1,0 +1,39 @@
+<!-- The title link stretches over the card; the ring shows its focus. -->
+<article
+  ndCard
+  class="relative h-full overflow-hidden pt-0 has-[a:focus-visible]:ring-[3px] has-[a:focus-visible]:ring-ring/50"
+>
+  @if (live()) {
+    <img
+      [ngSrc]="image()"
+      width="1200"
+      height="630"
+      alt=""
+      class="aspect-[1200/630] w-full object-cover"
+    />
+  } @else {
+    <div
+      class="aspect-[1200/630] w-full"
+      [style.background-color]="page().accent"
+      aria-hidden="true"
+    ></div>
+  }
+  <div ndCardHeader>
+    <h3 ndCardTitle>
+      @if (live()) {
+        <a [href]="href()" class="outline-none after:absolute after:inset-0">{{
+          page().name
+        }}</a>
+      } @else {
+        {{ page().name }}
+      }
+    </h3>
+    <p ndCardDescription>{{ page().tagline }}</p>
+  </div>
+  <div ndCardFooter class="mt-auto flex flex-wrap gap-2">
+    <span ndBadge variant="secondary">{{ copy.moods[page().mood] }}</span>
+    @if (!live()) {
+      <span ndBadge variant="outline">{{ copy.comingSoon }}</span>
+    }
+  </div>
+</article>

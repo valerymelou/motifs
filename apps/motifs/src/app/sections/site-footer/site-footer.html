@@ -1,0 +1,16 @@
+<footer
+  class="mx-auto mt-12 max-w-5xl space-y-1 border-t px-4 py-8 text-sm text-muted-foreground"
+>
+  <p>{{ copy.credit }}</p>
+  <p>
+    {{ copy.license }}
+    <a class="underline underline-offset-4" [href]="site.repoUrl">{{
+      links.source
+    }}</a>
+    ·
+    <a class="underline underline-offset-4" [href]="site.ndopUrl">{{
+      links.ndop
+    }}</a>
+  </p>
+  <p>{{ copy.fiction }}</p>
+</footer>
