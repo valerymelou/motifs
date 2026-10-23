@@ -1,0 +1,14 @@
+<footer class="border-t border-border">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 pt-12 sm:px-8">
+    <div class="flex flex-wrap items-baseline justify-between gap-4">
+      <p class="font-serif text-3xl font-medium">{{ copy.name }}</p>
+      <p class="text-sm text-muted-foreground">
+        {{ copy.place }} ·
+        <a class="underline underline-offset-4" [href]="'mailto:' + email">{{
+          email
+        }}</a>
+      </p>
+    </div>
+    <mt-series-footer slug="atelier-ndop" />
+  </div>
+</footer>

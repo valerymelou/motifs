@@ -95,3 +95,60 @@ export const collection = {
     },
   ] satisfies readonly Piece[],
 } as const;
+
+export const siteHeader = {
+  name: 'Atelier Ndop',
+  place: 'Foumban',
+  navLabel: 'Sections',
+  links: [
+    { label: 'Pattern maker', href: '#pattern-maker' },
+    { label: 'Collection', href: '#collection' },
+    { label: 'Process', href: '#process' },
+    { label: 'Visit', href: '#visit' },
+  ],
+} as const;
+
+export const process = {
+  label: 'How we make a piece',
+  title: 'Stitch, dye, unpick.',
+  steps: [
+    {
+      title: 'Stitch',
+      text: 'We draw the motifs on white cotton and stitch around them with raffia, pulled so tight that the dye cannot reach them.',
+      image: 'story-stitch',
+      alt: 'Hands stitching raffia around a lozenge drawn on white cotton, the cloth gathered into tight puckers.',
+    },
+    {
+      title: 'Dye',
+      text: 'The cloth goes into the pit and comes out green. In the air it turns blue, and every dip makes it deeper.',
+      image: 'hero-dip',
+      alt: 'Hands lifting dripping cloth out of an indigo dye pit, green turning to blue.',
+    },
+    {
+      title: 'Unpick',
+      text: 'Once it has dried, we cut and pull out every stitch. The cotton they covered stayed white: those are the motifs.',
+      image: 'story-unpick',
+      alt: 'Hands unpicking raffia stitches from indigo cloth, revealing a white lozenge.',
+    },
+  ],
+} as const;
+
+export const visit = {
+  label: 'Visit',
+  title: 'Come and see the vats.',
+  text: 'Our courtyard is off the Rue des Artisans, in the Njiyuom quarter of Foumban. Mornings are the best time: that is when the cloth goes in.',
+  address: [
+    'Off the Rue des Artisans',
+    'Njiyuom, Foumban',
+    'West Region, Cameroon',
+  ],
+  hours: 'Tuesday to Saturday, 8 am to 4 pm',
+  write: 'Write to us',
+  image: 'visit-courtyard',
+  alt: 'A workshop courtyard of red earth, with indigo cloth drying on lines and two dye pits in the ground.',
+} as const;
+
+export const pageFooter = {
+  name: 'Atelier Ndop',
+  place: 'Foumban, West Region, Cameroon',
+} as const;

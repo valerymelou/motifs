@@ -1,0 +1,55 @@
+<section id="collection" class="scroll-mt-4">
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-8 sm:py-28">
+    <p class="text-xs font-semibold tracking-[0.2em] uppercase">
+      {{ copy.label }}
+    </p>
+    <h2
+      class="mt-4 font-serif text-[clamp(2.2rem,4.5vw,3.75rem)] leading-[1] font-medium tracking-tight"
+    >
+      {{ copy.title }}
+    </h2>
+    <p class="mt-4 text-sm text-muted-foreground">{{ copy.priceNote }}</p>
+    <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      @for (piece of copy.pieces; track piece.name) {
+        <li>
+          <article ndCard class="h-full gap-0 overflow-hidden py-0">
+            <mt-photo
+              [name]="piece.image"
+              [alt]="piece.alt"
+              ratio="4 / 5"
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            />
+            <div ndCardHeader class="gap-1 px-5 pt-5">
+              <p
+                class="text-xs tracking-[0.18em] text-muted-foreground uppercase"
+              >
+                {{ piece.kind }}
+              </p>
+              <h3 ndCardTitle class="font-serif text-xl font-medium">
+                {{ piece.name }}
+              </h3>
+            </div>
+            <div ndCardContent class="grid gap-1 px-5 pt-2 text-sm">
+              <p>{{ piece.motifs }}</p>
+              <p class="text-muted-foreground">{{ piece.size }}</p>
+            </div>
+            <div
+              ndCardFooter
+              class="mt-auto flex items-baseline justify-between gap-3 px-5 pt-5 pb-5"
+            >
+              <span class="font-serif text-lg tabular-nums">{{
+                copy.price(piece.priceFcfa)
+              }}</span>
+              <a
+                [href]="askLink(piece.name)"
+                class="text-sm underline underline-offset-4"
+                >{{ copy.ask
+                }}<span class="sr-only">: {{ piece.name }}</span></a
+              >
+            </div>
+          </article>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+<section id="visit" class="scroll-mt-4 bg-laterite/10">
+  <div
+    class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-8 sm:py-28 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-center"
+  >
+    <mt-photo
+      [name]="copy.image"
+      [alt]="copy.alt"
+      ratio="16 / 9"
+      sizes="(min-width: 1024px) 56vw, 100vw"
+      class="overflow-hidden rounded-(--radius)"
+    />
+    <div class="grid gap-5">
+      <p class="text-xs font-semibold tracking-[0.2em] uppercase">
+        {{ copy.label }}
+      </p>
+      <h2
+        class="font-serif text-[clamp(2.2rem,4.5vw,3.5rem)] leading-[1] font-medium tracking-tight"
+      >
+        {{ copy.title }}
+      </h2>
+      <p class="leading-relaxed">{{ copy.text }}</p>
+      <address class="text-sm leading-relaxed not-italic">
+        @for (line of copy.address; track line) {
+          {{ line }}<br />
+        }
+        {{ copy.hours }}
+      </address>
+      <div class="flex flex-wrap items-center gap-4">
+        <a ndButton [href]="'mailto:' + email">{{ copy.write }}</a>
+        <span class="text-sm text-muted-foreground select-all">{{
+          email
+        }}</span>
+      </div>
+    </div>
+  </div>
+</section>

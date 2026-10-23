@@ -92,6 +92,20 @@
         "staticFilePath": "dist/apps/atelier-ndop",
         "spa": false
       }
+    },
+    "images": {
+      "executor": "@motifs/workspace-plugin:optimize-images",
+      "options": {
+        "input": "apps/atelier-ndop/images-src",
+        "output": "apps/atelier-ndop/public/images",
+        "manifest": "apps/atelier-ndop/src/app/photos/manifest.ts"
+      },
+      "inputs": ["{projectRoot}/images-src/**/*"],
+      "outputs": [
+        "{projectRoot}/public/images",
+        "{projectRoot}/src/app/photos/manifest.ts"
+      ],
+      "cache": true
     }
   }
 }

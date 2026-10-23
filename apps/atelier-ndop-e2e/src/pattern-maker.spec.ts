@@ -38,14 +38,20 @@ test('shows what a motif means on focus', async ({ page, isMobile }) => {
   );
   await page.goto('./');
 
-  await page
+  const button = page
     .getByRole('group', { name: 'Row 1' })
-    .getByRole('button', { name: 'Crocodile lozenge' })
-    .focus();
+    .getByRole('button', { name: 'Crocodile lozenge' });
 
-  await expect(page.getByRole('tooltip')).toContainText(
-    'Royal power and fecundity',
-  );
+  // Event replay covers clicks, not focus, so a focus that lands before the
+  // page hydrates opens nothing. Refocus until it has hydrated.
+  await expect(async () => {
+    await button.blur();
+    await button.focus();
+    await expect(page.getByRole('tooltip')).toContainText(
+      'Royal power and fecundity',
+      { timeout: 500 },
+    );
+  }).toPass();
 });
 
 test('sets the density and the depth of indigo', async ({ page }) => {

@@ -1,0 +1,32 @@
+<ng-container ndDialog>
+  <button ndButton ndDialogTrigger size="lg">
+    {{ copy.order }}
+  </button>
+  <ng-template ndDialogPortal>
+    <div ndDialogOverlay></div>
+    <div ndDialogContent class="sm:max-w-xl">
+      <div ndDialogHeader>
+        <h2 ndDialogTitle class="font-serif text-2xl font-medium">
+          {{ copy.dialog.title }}
+        </h2>
+        <p ndDialogDescription>{{ description() }}</p>
+      </div>
+      <mt-cloth
+        [pattern]="pattern()"
+        [label]="copy.clothLabel"
+        class="overflow-hidden rounded-(--radius)"
+      />
+      <p class="text-sm">{{ copy.dialog.size }}</p>
+      <p class="text-sm text-muted-foreground">
+        {{ copy.dialog.note }}
+      </p>
+      <div ndDialogFooter>
+        <a ndButton [href]="link()">{{ copy.dialog.send }}</a>
+      </div>
+      <button ndDialogCloseButton>
+        <svg ndIcon="x"></svg>
+        <span class="sr-only">{{ copy.dialog.close }}</span>
+      </button>
+    </div>
+  </ng-template>
+</ng-container>

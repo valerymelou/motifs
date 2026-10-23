@@ -5,17 +5,17 @@ import {
 import {
   provideClientHydration,
   withEventReplay,
+  withNoHttpTransferCache,
 } from '@angular/platform-browser';
-import { provideLandingMeta } from '@motifs/site';
 import { provideNdop } from '@ndop/core';
 import { provideIcons } from './lib/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideClientHydration(withEventReplay()),
+    // These pages make no HTTP requests, so the response cache isn't needed.
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
     provideNdop(),
     provideIcons(),
-    provideLandingMeta('atelier-ndop'),
   ],
 };

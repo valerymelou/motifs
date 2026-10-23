@@ -118,7 +118,7 @@ The facts in the story section come only from the board's checked rows, with the
 
 Prompts for all but `hero-dip-blue` are on the board; I'm adding that one.
 
-**Images on the page:** every photo goes through `NgOptimizedImage` with explicit sizes, AVIF and WebP, and a responsive `srcset`; the hero is `priority` and under 200 kB. A static site has no image CDN, so the sizes are made at build time by a small script and served through a custom image loader. That script needs [sharp](https://sharp.pixelplumbing.com) (Apache-2.0) as a dev dependency, which the spec says needs your approval.
+**Images on the page:** every photo is a plain `<img>` in a box of fixed proportions, with a responsive WebP `srcset` and `sizes`; the hero loads eagerly with `fetchpriority="high"` and is under 200 kB, the rest lazily. A static site has no image CDN, so the sizes are made at build time by a small script. (The plan first named `NgOptimizedImage` with AVIF too: the directive cost bundle bytes the page couldn't spare, and its preload of the hero would have fetched a second file beside an AVIF `<picture>`.) That script needs [sharp](https://sharp.pixelplumbing.com) (Apache-2.0) as a dev dependency, which the spec says needs your approval.
 
 ## Ndop gaps
 

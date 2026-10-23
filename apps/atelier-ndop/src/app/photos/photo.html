@@ -1,0 +1,24 @@
+<div class="relative overflow-hidden" [style.aspect-ratio]="ratio()">
+  @if (fallback(); as src) {
+    <img
+      [src]="src"
+      [srcset]="srcset()"
+      [sizes]="sizes()"
+      [alt]="alt()"
+      [attr.loading]="priority() ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="priority() ? 'high' : 'auto'"
+      decoding="async"
+      class="absolute inset-0 size-full object-cover"
+    />
+  } @else {
+    <div
+      class="absolute inset-0 grid place-items-center bg-muted p-4 text-center"
+      role="img"
+      [attr.aria-label]="alt()"
+    >
+      <span aria-hidden="true" class="text-xs text-muted-foreground"
+        >Photo to come: {{ name() }}</span
+      >
+    </div>
+  }
+</div>

@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
-import { NdIcon } from '@ndop/core';
 import { ORDER_ADDRESS, patternMaker } from '../../content';
 import { Cloth } from '../../pattern/cloth';
+import { OrderDialog } from './order-dialog';
 import { MOTIFS, type MotifKind } from '../../pattern/motifs';
 import {
   DEFAULT_PATTERN,
@@ -13,18 +13,6 @@ import {
   type Pattern,
 } from '../../pattern/pattern';
 import { Button } from '../../ui/button/button';
-import {
-  Dialog,
-  DialogCloseButton,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-} from '../../ui/dialog/dialog';
 import { Label } from '../../ui/label/label';
 import {
   Popover,
@@ -62,18 +50,8 @@ let nextId = 0;
   imports: [
     Button,
     Cloth,
-    Dialog,
-    DialogCloseButton,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogOverlay,
-    DialogPortal,
-    DialogTitle,
-    DialogTrigger,
     Label,
-    NdIcon,
+    OrderDialog,
     Popover,
     PopoverContent,
     PopoverPortal,
