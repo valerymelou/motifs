@@ -1,6 +1,7 @@
 // Lighthouse CI checks every assembled page against the build spec's quality
-// bar, on Lighthouse's default mobile profile. Run it with
-// `nx run workspace-plugin:lighthouse`, which assembles dist/site first.
+// bar, on Lighthouse's default mobile profile. Run it locally, in each page's
+// Verify step, with `nx run workspace-plugin:lighthouse`, which assembles
+// dist/site first. It stays out of GitHub Actions (ADR-0003).
 const { existsSync, readdirSync } = require('node:fs');
 const { join } = require('node:path');
 

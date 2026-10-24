@@ -40,22 +40,18 @@ jobs:
         run: pnpm nx format:check --all
       - name: Lint, test, build, and e2e with axe
         run: pnpm nx affected -t lint test build e2e
-      # Builds every page, assembles dist/site and checks each page against
-      # the quality bar. The preview and deploy jobs publish that same site.
-      - name: Lighthouse
-        run: pnpm nx run workspace-plugin:lighthouse
+      # Builds every page and assembles dist/site; the preview and deploy
+      # jobs publish that same site. Lighthouse runs locally instead, in each
+      # page's Verify step: the runners' slower CPUs inflate blocking time
+      # several times over under Lighthouse's phone throttling (ADR-0003).
+      - name: Assemble the site
+        run: pnpm nx run workspace-plugin:assemble-site
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: site
           path: dist/site
           if-no-files-found: error
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        if: ${{ !cancelled() }}
-        with:
-          name: lighthouse
-          path: .lighthouseci
-          if-no-files-found: ignore
 
   # Pull requests from forks get no secrets, so they keep the site artifact
   # as their preview.
