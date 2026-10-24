@@ -2,10 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PHOTOS } from './manifest';
 import { Photo } from './photo';
 
-const photos = PHOTOS as Record<
-  string,
-  { width: number; height: number; widths: readonly number[] }
->;
+const photos = PHOTOS as Record<string, { widths: readonly number[] }>;
 
 async function render(name: string) {
   const fixture = TestBed.createComponent(Photo);
@@ -22,7 +19,7 @@ describe('Photo', () => {
   });
 
   it('serves a photo the images target made, at every width', async () => {
-    photos['test-photo'] = { width: 1600, height: 900, widths: [480, 1080] };
+    photos['test-photo'] = { widths: [480, 1080] };
 
     const image = (await render('test-photo')).querySelector('img');
 

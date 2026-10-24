@@ -7,7 +7,7 @@ describe('App', () => {
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
 
-    expect(page.querySelector('h1')?.textContent).toContain('Atelier Ndop');
+    expect(page.querySelector('h1')?.textContent).toContain('Dipped green.');
     expect(page.querySelector('mt-series-footer')).not.toBeNull();
   });
 });

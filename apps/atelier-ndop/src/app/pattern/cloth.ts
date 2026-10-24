@@ -10,7 +10,6 @@ import { depthOf, layoutCloth, type Pattern } from './pattern';
 @Component({
   selector: 'mt-cloth',
   templateUrl: './cloth.html',
-  styleUrl: './cloth.css',
   host: { class: 'block' },
 })
 export class Cloth {

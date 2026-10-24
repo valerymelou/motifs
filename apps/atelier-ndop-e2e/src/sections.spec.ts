@@ -5,6 +5,7 @@ test('the header links to every section', async ({ page }) => {
   const nav = page.getByRole('navigation', { name: 'Sections' });
 
   for (const [label, id] of [
+    ['Story', 'story'],
     ['Pattern maker', 'pattern-maker'],
     ['Collection', 'collection'],
     ['Process', 'process'],
@@ -64,4 +65,32 @@ test('the footer names the atelier and carries the series footer', async ({
 
   await expect(footer).toContainText('Foumban, West Region, Cameroon');
   await expect(footer).toContainText('Fictional brand, design study.');
+});
+
+test('the story tells four chapters and names its sources', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const story = page.locator('#story');
+
+  await expect(story.getByRole('listitem')).toHaveCount(4);
+  await expect(story).toContainText('Cameroon Grassfields');
+  await expect(
+    story.getByRole('link', { name: 'Cleveland Museum of Art' }),
+  ).toHaveAttribute('href', 'https://clevelandart.org/art/2025.274');
+});
+
+test('nothing scrolls the page sideways, even mid-animation', async ({
+  page,
+}) => {
+  await page.goto('./');
+
+  for (const id of ['story', 'pattern-maker', 'collection', 'visit']) {
+    await page.locator(`#${id}`).scrollIntoViewIfNeeded();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth - innerWidth,
+      ),
+    ).toBeLessThanOrEqual(0);
+  }
 });

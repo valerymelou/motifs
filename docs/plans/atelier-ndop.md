@@ -61,7 +61,25 @@ interface Pattern {
 
 **Without JavaScript:** the prerendered page shows the default cloth, dyed, with its description. The controls are visible but inert, and the order link still works.
 
-**Hydration:** the section hydrates with the page. On the index, clicks landing while a deferred block hydrated were sometimes lost, so no interactive section uses `@defer`. The story, process and visit sections may.
+**Hydration:** the section hydrates with the page. On the index, clicks landing while a deferred block hydrated were sometimes lost, so no interactive section uses `@defer`. Deferring the static sections with `hydrate never` was measured with the story in place: it moved about 6 kB of section code out, but the defer runtime and a second initial file made the served JS 0.9 kB larger, so every section hydrates with the page.
+
+## Motion
+
+Added after the photos, when the page read as static next to the series' bar. Everything that moves with the scroll is CSS scroll-driven animation (`animation-timeline: view()` and `scroll()`), so it runs before Angular hydrates and costs no JavaScript. It animates transform and opacity only. It sits behind `@supports (animation-timeline: view())` and `prefers-reduced-motion: no-preference`; without either, the page stands still in its final layout.
+
+| Where         | Moves                                                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Anchors       | Links glide to their section; from 40rem they stop clear of the sticky header.                                                      |
+| Header        | Sticky from 40rem. Over the first 8rem of scroll its cotton surface slims, the links rise to its middle and a soft shadow comes in. |
+| Hero, on load | The two heading lines rise out of their slots, then the label, lead and links; the motif band slides up last.                       |
+| Hero, leaving | The photo leans in, the copy lifts and fades, and the motif band runs sideways like cloth off a roll.                               |
+| Story         | Chapters rise in; the strips drift inside their frame; the vat turns inside its round frame.                                        |
+| Pattern maker | A cotton cover over its top shrinks upward as it arrives, so the indigo rises faster than the scroll; the cloth settles in.         |
+| Collection    | Pieces rise one after another, photos ease out of a slight zoom, and a piece lifts under the pointer or focus.                      |
+| Process       | The steps rise in turn while a raffia stitch is uncovered along them (uncovered, so its dashes never stretch).                      |
+| Visit         | The courtyard moves a little slower than the page inside its frame; the words rise in beside it.                                    |
+
+Component styles ship inside Angular's JavaScript bundle, so each section's stylesheet sits beside its component but is imported by `theme.css` and scoped by the component's tag instead of `styleUrl`. That moved 2.1 kB gzip of CSS out of the initial JS.
 
 ## Ndop items
 
@@ -87,7 +105,7 @@ interface Pattern {
 
 Every text pairing is checked for 4.5:1 in a unit test, as on the index.
 
-**Fonts:** Fraunces for display, Hanken Grotesk for text, both SIL OFL and self-hosted. Fraunces uses the cut with weight and optical size (67 kB for latin regular), with italic only where the hero needs it. The four-axis cut that adds Softness and Wonky costs 121 kB regular and 150 kB italic, so it stays out.
+**Fonts:** Fraunces for display, Hanken Grotesk for text, both SIL OFL and self-hosted. Fraunces uses the weight-only cut (37 kB for latin regular, 46 kB italic), with italic only where the hero needs it. The cut that adds optical size (67 kB and 82 kB) shared the slow-4G bandwidth with the hero photo and kept LCP over 2 s, and the headings, all set large, read the same without it. The four-axis cut that adds Softness and Wonky costs 121 kB regular and 150 kB italic, so it stays out.
 
 **Texture:** a faint cotton weave from two repeating gradients, as on the index. The real texture is in the photographs.
 
@@ -103,22 +121,32 @@ The facts in the story section come only from the board's checked rows, with the
 
 ## Assets
 
-| Asset                                                                                   | Source                                                           | Where                  |
-| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------- |
-| `hero-dip` (16:9) and `hero-dip-mobile` (4:5)                                           | Nano Banana, reviewed by Valery                                  | Hero, green state      |
-| `hero-dip-blue` (16:9, 4:5)                                                             | Nano Banana, an edit of `hero-dip`: same frame, cloth fully blue | Hero, blue state       |
-| `story-strips`, `story-vat`                                                             | Nano Banana                                                      | Story                  |
-| `story-stitch`, `story-unpick`                                                          | Nano Banana                                                      | Process, steps 1 and 3 |
-| `hero-dip` (cropped)                                                                    | Reused                                                           | Process, step 2        |
-| `piece-scarf-lozenge`, `piece-scarf-moon`, `piece-wall-leopards`, `piece-wall-diamonds` | Nano Banana                                                      | Collection             |
-| `visit-courtyard`                                                                       | Nano Banana                                                      | Visit                  |
-| `og` (1200 × 630)                                                                       | Nano Banana photo, with type set on it at build time             | Open Graph             |
-| Fraunces, Hanken Grotesk                                                                | Fontsource, SIL OFL                                              | Type                   |
-| Dialog close icon                                                                       | Lucide, ISC                                                      | Dialog                 |
+| Asset                                                                                   | Source                                                                                             | Where                  |
+| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------- |
+| `hero-dip` (16:9), and its square crop for phones                                       | Nano Banana, reviewed by Valery; the crop made by the images target                                | Hero, green state      |
+| `hero-dip-blue` (16:9, 4:5)                                                             | Nano Banana, an edit of `hero-dip`: same frame, cloth fully blue                                   | Hero, blue state       |
+| `story-strips`, `story-vat`                                                             | Nano Banana                                                                                        | Story                  |
+| `story-stitch`, `story-unpick`                                                          | Nano Banana                                                                                        | Process, steps 1 and 3 |
+| `hero-dip` (cropped)                                                                    | Reused                                                                                             | Process, step 2        |
+| `piece-scarf-lozenge`, `piece-scarf-moon`, `piece-wall-leopards`, `piece-wall-diamonds` | Nano Banana                                                                                        | Collection             |
+| `visit-courtyard`                                                                       | Nano Banana                                                                                        | Visit                  |
+| `og` (1200 × 630)                                                                       | Nano Banana photo, with the hero's line set on it by `og/render-og.mts` (`nx run atelier-ndop:og`) | Open Graph             |
+| Fraunces, Hanken Grotesk                                                                | Fontsource, SIL OFL                                                                                | Type                   |
+| Dialog close icon                                                                       | Lucide, ISC                                                                                        | Dialog                 |
 
 Prompts for all but `hero-dip-blue` are on the board; I'm adding that one.
 
 **Images on the page:** every photo is a plain `<img>` in a box of fixed proportions, with a responsive WebP `srcset` and `sizes`; the hero loads eagerly with `fetchpriority="high"` and is under 200 kB, the rest lazily. A static site has no image CDN, so the sizes are made at build time by a small script. (The plan first named `NgOptimizedImage` with AVIF too: the directive cost bundle bytes the page couldn't spare, and its preload of the hero would have fetched a second file beside an AVIF `<picture>`.) That script needs [sharp](https://sharp.pixelplumbing.com) (Apache-2.0) as a dev dependency, which the spec says needs your approval.
+
+**The hero on slow connections**, as built once the photos came in:
+
+- `hero-dip-mobile` came without a blue twin, so it isn't used. Phones get square crops of the 16:9 pair instead, cut around the cloth by the images target, softened by a 0.8 px blur at full size and capped at 1080 px. That brings the phone file from 123 kB to 43 kB, while CSS keeps cropping the landscape frame from 40rem up.
+- The blue frame's files wait in `data-` attributes. A plain script in `index.html` fetches them once the green frame has loaded, then the CSS crossfade runs. Without JavaScript the cloth stays green. With reduced motion, the `<picture>`'s media sources show the blue frame from the start and never fetch the green.
+- Photo boxes below the hero have `content-visibility: auto`. On slow connections Chrome fetches lazy images up to 2500 px ahead, which pulled a collection photo into the hero's load. The boxes' fixed proportions keep the skipped size exact.
+
+## JS budget
+
+The page measures 121.2 kB of initial JS with its brief complete, against the spec's 120 kB. About 7 kB of it is `@angular/forms`, which Ndop's slider, switch and toggle primitives import without a form (the gap below). Valery chose, on 24 October 2026, to keep every brief component and raise this page's budget to **124 kB** instead, until Ndop fixes the gap (ADR-0004). The cuts made before that: head tags at prerender only, a plain `<img>`, the footer's page name passed in, component styles in the global stylesheet, and the photo list cut to widths. Deferring the static sections made the served JS larger.
 
 ## Ndop gaps
 

@@ -1,20 +1,79 @@
 /* The section sits in the vat's night: Ndop's tokens are turned around here,
    so the same controls read light on dark. Popovers, tooltips and the dialog
-   open outside it, on the page's raw cotton. */
-.vat {
-  --background: var(--vat-night);
-  --foreground: var(--cotton);
-  --primary: var(--cotton);
-  --primary-foreground: var(--vat-night);
-  --muted: oklch(0.36 0.09 267);
-  --muted-foreground: oklch(0.84 0.03 85);
-  /* Pressed buttons turn raw cotton, so the chosen motif stands out. */
-  --accent: var(--cotton);
-  --accent-foreground: var(--vat-night);
-  --border: oklch(0.95 0.017 88 / 24%);
-  --input: oklch(0.95 0.017 88 / 30%);
-  --ring: var(--raffia);
+   open outside it, on the page's raw cotton.
 
-  background-color: var(--background);
-  color: var(--foreground);
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-pattern-maker-section {
+  .vat {
+    --background: var(--vat-night);
+    --foreground: var(--cotton);
+    --primary: var(--cotton);
+    --primary-foreground: var(--vat-night);
+    --muted: oklch(0.36 0.09 267);
+    --muted-foreground: oklch(0.84 0.03 85);
+    /* Pressed buttons turn raw cotton, so the chosen motif stands out. */
+    --accent: var(--cotton);
+    --accent-foreground: var(--vat-night);
+    --border: oklch(0.95 0.017 88 / 24%);
+    --input: oklch(0.95 0.017 88 / 30%);
+    --ring: var(--raffia);
+
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Into the vat: as the section comes up the screen, a cotton cover over
+     its top shrinks upward, so the indigo night seems to rise faster than
+     the scroll, the way cloth goes under. The cloth itself settles in as it
+     arrives. Scroll-driven CSS only; still for reduced motion and for
+     browsers without scroll timelines. Transform and opacity only. */
+  .vat {
+    position: relative;
+    isolation: isolate;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .vat {
+        view-timeline: --mt-vat block;
+      }
+
+      .vat::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto;
+        z-index: 1;
+        height: 45vh;
+        pointer-events: none;
+        background-color: var(--cotton);
+        background-image: var(--mt-weave);
+        /* A soft edge, like dye taking, rather than a ruled line. */
+        mask-image: linear-gradient(black calc(100% - 5rem), transparent);
+        transform-origin: top;
+        animation: mt-under linear both;
+        animation-timeline: --mt-vat;
+        animation-range: entry 0% entry 100%;
+      }
+
+      .vat mt-cloth {
+        animation: mt-settle linear both;
+        animation-timeline: --mt-vat;
+        animation-range: entry 45% entry 100%;
+      }
+    }
+  }
+}
+
+@keyframes mt-under {
+  to {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes mt-settle {
+  from {
+    transform: translateY(3rem) rotate(-2deg) scale(0.95);
+  }
 }

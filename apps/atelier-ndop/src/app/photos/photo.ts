@@ -22,6 +22,8 @@ export class Photo {
   readonly ratio = input.required<string>();
   /** How wide the photo shows, for the browser to pick a file. */
   readonly sizes = input('100vw');
+  /** Where the crop centres, as `object-position` writes it. */
+  readonly focus = input('50% 50%');
   /** For the page's largest paint: load it first instead of lazily. */
   readonly priority = input(false, { transform: booleanAttribute });
 

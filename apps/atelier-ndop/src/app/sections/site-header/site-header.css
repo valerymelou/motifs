@@ -1,0 +1,96 @@
+/* The header sticks from 40rem up. As the page scrolls, its cotton bar
+   slims and a hairline shadow comes in, in CSS alone: the bar's surface
+   shrinks from the top, the links rise to its new middle. Transform and
+   opacity only.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-site-header {
+  .site-header {
+    /* The bar's surface is drawn by ::before, so the strip it gives up as it
+       slims lets clicks through to the page below. */
+    pointer-events: none;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--background);
+    background-image: var(--mt-weave);
+    box-shadow: 0 1px 0 var(--border);
+    transform-origin: top;
+  }
+
+  /* A twin of the surface that only casts the shadow, so the shadow can fade
+     in by opacity. */
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 14px 28px -18px oklch(0.26 0.059 273.4 / 45%);
+    opacity: 0;
+    transform-origin: top;
+  }
+
+  .bar {
+    pointer-events: auto;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) and (min-width: 40rem) {
+      .site-header::before,
+      .site-header::after,
+      .bar,
+      .wordmark {
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+        animation-range: 0 8rem;
+      }
+
+      .site-header::before {
+        animation-name: mt-slim;
+      }
+
+      .site-header::after {
+        animation-name: mt-shadow;
+      }
+
+      .bar {
+        animation-name: mt-lift;
+      }
+
+      .wordmark {
+        animation-name: mt-shrink;
+        transform-origin: left center;
+      }
+    }
+  }
+}
+
+@keyframes mt-slim {
+  to {
+    transform: scaleY(0.78);
+  }
+}
+
+@keyframes mt-shadow {
+  to {
+    opacity: 1;
+    transform: scaleY(0.78);
+  }
+}
+
+@keyframes mt-lift {
+  to {
+    transform: translateY(-11%);
+  }
+}
+
+@keyframes mt-shrink {
+  to {
+    transform: scale(0.9);
+  }
+}

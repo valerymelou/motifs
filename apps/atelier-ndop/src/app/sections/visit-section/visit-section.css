@@ -1,0 +1,44 @@
+/* The courtyard moves a little slower than the page, inside its frame, and
+   the words rise in beside it. Scroll-driven CSS only; still for reduced
+   motion. Transform and opacity only.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-visit-section {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .frame {
+        view-timeline: --mt-courtyard block;
+      }
+
+      .drift {
+        animation: mt-courtyard-drift linear both;
+        animation-timeline: --mt-courtyard;
+        animation-range: cover;
+      }
+
+      .words {
+        animation: mt-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 35%;
+      }
+    }
+  }
+}
+
+@keyframes mt-courtyard-drift {
+  from {
+    transform: translateY(-6%) scale(1.14);
+  }
+  to {
+    transform: translateY(6%) scale(1.14);
+  }
+}
+
+@keyframes mt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--mt-reveal-distance) * 2));
+  }
+}

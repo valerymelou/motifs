@@ -70,7 +70,6 @@ let nextId = 0;
     TooltipTrigger,
   ],
   templateUrl: './pattern-maker-section.html',
-  styleUrl: './pattern-maker-section.css',
 })
 export class PatternMakerSection {
   protected readonly copy = patternMaker;

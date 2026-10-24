@@ -5,7 +5,7 @@ test('shows the page title and heading', async ({ page }) => {
 
   await expect(page).toHaveTitle('Atelier Ndop · Motifs');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Atelier Ndop',
+    'Dipped green. Blue in the air.',
   );
 });
 
@@ -29,7 +29,7 @@ test.describe('without JavaScript', () => {
     await page.goto('./');
 
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'Atelier Ndop',
+      'Dipped green. Blue in the air.',
     );
   });
 });

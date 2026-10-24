@@ -1,0 +1,179 @@
+/* The hero sits in the vat's night, like the pattern maker, so Ndop's
+   tokens are turned around for its button and text.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-hero-section {
+  .hero {
+    --primary: var(--cotton);
+    --primary-foreground: var(--vat-night);
+    --muted-foreground: oklch(0.86 0.025 85);
+    --ring: var(--raffia);
+
+    background-color: var(--vat-night);
+    color: var(--cotton);
+  }
+
+  /* Phones and tablets: the photo sits above the copy and fades into the
+     night below it. Wide screens: the copy sits on the photo's right, over
+     the red earth, darkened enough to read. */
+  .scrim {
+    background: linear-gradient(
+      to bottom,
+      transparent 55%,
+      var(--vat-night) 100%
+    );
+  }
+
+  @media (min-width: 64rem) {
+    .scrim {
+      background:
+        linear-gradient(
+          to left,
+          oklch(0.28 0.099 267.7 / 92%) 0%,
+          oklch(0.28 0.099 267.7 / 78%) 42%,
+          transparent 72%
+        ),
+        linear-gradient(to bottom, transparent 75%, var(--vat-night) 100%);
+    }
+  }
+
+  /* The cloth turns blue in the air: once loaded, the blue frame comes up
+     over the green one. Opacity only. */
+  .air {
+    opacity: 0;
+  }
+
+  .air[data-taken] {
+    animation: mt-air 2.8s ease-in-out 0.8s forwards;
+  }
+
+  /* The heading's lines, each in a slot that hides it until it rises. */
+  .line {
+    display: block;
+    overflow: hidden;
+    /* Room for descenders and the italic's overhang inside the slot. */
+    padding: 0 0.12em 0.1em 0;
+    margin-bottom: -0.1em;
+  }
+
+  .line > * {
+    display: block;
+  }
+
+  /* The band runs wider than the screen, so it can travel sideways. */
+  .band-run {
+    width: calc(100% + 512px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .line > * {
+      animation: mt-line var(--mt-reveal-duration) var(--mt-reveal-easing) 0.1s
+        both;
+    }
+
+    .line + .line > * {
+      animation-delay: 0.25s;
+    }
+
+    /* The label, then the lead and the links, after the heading. */
+    .rise {
+      animation: mt-hero-rise 0.9s var(--mt-reveal-easing) 0.45s both;
+    }
+
+    .copy > :nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .copy > :nth-child(4) {
+      animation-delay: 0.75s;
+    }
+
+    .band {
+      animation: mt-band var(--mt-reveal-duration) var(--mt-reveal-easing) 1.2s
+        both;
+    }
+
+    /* As the hero scrolls away, the photo leans in, the copy lifts and
+       fades, and the band runs on like cloth off a roll. */
+    @supports (animation-timeline: view()) {
+      .hero {
+        view-timeline: --mt-hero block;
+      }
+
+      .frame,
+      .copy,
+      .band-run {
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --mt-hero;
+        animation-range: exit 0% exit 100%;
+      }
+
+      .frame {
+        animation-name: mt-lean;
+      }
+
+      .copy {
+        animation-name: mt-away;
+        animation-range: exit 0% exit 70%;
+      }
+
+      .band-run {
+        animation-name: mt-run;
+        animation-range: cover 0% cover 100%;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .air {
+      display: none;
+    }
+  }
+}
+
+@keyframes mt-air {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mt-line {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+@keyframes mt-hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--mt-reveal-distance));
+  }
+}
+
+@keyframes mt-band {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes mt-lean {
+  to {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes mt-away {
+  to {
+    opacity: 0;
+    transform: translateY(-6rem);
+  }
+}
+
+@keyframes mt-run {
+  to {
+    transform: translateX(-512px);
+  }
+}

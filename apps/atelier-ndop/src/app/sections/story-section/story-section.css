@@ -1,0 +1,70 @@
+/* The story moves with the scroll, in CSS alone: chapters rise into place,
+   the strips drift inside their frame, and the vat turns as it passes.
+   Browsers without scroll-driven animations, and anyone who asks for
+   reduced motion, get the same layout standing still. Transform and
+   opacity only.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-story-section {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* The photos are sticky, so they never move through the screen
+         themselves: each follows the scroll of the row around it. */
+      .made {
+        view-timeline: --mt-made block;
+      }
+
+      .lived {
+        view-timeline: --mt-lived block;
+      }
+
+      .chapter {
+        animation: mt-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 30%;
+      }
+
+      .drift {
+        animation: mt-drift linear both;
+        animation-timeline: --mt-made;
+        animation-range: cover;
+      }
+
+      .spin {
+        animation: mt-spin linear both;
+        animation-timeline: --mt-lived;
+        animation-range: cover;
+      }
+    }
+  }
+
+  /* The vat is round inside a round frame, so turning it never shows a
+     corner; the slight zoom settles as it passes. */
+}
+
+@keyframes mt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--mt-reveal-distance) * 2));
+  }
+}
+
+@keyframes mt-drift {
+  from {
+    transform: translateY(-5%) scale(1.12);
+  }
+  to {
+    transform: translateY(5%) scale(1.12);
+  }
+}
+
+@keyframes mt-spin {
+  from {
+    transform: rotate(-30deg) scale(1.1);
+  }
+  to {
+    transform: rotate(40deg) scale(1);
+  }
+}

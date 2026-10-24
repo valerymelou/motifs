@@ -8,26 +8,31 @@
     >
       {{ copy.title }}
     </h2>
-    <!-- The steps are a real sequence, so they are numbered. -->
-    <ol class="mt-12 grid gap-10 md:grid-cols-3">
-      @for (step of copy.steps; track step.title; let i = $index) {
-        <li class="grid content-start gap-5">
-          <mt-photo
-            [name]="step.image"
-            [alt]="step.alt"
-            ratio="4 / 5"
-            sizes="(min-width: 768px) 33vw, 100vw"
-            class="overflow-hidden rounded-(--radius)"
-          />
-          <div class="grid gap-2">
-            <p class="font-serif text-sm text-muted-foreground tabular-nums">
-              {{ i + 1 }} / {{ copy.steps.length }}
-            </p>
-            <h3 class="font-serif text-2xl font-medium">{{ step.title }}</h3>
-            <p class="leading-relaxed">{{ step.text }}</p>
-          </div>
-        </li>
-      }
-    </ol>
+    <div class="steps relative mt-16">
+      <!-- A raffia stitch runs along the steps as they come up. -->
+      <div class="stitch hidden md:block" aria-hidden="true"></div>
+      <!-- The steps are a real sequence, so they are numbered. -->
+      <ol class="grid gap-10 md:grid-cols-3">
+        @for (step of copy.steps; track step.title; let i = $index) {
+          <li class="grid content-start gap-5">
+            <mt-photo
+              [name]="step.image"
+              [alt]="step.alt"
+              [focus]="step.focus"
+              ratio="4 / 5"
+              sizes="(min-width: 768px) 33vw, 100vw"
+              class="overflow-hidden rounded-(--radius)"
+            />
+            <div class="grid gap-2">
+              <p class="font-serif text-sm text-muted-foreground tabular-nums">
+                {{ i + 1 }} / {{ copy.steps.length }}
+              </p>
+              <h3 class="font-serif text-2xl font-medium">{{ step.title }}</h3>
+              <p class="leading-relaxed">{{ step.text }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+    </div>
   </div>
 </section>

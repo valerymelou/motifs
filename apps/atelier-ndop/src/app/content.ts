@@ -3,14 +3,83 @@
  * templates.
  */
 export const hero = {
-  title: 'Atelier Ndop',
-  tagline: 'Indigo cloth, dyed by hand, one motif at a time.',
+  label: 'Atelier Ndop · Foumban',
+  title: 'Dipped green.',
+  titleAir: 'Blue in the air.',
+  lead: 'Hand-dyed ndop from our atelier in Foumban. The cloth leaves the indigo pit green and turns blue as it meets the air.',
+  make: 'Make your own cloth',
+  collection: 'See the collection',
+  alt: 'Hands lifting a bundle of raffia-tied cloth out of an indigo pit dug in red earth, the cloth still green where it has just left the dye.',
 } as const;
 
 /**
  * Where orders go. The brand is fictional, so the address is on a domain
  * reserved for examples: it opens the visitor's mail app and reaches no one.
  */
+/**
+ * The story of ndop. Only claims the art direction board marked as agreed
+ * between its sources; claims where sources differ, or rest on one weak
+ * source, are left out. The sources are listed with the section and in the
+ * app's README.
+ */
+export const story = {
+  label: 'The story of ndop',
+  title: 'A cloth of the Grassfields.',
+  lead: 'Ndop is the emblematic cloth of the traditional chieftaincies of the Cameroon Grassfields, in the West and North-West regions.',
+  chapters: [
+    {
+      title: 'Strips, sewn into one cloth',
+      text: 'It begins as narrow strips of hand-spun cotton, woven on a loom and sewn edge to edge into one large sheet.',
+    },
+    {
+      title: 'Stitched, dyed, unpicked',
+      text: 'The motifs are drawn on the cotton, then stitched so tightly with raffia that the dye cannot reach them. After the indigo, the stitches are unpicked, and the motifs stay white on blue.',
+    },
+    {
+      title: 'Hung, worn, mourned in',
+      text: 'Ndop hangs as a royal backdrop at state events and ceremonies, and is worn by the fon and notables. It is a cloth of mourning too, at times a king’s shroud. Princes, princesses and queen mothers still wear it at festivals and funerals.',
+    },
+    {
+      title: 'Motifs that speak',
+      text: 'Paired leopards stand for Grassfields leaders. The lozenge filled with triangles evokes the crocodile, royal power and fecundity; the diamond recalls fertility and motherhood. Tarantulas, toads and lizards carry peace, fertility and prosperity. Moons and stars appear too, with no meaning recorded.',
+    },
+  ],
+  care: 'Ndop belongs to royalty and to mourning. We dye in its tradition and leave its meanings to those they belong to.',
+  stripsImage: 'story-strips',
+  stripsAlt:
+    'Hands sewing long, narrow strips of white cotton together on a wooden table, beside a coil of raffia.',
+  vatImage: 'story-vat',
+  vatAlt:
+    'An indigo vat seen from above: a round clay pot of dark dye with a copper sheen and a crown of foam, set in red earth.',
+  sourcesLabel: 'Sources',
+  sources: [
+    {
+      name: 'Cleveland Museum of Art',
+      url: 'https://clevelandart.org/art/2025.274',
+    },
+    {
+      name: 'The Met',
+      url: 'https://www.metmuseum.org/art/collection/search/636847',
+    },
+    {
+      name: 'Philadelphia Museum of Art',
+      url: 'https://www.philamuseum.org/objects/181499',
+    },
+    {
+      name: 'Kaji, 2023',
+      url: 'https://medcraveonline.com/JTEFT/challenges-of-the-modernization-and-industrialization-of-the-manufacture-of-ndop-fabric-from-cameroon.html',
+    },
+    {
+      name: 'Essel, 2021',
+      url: 'https://www.explore-vc.org/en/objects/the-case-of-ndop-royal-fabric.html',
+    },
+    {
+      name: 'Darnaude, 2023',
+      url: 'https://dev.rdpc.dspace.uevora.pt/items/f2ceedfc-883b-4a41-b7dd-6d7ecbcced7d/full',
+    },
+  ],
+} as const;
+
 export const ORDER_ADDRESS = 'atelier@example.com';
 
 export const patternMaker = {
@@ -64,7 +133,7 @@ export const collection = {
       size: '180 × 60 cm',
       priceFcfa: 42000,
       image: 'piece-scarf-lozenge',
-      alt: 'A long indigo scarf with rows of white triangle-filled lozenges, folded on linen.',
+      alt: 'A long indigo scarf with white bands of lozenges down its length, folded on linen.',
     },
     {
       name: 'Moon and star scarf',
@@ -91,7 +160,7 @@ export const collection = {
       size: '120 × 90 cm',
       priceFcfa: 96000,
       image: 'piece-wall-diamonds',
-      alt: 'An indigo wall piece with a dense grid of white diamonds and small tarantula figures.',
+      alt: 'An indigo wall piece with a dense grid of white diamonds and a border of small tarantulas, hung from a wooden bar on a mud wall.',
     },
   ] satisfies readonly Piece[],
 } as const;
@@ -101,6 +170,7 @@ export const siteHeader = {
   place: 'Foumban',
   navLabel: 'Sections',
   links: [
+    { label: 'Story', href: '#story' },
     { label: 'Pattern maker', href: '#pattern-maker' },
     { label: 'Collection', href: '#collection' },
     { label: 'Process', href: '#process' },
@@ -116,19 +186,22 @@ export const process = {
       title: 'Stitch',
       text: 'We draw the motifs on white cotton and stitch around them with raffia, pulled so tight that the dye cannot reach them.',
       image: 'story-stitch',
+      focus: '50% 50%',
       alt: 'Hands stitching raffia around a lozenge drawn on white cotton, the cloth gathered into tight puckers.',
     },
     {
       title: 'Dye',
       text: 'The cloth goes into the pit and comes out green. In the air it turns blue, and every dip makes it deeper.',
       image: 'hero-dip',
+      focus: '38% 50%',
       alt: 'Hands lifting dripping cloth out of an indigo dye pit, green turning to blue.',
     },
     {
       title: 'Unpick',
       text: 'Once it has dried, we cut and pull out every stitch. The cotton they covered stayed white: those are the motifs.',
       image: 'story-unpick',
-      alt: 'Hands unpicking raffia stitches from indigo cloth, revealing a white lozenge.',
+      focus: '50% 50%',
+      alt: 'Hands cutting raffia stitches from indigo cloth with a small knife, revealing the white shape they kept from the dye.',
     },
   ],
 } as const;

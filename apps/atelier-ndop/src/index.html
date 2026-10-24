@@ -6,6 +6,47 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      // The hero's blue frame would share the bandwidth with the green one,
+      // the page's largest paint. Fetch it only once the green has loaded,
+      // then let the CSS crossfade run. Plain script, so it works before
+      // Angular hydrates; reduced motion shows the blue frame from the start.
+      const takeBlue = () => {
+        const blue = document.querySelector('.hero img.air');
+        if (!blue) {
+          // A cached green frame can load before the rest is parsed.
+          document.addEventListener('DOMContentLoaded', takeBlue, {
+            once: true,
+          });
+          return;
+        }
+        if (blue.srcset) {
+          return;
+        }
+        // A data attribute, not a class: Angular rewrites the class
+        // attribute when it hydrates the hero.
+        blue.addEventListener('load', () => (blue.dataset.taken = ''), {
+          once: true,
+        });
+        for (const el of blue.parentElement.querySelectorAll('[data-srcset]')) {
+          el.srcset = el.dataset.srcset;
+        }
+        blue.src = blue.dataset.src;
+      };
+      document.addEventListener(
+        'load',
+        ({ target }) => {
+          if (
+            target instanceof HTMLImageElement &&
+            target.matches('.hero img:not(.air)') &&
+            !matchMedia('(prefers-reduced-motion: reduce)').matches
+          ) {
+            takeBlue();
+          }
+        },
+        true,
+      );
+    </script>
   </head>
   <body>
     <mt-root></mt-root>

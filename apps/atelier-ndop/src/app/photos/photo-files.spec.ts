@@ -2,17 +2,10 @@ import { PHOTOS } from './manifest';
 import { photoFallback, photoSrcset } from './photo-files';
 
 describe('photo files', () => {
-  const photos = PHOTOS as Record<
-    string,
-    { width: number; height: number; widths: readonly number[] }
-  >;
+  const photos = PHOTOS as Record<string, { widths: readonly number[] }>;
 
   beforeAll(() => {
-    photos['test-photo'] = {
-      width: 2000,
-      height: 1000,
-      widths: [480, 1080, 1920],
-    };
+    photos['test-photo'] = { widths: [480, 1080, 1920] };
   });
   afterAll(() => {
     delete photos['test-photo'];

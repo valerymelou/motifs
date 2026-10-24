@@ -1,0 +1,103 @@
+<section id="story" class="scroll-mt-4">
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-8 sm:py-32">
+    <p class="text-xs font-semibold tracking-[0.2em] uppercase">
+      {{ copy.label }}
+    </p>
+    <h2
+      class="mt-4 max-w-3xl font-serif text-[clamp(2.4rem,5.2vw,4.5rem)] leading-[0.98] font-medium tracking-tight"
+    >
+      {{ copy.title }}
+    </h2>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl">
+      {{ copy.lead }}
+    </p>
+
+    <!-- How it's made, beside the strips. -->
+    <div
+      class="made mt-16 grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-20"
+    >
+      <div
+        class="overflow-hidden rounded-(--radius) lg:sticky lg:top-8 lg:self-start"
+      >
+        <mt-photo
+          [name]="copy.stripsImage"
+          [alt]="copy.stripsAlt"
+          ratio="4 / 5"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          class="drift"
+        />
+      </div>
+      <ol class="grid content-start gap-16 lg:gap-28 lg:py-16">
+        @for (chapter of made; track chapter.title; let i = $index) {
+          <li class="chapter grid gap-3">
+            <p
+              class="font-serif text-5xl leading-none text-primary tabular-nums"
+              aria-hidden="true"
+            >
+              0{{ i + 1 }}
+            </p>
+            <h3 class="font-serif text-2xl font-medium sm:text-3xl">
+              {{ chapter.title }}
+            </h3>
+            <p class="max-w-prose leading-relaxed">{{ chapter.text }}</p>
+          </li>
+        }
+      </ol>
+    </div>
+
+    <!-- How it's worn and read, beside the vat. -->
+    <div
+      class="lived mt-24 grid gap-12 lg:mt-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-20"
+    >
+      <ol
+        start="3"
+        class="grid content-start gap-16 lg:order-none lg:gap-28 lg:py-16"
+      >
+        @for (chapter of lived; track chapter.title; let i = $index) {
+          <li class="chapter grid gap-3">
+            <p
+              class="font-serif text-5xl leading-none text-primary tabular-nums"
+              aria-hidden="true"
+            >
+              0{{ i + 3 }}
+            </p>
+            <h3 class="font-serif text-2xl font-medium sm:text-3xl">
+              {{ chapter.title }}
+            </h3>
+            <p class="max-w-prose leading-relaxed">{{ chapter.text }}</p>
+          </li>
+        }
+      </ol>
+      <!-- The round frame stays put and the photo turns inside it: a turning
+           box would be wider than the column and scroll the page sideways. -->
+      <div
+        class="-order-1 overflow-hidden rounded-full lg:sticky lg:top-8 lg:order-none lg:self-start"
+      >
+        <mt-photo
+          [name]="copy.vatImage"
+          [alt]="copy.vatAlt"
+          ratio="1 / 1"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          class="spin"
+        />
+      </div>
+    </div>
+
+    <div
+      class="mt-24 grid gap-4 border-t border-border pt-8 text-sm lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20"
+    >
+      <p class="max-w-prose font-serif text-xl leading-snug">
+        {{ copy.care }}
+      </p>
+      <p class="leading-relaxed text-muted-foreground">
+        {{ copy.sourcesLabel }}:
+        @for (source of copy.sources; track source.url; let last = $last) {
+          <a class="underline underline-offset-4" [href]="source.url">{{
+            source.name
+          }}</a
+          >{{ last ? '.' : ',' }}
+        }
+      </p>
+    </div>
+  </div>
+</section>

@@ -4,7 +4,7 @@
       {{ copy.label }}
     </p>
     <h2
-      class="mt-4 font-serif text-[clamp(2.2rem,4.5vw,3.75rem)] leading-[1] font-medium tracking-tight"
+      class="mt-4 font-serif text-[clamp(2.2rem,4.5vw,3.75rem)] leading-none font-medium tracking-tight"
     >
       {{ copy.title }}
     </h2>
@@ -37,7 +37,7 @@
               ndCardFooter
               class="mt-auto flex items-baseline justify-between gap-3 px-5 pt-5 pb-5"
             >
-              <span class="font-serif text-lg tabular-nums">{{
+              <span class="font-serif text-lg whitespace-nowrap tabular-nums">{{
                 copy.price(piece.priceFcfa)
               }}</span>
               <a

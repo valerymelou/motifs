@@ -1,0 +1,63 @@
+/* The pieces rise in one after another as the row comes up, each photo
+   easing out of a slight zoom, and a piece lifts under the pointer.
+   Scroll-driven CSS only; still for reduced motion. Transform and opacity
+   only.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-collection-section {
+  li:nth-child(4n + 2) {
+    --i: 1;
+  }
+
+  li:nth-child(4n + 3) {
+    --i: 2;
+  }
+
+  li:nth-child(4n + 4) {
+    --i: 3;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      li {
+        view-timeline: --mt-piece block;
+        animation: mt-rise linear both;
+        animation-timeline: view();
+        animation-range: entry calc(var(--i, 0) * 10%) cover
+          calc(22% + var(--i, 0) * 6%);
+      }
+
+      li mt-photo {
+        animation: mt-unzoom linear both;
+        animation-timeline: --mt-piece;
+        animation-range: entry 0% cover 50%;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    article {
+      transition: transform 0.45s var(--mt-reveal-easing);
+    }
+
+    li:hover article,
+    li:focus-within article {
+      transform: translateY(-0.375rem);
+    }
+  }
+}
+
+@keyframes mt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--mt-reveal-distance) * 2));
+  }
+}
+
+@keyframes mt-unzoom {
+  from {
+    transform: scale(1.12);
+  }
+}

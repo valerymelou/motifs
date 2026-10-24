@@ -5,6 +5,7 @@ import { PageFooter } from './sections/page-footer/page-footer';
 import { PatternMakerSection } from './sections/pattern-maker-section/pattern-maker-section';
 import { ProcessSection } from './sections/process-section/process-section';
 import { SiteHeader } from './sections/site-header/site-header';
+import { StorySection } from './sections/story-section/story-section';
 import { VisitSection } from './sections/visit-section/visit-section';
 
 @Component({
@@ -16,6 +17,7 @@ import { VisitSection } from './sections/visit-section/visit-section';
     PatternMakerSection,
     ProcessSection,
     SiteHeader,
+    StorySection,
     VisitSection,
   ],
   templateUrl: './app.html',

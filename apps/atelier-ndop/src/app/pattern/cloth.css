@@ -1,26 +1,32 @@
 /* Dyeing: the cloth appears green, then the indigo comes up over it.
-   Undyeing goes back at once; only opacity moves. */
-.dyed,
-.indigo {
-  opacity: 0;
-}
+   Undyeing goes back at once; only opacity moves.
 
-.dyed.shown,
-.dyed.shown .indigo {
-  opacity: 1;
-}
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-cloth {
+  .dyed,
+  .indigo {
+    opacity: 0;
+  }
 
-.dyed.shown {
-  transition: opacity 0.6s ease-out;
-}
-
-.dyed.shown .indigo {
-  transition: opacity 1.4s ease-in-out 0.7s;
-}
-
-@media (prefers-reduced-motion: reduce) {
   .dyed.shown,
   .dyed.shown .indigo {
-    transition: none;
+    opacity: 1;
+  }
+
+  .dyed.shown {
+    transition: opacity 0.6s ease-out;
+  }
+
+  .dyed.shown .indigo {
+    transition: opacity 1.4s ease-in-out 0.7s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dyed.shown,
+    .dyed.shown .indigo {
+      transition: none;
+    }
   }
 }

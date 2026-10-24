@@ -1,4 +1,113 @@
-<section class="mx-auto max-w-5xl px-4 py-24">
-  <h1 class="text-5xl font-semibold tracking-tight">{{ hero.title }}</h1>
-  <p class="mt-4 max-w-prose text-lg">{{ hero.tagline }}</p>
+<section class="hero relative isolate grid overflow-hidden">
+  <div
+    class="frame relative aspect-square sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto"
+  >
+    <picture>
+      <!-- With reduced motion there is no crossfade: the cloth is blue from
+           the start, and the green photo is never fetched. -->
+      <source
+        media="(prefers-reduced-motion: reduce) and (min-width: 40rem)"
+        [attr.srcset]="blue.wide"
+        [attr.sizes]="wideSizes"
+      />
+      <source
+        media="(prefers-reduced-motion: reduce)"
+        [attr.srcset]="blue.square"
+        sizes="100vw"
+      />
+      <source
+        [attr.media]="wide"
+        [attr.srcset]="green.wide"
+        [attr.sizes]="wideSizes"
+      />
+      <img
+        [src]="green.fallback"
+        [srcset]="green.square"
+        sizes="100vw"
+        [alt]="copy.alt"
+        fetchpriority="high"
+        class="absolute inset-0 size-full object-cover object-[38%_50%]"
+      />
+    </picture>
+    <!-- The same frame once the indigo has taken. Its files wait in data-
+         attributes until the green frame, the page's largest paint, has
+         loaded; the script in index.html then fetches them and starts the
+         crossfade. Without JavaScript the cloth stays green. -->
+    <picture>
+      <source
+        [attr.media]="wide"
+        [attr.data-srcset]="blue.wide"
+        [attr.sizes]="wideSizes"
+      />
+      <img
+        [attr.data-src]="blue.fallback"
+        [attr.data-srcset]="blue.square"
+        sizes="100vw"
+        alt=""
+        class="air absolute inset-0 size-full object-cover object-[38%_50%]"
+      />
+    </picture>
+    <div class="scrim absolute inset-0" aria-hidden="true"></div>
+  </div>
+
+  <div
+    class="relative mx-auto w-full max-w-6xl px-4 pt-4 pb-16 sm:px-8 lg:flex lg:min-h-[calc(100svh-4.5rem)] lg:flex-col lg:justify-end lg:pt-24 lg:pb-28"
+  >
+    <div class="copy grid max-w-xl gap-6 lg:ml-auto lg:w-[48%] lg:max-w-none">
+      <p class="rise text-xs font-semibold tracking-[0.2em] uppercase">
+        {{ copy.label }}
+      </p>
+      <h1
+        class="font-serif text-[clamp(2.75rem,5.6vw,4.25rem)] leading-[0.95] font-medium tracking-tight"
+      >
+        <!-- Each line rises out of its own slot on load. The space keeps the
+             lines apart for screen readers: Angular drops whitespace between
+             elements. -->
+        <span class="line"
+          ><span>{{ copy.title }}&#32;</span></span
+        >
+        <span class="line"
+          ><em class="font-normal">{{ copy.titleAir }}</em></span
+        >
+      </h1>
+      <p class="rise max-w-md text-lg leading-relaxed text-muted-foreground">
+        {{ copy.lead }}
+      </p>
+      <div class="rise flex flex-wrap items-center gap-x-6 gap-y-3">
+        <a ndButton size="lg" href="#pattern-maker">{{ copy.make }}</a>
+        <a
+          href="#collection"
+          class="text-sm font-medium underline underline-offset-4"
+          >{{ copy.collection }}</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- A strip of the motifs, as on the cloth's selvedge. -->
+  <div class="relative overflow-hidden" aria-hidden="true">
+    <div class="band">
+      <svg class="band-run block h-8">
+        <defs>
+          <pattern
+            [attr.id]="bandId"
+            patternUnits="userSpaceOnUse"
+            [attr.width]="bandWidth"
+            [attr.height]="bandTile"
+          >
+            @for (tile of band; track $index) {
+              <path
+                [attr.d]="tile.path"
+                [attr.transform]="tile.transform"
+                fill-rule="evenodd"
+                fill="#F3EEE2"
+              />
+            }
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="#1E3170" />
+        <rect width="100%" height="100%" [attr.fill]="'url(#' + bandId + ')'" />
+      </svg>
+    </div>
+  </div>
 </section>

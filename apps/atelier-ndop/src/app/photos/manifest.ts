@@ -2,6 +2,19 @@
 // Do not edit: run the app's images target instead.
 
 export const PHOTOS: Readonly<
-  Record<string, { width: number; height: number; widths: readonly number[] }>
+  Record<string, { widths: readonly number[] }>
 > = {
+  'hero-dip': { widths: [480, 768, 1080, 1440, 1920] },
+  'hero-dip-blue': { widths: [480, 768, 1080, 1440, 1920] },
+  'hero-dip-blue-square': { widths: [480, 768, 1080] },
+  'hero-dip-square': { widths: [480, 768, 1080] },
+  'piece-scarf-lozenge': { widths: [480, 768, 1080, 1440, 1920] },
+  'piece-scarf-moon': { widths: [480, 768, 1080, 1440, 1920] },
+  'piece-wall-diamonds': { widths: [480, 768, 1080, 1440] },
+  'piece-wall-leopards': { widths: [480, 768, 1080, 1440] },
+  'story-stitch': { widths: [480, 768, 1080, 1440, 1920] },
+  'story-strips': { widths: [480, 768, 1080, 1440] },
+  'story-unpick': { widths: [480, 768, 1080, 1440, 1920] },
+  'story-vat': { widths: [480, 768, 1080, 1440, 1920] },
+  'visit-courtyard': { widths: [480, 768, 1080, 1440, 1920] },
 };

@@ -98,13 +98,45 @@
       "options": {
         "input": "apps/atelier-ndop/images-src",
         "output": "apps/atelier-ndop/public/images",
-        "manifest": "apps/atelier-ndop/src/app/photos/manifest.ts"
+        "manifest": "apps/atelier-ndop/src/app/photos/manifest.ts",
+        "exclude": ["og", "hero-dip-mobile"],
+        "crops": [
+          {
+            "name": "hero-dip-square",
+            "from": "hero-dip",
+            "aspect": 1,
+            "focusX": 0.38,
+            "widths": [480, 768, 1080],
+            "blur": 0.8
+          },
+          {
+            "name": "hero-dip-blue-square",
+            "from": "hero-dip-blue",
+            "aspect": 1,
+            "focusX": 0.38,
+            "widths": [480, 768, 1080],
+            "blur": 0.8
+          }
+        ]
       },
       "inputs": ["{projectRoot}/images-src/**/*"],
       "outputs": [
         "{projectRoot}/public/images",
         "{projectRoot}/src/app/photos/manifest.ts"
       ],
+      "cache": true
+    },
+    "og": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --no-warnings apps/atelier-ndop/og/render-og.mts apps/atelier-ndop/public/og.png"
+      },
+      "inputs": [
+        "{projectRoot}/og/**",
+        "{projectRoot}/images-src/og.jpeg",
+        "{projectRoot}/src/app/content.ts"
+      ],
+      "outputs": ["{projectRoot}/public/og.png"],
       "cache": true
     }
   }

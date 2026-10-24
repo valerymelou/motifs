@@ -1,8 +1,21 @@
 @import 'tailwindcss' source('./');
 @import '@ndop/core/styles.css';
-@import '@fontsource-variable/fraunces/opsz.css';
-@import '@fontsource-variable/fraunces/opsz-italic.css';
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/fraunces/wght-italic.css';
 @import '@fontsource-variable/hanken-grotesk';
+
+/* The components' own styles, imported here rather than through styleUrl:
+   Angular ships component styles inside the JavaScript bundle, and this
+   page's JS budget has no room for them. Each file scopes its rules to its
+   component's tag. */
+@import './app/pattern/cloth.css';
+@import './app/sections/site-header/site-header.css';
+@import './app/sections/hero-section/hero-section.css';
+@import './app/sections/story-section/story-section.css';
+@import './app/sections/pattern-maker-section/pattern-maker-section.css';
+@import './app/sections/collection-section/collection-section.css';
+@import './app/sections/process-section/process-section.css';
+@import './app/sections/visit-section/visit-section.css';
 
 /*
  * Atelier Ndop: raw cotton and indigo, the colors of the cloth itself, with
@@ -62,9 +75,10 @@
 }
 
 @layer base {
-  body {
-    /* A faint cotton weave: two 1px thread lines, tiled by the browser. */
-    background-image:
+  :root {
+    /* A faint cotton weave: two 1px thread lines, tiled by the browser. A
+       token, so the surfaces that cover the page can wear it too. */
+    --mt-weave:
       repeating-linear-gradient(
         0deg,
         oklch(0.26 0.059 273.4 / 2.5%) 0 1px,
@@ -75,6 +89,23 @@
         oklch(0.26 0.059 273.4 / 2%) 0 1px,
         transparent 1px 3px
       );
+  }
+
+  /* Links to a section glide there, and stop clear of the sticky header. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    html {
+      scroll-padding-top: 4.5rem;
+    }
+  }
+
+  body {
+    background-image: var(--mt-weave);
     font-feature-settings: 'ss01';
     -webkit-font-smoothing: antialiased;
   }

@@ -1,4 +1,11 @@
-<div class="relative overflow-hidden" [style.aspect-ratio]="ratio()">
+<!-- Skipped until near the screen: on slow connections Chrome fetches lazy
+     images up to 2500px ahead, which would take bandwidth from the hero.
+     The fixed proportions keep the skipped box at its real size. -->
+<div
+  class="relative overflow-hidden"
+  [class.[content-visibility:auto]]="!priority()"
+  [style.aspect-ratio]="ratio()"
+>
   @if (fallback(); as src) {
     <img
       [src]="src"
@@ -9,6 +16,7 @@
       [attr.fetchpriority]="priority() ? 'high' : 'auto'"
       decoding="async"
       class="absolute inset-0 size-full object-cover"
+      [style.object-position]="focus()"
     />
   } @else {
     <div

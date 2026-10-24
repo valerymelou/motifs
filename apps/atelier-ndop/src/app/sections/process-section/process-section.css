@@ -1,0 +1,70 @@
+/* The three steps rise in turn, and a raffia stitch runs along above them
+   as the row comes up. Scroll-driven CSS only; still for reduced motion.
+   Transform and opacity only.
+
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-process-section {
+  .stitch {
+    position: absolute;
+    inset: -2rem 0 auto;
+    height: 3px;
+    overflow: hidden;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--raffia) 0 14px,
+      transparent 14px 24px
+    );
+    border-radius: 999px;
+  }
+
+  li:nth-child(3n + 2) {
+    --i: 1;
+  }
+
+  li:nth-child(3n + 3) {
+    --i: 2;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .steps {
+        view-timeline: --mt-steps block;
+      }
+
+      /* The stitch is drawn by uncovering it, so its dashes never stretch. */
+      .stitch::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: var(--background);
+        background-image: var(--mt-weave);
+        transform-origin: right;
+        animation: mt-uncover linear both;
+        animation-timeline: --mt-steps;
+        animation-range: entry 10% cover 45%;
+      }
+
+      li {
+        animation: mt-rise linear both;
+        animation-timeline: view();
+        animation-range: entry calc(var(--i, 0) * 12%) cover
+          calc(25% + var(--i, 0) * 7%);
+      }
+    }
+  }
+}
+
+@keyframes mt-uncover {
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--mt-reveal-distance) * 2));
+  }
+}
