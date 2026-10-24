@@ -105,6 +105,15 @@
       "inputs": ["{projectRoot}/src/app/code/samples/**/*"],
       "outputs": ["{projectRoot}/src/app/code/samples.generated.ts"],
       "cache": true
+    },
+    "og": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --no-warnings apps/fil/og/render-og.mts apps/fil/public/og.png"
+      },
+      "inputs": ["{projectRoot}/og/**", "{projectRoot}/src/app/content.ts"],
+      "outputs": ["{projectRoot}/public/og.png"],
+      "cache": true
     }
   }
 }
