@@ -25,6 +25,6 @@ export class SeriesFooter {
 
   protected readonly site = SITE;
   protected readonly sourceUrl = computed(
-    () => `${SITE.repoUrl}/tree/main/apps/${this.slug()}`,
+    () => `${SITE.repoUrl}/tree/master/apps/${this.slug()}`,
   );
 }

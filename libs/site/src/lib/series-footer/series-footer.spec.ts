@@ -29,7 +29,7 @@ describe('SeriesFooter', () => {
       ['All pages', '/'],
       [
         'Source on GitHub',
-        'https://github.com/valerymelou/motifs/tree/main/apps/fil',
+        'https://github.com/valerymelou/motifs/tree/master/apps/fil',
       ],
       ['Built with Ndop UI', 'https://ndop.dev'],
     ]);

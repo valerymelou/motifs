@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  # A new push to a pull request replaces its running checks; main always
+  # A new push to a pull request replaces its running checks; master always
   # finishes, so every merge is checked and deployed.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
@@ -32,6 +32,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - uses: nrwl/nx-set-shas@e602fada7ad5987b0f7b1905e7a99ea1c661514c # v5.1.0
+        with:
+          main-branch-name: master
       - run: pnpm exec playwright install --with-deps chromium
 
       - name: Format
@@ -82,7 +84,7 @@ jobs:
         with:
           name: site
           path: dist/site
-      # Any branch other than main is a preview on Cloudflare Pages, with its
+      # Any branch other than master is a preview on Cloudflare Pages, with its
       # own URL that follows the branch. The branch name goes through the
       # environment, not the script, since a pull request chooses it.
       - name: Deploy a preview to Cloudflare Pages
@@ -102,7 +104,7 @@ jobs:
   deploy:
     name: Deploy
     needs: verify
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment:
@@ -124,12 +126,12 @@ jobs:
         with:
           name: site
           path: dist/site
-      # main is the Pages project's production branch, served at
+      # master is the Pages project's production branch, served at
       # motifs.valerymelou.com.
       - name: Deploy to Cloudflare Pages
         run: >-
           pnpm exec wrangler pages deploy dist/site --project-name=motifs
-          --branch=main --commit-hash="$GITHUB_SHA"
+          --branch=master --commit-hash="$GITHUB_SHA"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

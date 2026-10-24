@@ -16,21 +16,21 @@ The site is plain static files, so any static host works. Valery chose [Cloudfla
 
 ## Decision
 
-- **CI runs on GitHub Actions** (`.github/workflows/ci.yml`), on every pull request and every push to `main`, with Node 26 and the pnpm version from `packageManager`:
+- **CI runs on GitHub Actions** (`.github/workflows/ci.yml`), on every pull request and every push to `master`, with Node 26 and the pnpm version from `packageManager`:
   1. `nx format:check --all`;
   2. `nx affected -t lint test build e2e`, where every app's e2e suite runs axe on desktop and mobile;
   3. `nx run workspace-plugin:lighthouse`, which builds every app, assembles `dist/site` and runs Lighthouse CI on every page, three runs each, judged on the median against the spec's quality bar (`lighthouserc.cjs`). Lighthouse applies its mobile network and CPU throttling for real (`throttlingMethod: devtools`) instead of simulating it: served from the CI machine, the JS arrives before the first paint, and the simulation then counts it against LCP although a phone paints the prerendered page long before.
 - **Each run keeps `dist/site` and the Lighthouse reports as artifacts**, so the deploy jobs publish exactly the site that was checked.
 - **Pull requests get a preview** after the checks pass: the preview job runs `wrangler pages deploy dist/site --project-name=motifs --branch=<pull request branch>`. The `preview` GitHub environment links to the branch's preview URL. Pull requests from forks get no secrets, so their preview is the `site` artifact, downloaded and opened as it would deploy.
-- **Production deploys from `main`** after the checks pass: the deploy job runs the same command with `--branch=main`, the Pages project's production branch, in a `production` GitHub environment whose secret is limited to `main`.
+- **Production deploys from `master`** after the checks pass: the deploy job runs the same command with `--branch=master`, the Pages project's production branch, in a `production` GitHub environment whose secret is limited to `master`.
 - Wrangler is a pinned dev dependency, so CI deploys with the version in the lockfile. Third-party actions are pinned to commit SHAs. Lighthouse reports stay on disk instead of going to a public upload.
 
 ## Consequences
 
 - Setup outside the repo:
-  - create a Pages project named `motifs` for Direct Upload, with `main` as its production branch, and add motifs.valerymelou.com as its custom domain;
+  - create a Pages project named `motifs` for Direct Upload, with `master` as its production branch, and add motifs.valerymelou.com as its custom domain;
   - create an account API token with the Account › Cloudflare Pages › Edit permission;
-  - in the GitHub repository's settings, store the account ID as the `CLOUDFLARE_ACCOUNT_ID` variable, and the token as the `CLOUDFLARE_API_TOKEN` secret in a `production` environment limited to `main` and in a `preview` environment.
+  - in the GitHub repository's settings, store the account ID as the `CLOUDFLARE_ACCOUNT_ID` variable, and the token as the `CLOUDFLARE_API_TOKEN` secret in a `production` environment limited to `master` and in a `preview` environment.
 - Preview URLs are public. Pages can put them behind Cloudflare Access (Settings › General › Enable access policy) if a preview ever needs to stay private.
 - Anyone who can push a branch to the repository can deploy a preview with the token. Pull requests from forks can't.
 - Pages limits a file to 25 MiB and a site to 20,000 files. Pages with photography must keep images small, which the spec's 200 kB hero budget already asks for.
