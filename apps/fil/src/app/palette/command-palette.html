@@ -40,7 +40,7 @@
               @for (section of sections(); track section.id) {
                 <div
                   ndCommandItem
-                  [keywords]="'go jump section ' + section.id"
+                  [keywords]="'jump section ' + section.id"
                   (triggered)="goTo(section.id)"
                 >
                   {{ section.label }}
