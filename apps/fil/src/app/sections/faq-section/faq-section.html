@@ -1,0 +1,33 @@
+<section id="faq" class="scroll-mt-4 border-t border-border">
+  <div class="thread mx-auto grid max-w-6xl gap-12 py-20 sm:py-28">
+    <div class="grid max-w-2xl gap-4">
+      <p
+        class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        {{ copy.label }}
+      </p>
+      <h2
+        class="text-[clamp(2rem,4.5vw,3.25rem)] leading-[1] font-extrabold tracking-[-0.035em]"
+      >
+        {{ copy.title }}
+      </h2>
+    </div>
+    <div ndAccordion collapsible class="max-w-3xl">
+      @for (item of copy.items; track item.id) {
+        <div ndAccordionItem [value]="item.id">
+          <h3 ndAccordionHeader>
+            <button ndAccordionTrigger class="text-base font-semibold">
+              {{ item.question }}
+              <svg ndIcon="chevron-down"></svg>
+            </button>
+          </h3>
+          <div ndAccordionContent>
+            <p class="max-w-prose leading-relaxed text-muted-foreground">
+              {{ item.answer }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

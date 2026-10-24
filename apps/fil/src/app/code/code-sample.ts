@@ -54,6 +54,8 @@ export class CodeSample {
   protected readonly language = inject(CodeLanguage);
   protected readonly copied = signal(false);
   protected readonly status = signal<Status>('idle');
+  /** Test sends so far; the bead's rail reads it to run once per send. */
+  readonly sends = signal(0);
 
   private readonly lines = computed(() => SAMPLES[this.task()] ?? {});
 
@@ -94,6 +96,7 @@ export class CodeSample {
 
   /** A test send: nothing leaves the page, the receipt arrives on its own. */
   protected sendTest(): void {
+    this.sends.update((count) => count + 1);
     this.status.set('queued');
     setTimeout(() => this.status.set('delivered'), 900);
   }

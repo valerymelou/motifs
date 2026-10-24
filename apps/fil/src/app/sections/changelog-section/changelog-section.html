@@ -1,0 +1,40 @@
+<section id="changelog" class="scroll-mt-4 border-t border-border">
+  <div class="thread mx-auto grid max-w-6xl gap-12 py-20 sm:py-28">
+    <div class="grid max-w-2xl gap-4">
+      <p
+        class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        {{ copy.label }}
+      </p>
+      <h2
+        class="text-[clamp(2rem,4.5vw,3.25rem)] leading-[1] font-extrabold tracking-[-0.035em]"
+      >
+        {{ copy.title }}
+      </h2>
+    </div>
+    <!-- Newest first, a real sequence in time, so a list rather than
+         decoration. -->
+    <ol
+      class="grid max-w-3xl gap-0 divide-y divide-border border-y border-border"
+    >
+      @for (entry of copy.entries; track entry.date) {
+        <li
+          class="grid gap-2 py-5 sm:grid-cols-[10rem_6.5rem_minmax(0,1fr)] sm:items-baseline sm:gap-4"
+        >
+          <time
+            class="font-mono text-sm text-muted-foreground"
+            [attr.datetime]="entry.date"
+            >{{ entry.shown }}</time
+          >
+          <span
+            ndBadge
+            [variant]="variants[entry.kind]"
+            class="justify-self-start"
+            >{{ entry.kind }}</span
+          >
+          <p class="leading-relaxed">{{ entry.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,104 @@
+/* The header sticks from 40rem up. As the page scrolls, its surface slims
+   and a soft shadow comes in, in CSS alone: the surface shrinks from the
+   top, the bar rises to its new middle. Transform and opacity only.
+   Imported by theme.css, not the component: component styles ship inside
+   the JavaScript bundle, global ones in the stylesheet. Scoped by the
+   component's tag. */
+mt-site-header {
+  .site-header {
+    position: relative;
+    z-index: 30;
+    /* The surface is drawn by ::before, so the strip it gives up as it
+       slims lets clicks through to the page below. */
+    pointer-events: none;
+  }
+
+  .site-header::before,
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform-origin: top;
+  }
+
+  .site-header::before {
+    background: color-mix(in oklch, var(--background) 97%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  /* A twin of the surface that only casts the shadow, so the shadow can
+     fade in by opacity. */
+  .site-header::after {
+    box-shadow: 0 14px 28px -18px oklch(0.15 0.002 286.1 / 40%);
+    opacity: 0;
+  }
+
+  .site-header > div {
+    position: relative;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 40rem) {
+    .site-header {
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) and (min-width: 40rem) {
+      .site-header::before,
+      .site-header::after,
+      .site-header > div,
+      .site-header > div > a:first-child {
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+        animation-range: 0 8rem;
+      }
+
+      .site-header::before {
+        animation-name: mt-header-slim;
+      }
+
+      .site-header::after {
+        animation-name: mt-header-shadow;
+      }
+
+      .site-header > div {
+        animation-name: mt-header-lift;
+      }
+
+      .site-header > div > a:first-child {
+        animation-name: mt-header-shrink;
+        transform-origin: left center;
+      }
+    }
+  }
+}
+
+@keyframes mt-header-slim {
+  to {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes mt-header-shadow {
+  to {
+    opacity: 1;
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes mt-header-lift {
+  to {
+    transform: translateY(-10%);
+  }
+}
+
+@keyframes mt-header-shrink {
+  to {
+    transform: scale(0.9);
+  }
+}

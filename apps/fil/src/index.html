@@ -6,6 +6,40 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <style>
+      /*
+       * A fallback sized like Inter Tight, so text takes the same room
+       * before and after the web font arrives; without it the hero's
+       * headline rewraps when Inter Tight loads. Declared here, not in
+       * theme.css: the build inlines only the critical rules and defers the
+       * full stylesheet, and leaves @font-face out of the inlined part.
+       * Measured in Chromium: Arial runs 1.7% wider than Inter Tight at 800
+       * and 4.4% at 400, and Inter Tight's ascent and descent are 0.97em
+       * and 0.24em; the overrides are divided by size-adjust, which scales
+       * them too. Liberation Sans is Arial's metric twin on Linux.
+       */
+      @font-face {
+        font-family: 'Inter Tight Fallback';
+        src: local('Arial'), local('ArialMT'), local('Liberation Sans');
+        font-weight: 100 600;
+        size-adjust: 95.57%;
+        ascent-override: 101.5%;
+        descent-override: 25.1%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'Inter Tight Fallback';
+        src:
+          local('Arial Bold'), local('Arial-BoldMT'),
+          local('Liberation Sans Bold');
+        font-weight: 700 900;
+        size-adjust: 98.27%;
+        ascent-override: 98.7%;
+        descent-override: 24.4%;
+        line-gap-override: 0%;
+      }
+    </style>
     <script>
       // The visitor's remembered theme, applied before the first paint so a
       // dark choice never flashes light. The app hands it to Ndop when it

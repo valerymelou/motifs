@@ -7,6 +7,9 @@
    Angular ships component styles inside the JavaScript bundle. Each file
    scopes its rules to its component's tag. */
 @import './app/code/code-sample.css';
+@import './app/sections/site-header/site-header.css';
+@import './app/thread/thread.css';
+@import './app/thread/motion.css';
 
 /*
  * Fil: black ink on squared paper, and one green thread. #22C55E is too
@@ -15,8 +18,12 @@
  * dark. The dark theme mirrors the light one for the palette's theme switch.
  */
 
+/* The 'Inter Tight Fallback' faces are declared in index.html: see there. */
+
 @theme {
-  --font-sans: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans:
+    'Inter Tight Variable', 'Inter Tight Fallback', 'Helvetica Neue', Arial,
+    sans-serif;
   --font-mono:
     'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
     monospace;
@@ -142,7 +149,10 @@
     }
   }
 
-  html {
-    scroll-padding-top: 4.5rem;
+  /* The header sticks from 40rem up; links stop clear of it there. */
+  @media (min-width: 40rem) {
+    html {
+      scroll-padding-top: 4.5rem;
+    }
   }
 }

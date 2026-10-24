@@ -1,0 +1,250 @@
+/*
+ * The thread: one green line down the page, from the hero's terminal to the
+ * footer's stitch. Each section draws its own run inside a `.thread`
+ * container, whose left padding leaves room for it, so the runs meet at
+ * every width. Knots mark each coverage region; beads travel along it.
+ *
+ * Imported by theme.css: component styles ship inside the JavaScript
+ * bundle, global ones in the stylesheet.
+ */
+:root {
+  --thread-x: 1rem;
+  --thread-gap: 1.5rem;
+  --thread-width: 2px;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --thread-x: 2rem;
+    --thread-gap: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --thread-x: 2rem;
+    --thread-gap: 3.5rem;
+  }
+}
+
+.thread,
+.thread-pad {
+  position: relative;
+  /* Sections lay out on a grid; one column that can shrink, so wide
+     children such as tables scroll inside it instead of widening it. */
+  grid-template-columns: minmax(0, 1fr);
+  padding-left: calc(var(--thread-x) + var(--thread-gap));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 40rem) {
+  .thread,
+  .thread-pad {
+    padding-right: 2rem;
+  }
+}
+
+/* The run down a section, its full height, so the runs meet. */
+.thread {
+  /* The riding bead's box slides down past the section's foot; clipping it
+     keeps the page from growing. */
+  overflow-y: clip;
+}
+
+.thread::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--thread-x) - var(--thread-width) / 2);
+  width: var(--thread-width);
+  background: var(--thread);
+  transform-origin: top;
+}
+
+/* The hero's run starts at the terminal's last line: a step left out of
+   the terminal, then down to the hero's end. */
+.thread-start {
+  position: relative;
+}
+
+.thread-start::before,
+.thread-start::after {
+  content: '';
+  position: absolute;
+  background: var(--thread);
+}
+
+.thread-start::after {
+  top: calc(100% - 1.6rem);
+  left: calc(-1 * var(--thread-gap));
+  width: var(--thread-gap);
+  height: var(--thread-width);
+  transform-origin: right;
+}
+
+.thread-start::before {
+  top: calc(100% - 1.6rem);
+  /* Down through the hero's bottom padding (pb-20) to the next section. */
+  bottom: -5rem;
+  left: calc(-1 * var(--thread-gap) - var(--thread-width) / 2);
+  width: var(--thread-width);
+  transform-origin: top;
+}
+
+/* The footer's run stops at the stitch. */
+.thread-end::before {
+  inset-block: 0 auto;
+  height: 3rem;
+}
+
+.stitch {
+  position: absolute;
+  top: 2.25rem;
+  left: calc(var(--thread-x) - 0.75rem);
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--thread);
+}
+
+/* A knot: a ring on the thread at each coverage region, filled as the
+   thread reaches it. */
+.knot {
+  position: relative;
+}
+
+.knot::before,
+.knot::after {
+  content: '';
+  position: absolute;
+  top: 0.35rem;
+  left: calc(-1 * var(--thread-gap) - 0.5rem);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+}
+
+.knot::before {
+  background: var(--background);
+  box-shadow: inset 0 0 0 var(--thread-width) var(--thread);
+}
+
+.knot::after {
+  background: var(--thread);
+}
+
+/* A bead: a message travelling down the thread. Its rail spans the sample;
+   the bead sits at the rail's foot and the rail slides down, so the bead
+   moves by transform alone. */
+.bead-rail {
+  position: absolute;
+  inset-block: 0;
+  left: calc(-1 * var(--thread-gap) - 0.375rem);
+  width: 0.75rem;
+  overflow: hidden;
+  pointer-events: none;
+  /* The bead's travel is the rail's height, in cqh. */
+  container-type: size;
+}
+
+.bead-rail::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: var(--thread);
+  box-shadow: 0 0 0 4px var(--background);
+  opacity: 0;
+}
+
+.bead-rail::after {
+  animation: none 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Each test send flips between two identical animations, since an
+   animation only restarts when its name changes. */
+@media (prefers-reduced-motion: no-preference) {
+  .bead-rail[data-run='0']::after {
+    animation-name: mt-bead-a;
+  }
+
+  .bead-rail[data-run='1']::after {
+    animation-name: mt-bead-b;
+  }
+}
+
+@keyframes mt-bead-a {
+  from {
+    opacity: 1;
+    transform: translateY(calc(-100cqh + 0.75rem));
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+@keyframes mt-bead-b {
+  from {
+    opacity: 1;
+    transform: translateY(calc(-100cqh + 0.75rem));
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* The bead that rides the thread as the page scrolls: a box the height of
+   the section with a dot at its top, moved down by its own height. Its
+   timeline runs from the section's top reaching the middle of the screen
+   to its foot reaching it, so the dot stays level with the middle; each
+   section hands it to the next at the seam. It shows only while riding. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .thread:not(.thread-end)::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(var(--thread-x) - 0.4375rem);
+      width: 0.875rem;
+      height: 100%;
+      background: radial-gradient(
+          circle at 0.4375rem 0.4375rem,
+          var(--thread) 0.3125rem,
+          transparent 0.34375rem
+        )
+        no-repeat;
+      filter: drop-shadow(0 0 0.375rem var(--thread));
+      pointer-events: none;
+      animation: mt-ride linear both;
+      animation-timeline: view();
+      animation-range: entry 50% exit 50%;
+    }
+  }
+}
+
+@keyframes mt-ride {
+  from {
+    opacity: 0;
+    transform: none;
+  }
+  1% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}

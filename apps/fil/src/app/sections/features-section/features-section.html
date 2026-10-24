@@ -1,0 +1,26 @@
+<section id="features" class="scroll-mt-4 border-t border-border">
+  <div class="thread mx-auto grid max-w-6xl gap-12 py-20 sm:py-28">
+    <div class="grid max-w-2xl gap-4">
+      <p
+        class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        {{ copy.label }}
+      </p>
+      <h2
+        class="text-[clamp(2rem,4.5vw,3.25rem)] leading-[1] font-extrabold tracking-[-0.035em]"
+      >
+        {{ copy.title }}
+      </h2>
+    </div>
+    <ul
+      class="grid gap-px overflow-hidden rounded-(--radius) border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
+    >
+      @for (item of copy.items; track item.title) {
+        <li class="grid content-start gap-2 bg-background p-6">
+          <h3 class="font-mono text-sm font-semibold">{{ item.title }}</h3>
+          <p class="leading-relaxed text-muted-foreground">{{ item.text }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

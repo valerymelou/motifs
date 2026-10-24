@@ -55,6 +55,8 @@ One shared language choice (a signal in a small `CodeLanguage` service) drives e
 
 The generated file is committed, so it can be read and the editor knows its types. Unlike the atelier's photos, the samples are in git, so `build`, `test` and `serve` depend on the cached `highlight` target and the file is always regenerated from the samples first.
 
+**One height per sample:** every language's panel shares one grid cell, the hidden ones kept in layout but invisible, so switching languages moves nothing below. The height is the longest language's, up to 24rem; longer code scrolls inside its panel.
+
 **Copy buttons:** each sample has one, with a Tooltip that says "Copy" and then "Copied". **Without JavaScript:** curl shows; the other languages' tabs are inert.
 
 ## The segment counter
@@ -74,28 +76,32 @@ Without JavaScript the prefilled message shows with its result for that text, pr
 
 Drawn per section, not as one page-long SVG, so each section owns its part and the layout can change at any width:
 
-- From 64rem up the thread runs down a fixed column at the left edge of the content. It turns right into the hero's terminal at the top, runs under each sample's tabs, knots at each country in the coverage list, and runs along the pricing table's header row. It ends at the footer in the stitch motif.
-- Below 64rem it runs down the left margin, with the same knots.
+- The thread runs down a column at the left edge of the content: 1rem in on phones, 2rem from 40rem up. It steps out of the hero terminal's last line, runs down every section, knots once at each coverage region, and ends at the footer in the stitch motif.
+- One knot per region rather than per country: 25 knots in one column would stretch the coverage section over several screens.
 - Each segment is a straight run, vertical or horizontal, so a bead can travel along it by `transform` alone. Knots are small rings that fill with green as the thread reaches them, by `opacity`.
 
 ## Motion
 
 All scroll-linked motion is CSS scroll-driven animation (`animation-timeline: view()`), as on the atelier. It costs no JavaScript, animates transform and opacity only, and sits behind `@supports (animation-timeline: view())` and `prefers-reduced-motion: no-preference`. Section styles are imported by `theme.css` and scoped by the component's tag, not `styleUrl` (Angular ships component styles inside the JavaScript bundle).
 
-| Where    | Moves                                                                                                                                                                          |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Hero     | The JSON reply's lines appear one after another on load, then a bead leaves the cursor and runs down the thread. The headline doesn't animate: it is the page's largest paint. |
-| Thread   | Each section's segment is uncovered as the section comes up, by a cover that slides away, so the line never stretches.                                                         |
-| Coverage | Each country's knot fills as the thread passes it; the countries rise in by region.                                                                                            |
-| Pricing  | Prices change in place when the volume changes, with a short fade.                                                                                                             |
-| Palette  | Ndop's dialog opening, with `motion-reduce:animate-none` added to the copy, as on the atelier.                                                                                 |
-| Send     | Running a sample's "Send test" (in test mode, no request leaves the page) runs a bead from the sample down to a "delivered" mark.                                              |
+| Where               | Moves                                                                                                                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Header              | Sticky from 40rem; over the first 8rem of scroll its surface slims, the bar rises to its middle and a soft shadow comes in. On phones it scrolls away.                                                                                     |
+| Hero                | The label, line and links rise in; the request types out line by line, then the reply; then the thread steps out of the terminal. The headline stays still: it is the largest paint, and a rise pushed Lighthouse's LCP from 0.7 to 1.4 s. |
+| Thread              | Each section's run draws as the section comes up. A bead rides it level with the middle of the screen, handed from section to section at the seams.                                                                                        |
+| Samples             | A newly chosen language slides in. "Send test" runs a bead down beside the sample.                                                                                                                                                         |
+| Coverage            | Each region's knot fills, and its countries pop in one after another.                                                                                                                                                                      |
+| Pricing             | Table rows rise in; a new price rolls up into its cell when the volume changes.                                                                                                                                                            |
+| Features, changelog | Items rise in.                                                                                                                                                                                                                             |
+| FAQ                 | Answers open and close with Ndop's own height animation, so the questions below glide. The spec allows an Ndop component's built-in transitions (rev 28); the copy turns it off for reduced motion.                                        |
+| Footer              | The stitch turns into place as the thread arrives.                                                                                                                                                                                         |
+| Palette             | Ndop's dialog opening, still with reduced motion, as on the atelier.                                                                                                                                                                       |
 
 With reduced motion, or without scroll timelines, the thread is drawn in full, knots are filled, and nothing moves.
 
 ## Ndop items
 
-`ndop add` per ADR-0002: `command`, `dialog`, `tabs`, `table`, `badge`, `accordion`, `toggle-group` (with `toggle`), `textarea`, `button`, `tooltip`. `icons.ts` keeps only the icons these items draw. `textarea` is the one item beyond the brief, for the segment counter.
+`ndop add` per ADR-0002: `command`, `dialog`, `tabs`, `table`, `badge`, `accordion`, `toggle-group` (with `toggle`), `textarea`, `button`, `tooltip`. `icons.ts` keeps only the icons these items draw. `textarea` is the one item beyond the brief, for the segment counter. Its copy drops Ndop's `NdInput` host directive: `NdInput` mirrors a form field's state through `@angular/forms`, the counter's textarea belongs to no form, and importing it cost 8.9 kB gzip of initial JS. The id is the native attribute instead.
 
 ## Theme (`src/theme.css`)
 
@@ -112,7 +118,7 @@ With reduced motion, or without scroll timelines, the thread is drawn in full, k
 
 All written in OKLCH in the file. Every text pairing is checked for 4.5:1 in a unit test, in both themes. The theme follows the system until the palette sets one, kept in `localStorage`.
 
-**Fonts:** Inter Tight for display and text, JetBrains Mono for code, data and labels. Both SIL OFL, self-hosted through Fontsource (decision 7).
+**Fonts:** Inter Tight for display and text, JetBrains Mono for code, data and labels. Both SIL OFL, self-hosted through Fontsource (decision 7). A fallback face sized like Inter Tight (Arial or Liberation Sans, with `size-adjust` and ascent and descent overrides) is declared in `index.html`, so the headline takes the same room before and after Inter Tight arrives. It's in `index.html` because the build inlines only the critical rules and leaves `@font-face` in the deferred stylesheet.
 
 ## Copy
 
@@ -137,7 +143,7 @@ Facts in the copy come only from the board's checked claims, with their sources 
 
 ## JS budget
 
-The default is 120 kB. Toggle Group carries the `@angular/forms` gap logged for the atelier, and Command's input may too. If the gap accounts for the excess, Fil takes a raised budget under ADR-0004, named in `lighthouserc.cjs` with the gap. The samples' token arrays are the page's other weight, estimated at 2 kB gzip; measured in the first build, before any section is added.
+Fil keeps the default 120 kB. With every section in, Lighthouse measures 119.8 kB of script. Toggle Group, Command and Tabs don't pull in `@angular/forms` here; Ndop's Textarea did, through `NdInput`, so its copy drops that directive (above). The samples' token lists weigh 2.9 kB gzip. Moving them behind `@defer (hydrate never)` was measured and made the initial JS larger, as on the atelier. The margin is thin, so the polish pass adds no JavaScript.
 
 ## Ndop gaps (expected)
 
@@ -145,7 +151,9 @@ The default is 120 kB. Toggle Group carries the `@angular/forms` gap logged for 
 - **No shortcut binding.** `ndCommandShortcut` only displays a shortcut; the page binds ⌘K / Ctrl+K itself.
 - **Shared Tabs value.** Binding every Tabs' `[value]` to one signal keeps them in step: confirmed in the first unit of work.
 - **Enter right after typing.** Command moves its highlight to the first match on the next render, so an Enter pressed in the same instant as the last keystroke runs the previous highlight. Only automated typing is that fast; the e2e tests wait for the highlight. Not logged as a gap unless a person can hit it.
-- **Overlays and reduced motion.** As on the atelier, the dialog and tooltip copies add `motion-reduce:animate-none`.
+- **Overlays and reduced motion.** As on the atelier, the dialog and tooltip copies add `motion-reduce:animate-none` with its `data-[state=open]` and `data-[state=closed]` variants (the plain class loses to the animations' own, more specific `data-[state]` variants).
+- **The accordion ignores reduced motion.** Its open and close height animation runs even with reduced motion. The copy adds the same `motion-reduce` variants as the overlays. Logged in the spec's gaps table.
+- **NdInput imports `@angular/forms`.** Ndop's Textarea (and Input) take `NdInput` as a host directive, which reads a bound form field through `@angular/forms` and its signal forms. On a page with no form that is 8.9 kB gzip of initial JS. The copy drops the directive; logged in the spec's gaps table.
 
 ## Tests
 

@@ -7,13 +7,21 @@
     size="sm"
     class="gap-3 font-mono text-xs text-muted-foreground"
     aria-keyshortcuts="Meta+K Control+K"
-    [hidden]="!ready()"
+    [class.invisible]="!ready()"
+    [attr.aria-hidden]="ready() ? null : 'true'"
+    [attr.tabindex]="ready() ? null : -1"
   >
-    <svg ndIcon="search"></svg>
+    <!-- Sized here, not only by the button's own rule: the inlined
+         critical CSS leaves that complex selector out, and a 24px icon
+         would make the header taller until the full stylesheet loads. -->
+    <svg ndIcon="search" class="size-4"></svg>
     {{ copy.open }}
-    <kbd class="rounded border border-border px-1.5 py-0.5 text-[0.6875rem]">{{
-      shortcut()
-    }}</kbd>
+    <!-- As wide for ⌘K as for Ctrl K: the label switches after the page
+         hydrates, and a narrower button would let the header reflow. -->
+    <kbd
+      class="inline-block w-[6.5ch] rounded border border-border py-0.5 text-center text-[0.6875rem]"
+      >{{ shortcut() }}</kbd
+    >
   </button>
   <ng-template ndDialogPortal>
     <div ndDialogOverlay></div>

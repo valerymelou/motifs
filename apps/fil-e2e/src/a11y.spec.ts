@@ -23,6 +23,21 @@ for (const colorScheme of ['light', 'dark'] as const) {
       expect(await violations(page)).toEqual([]);
     });
 
+    test('has no axe violations with an FAQ answer open and the counter in UCS-2', async ({
+      page,
+    }) => {
+      await page.goto('./');
+      await page
+        .getByRole('button', { name: 'How long can an SMS be?' })
+        .click();
+      await page
+        .getByRole('textbox', { name: 'Your message' })
+        .fill('Bonne fête');
+      await expect(page.locator('mt-segment-counter')).toContainText('UCS-2');
+
+      expect(await violations(page)).toEqual([]);
+    });
+
     test('has no axe violations with the palette open', async ({ page }) => {
       await page.goto('./');
       await expect(page.getByRole('button', { name: 'Search' })).toBeVisible();

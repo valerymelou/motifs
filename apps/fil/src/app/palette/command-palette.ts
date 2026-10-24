@@ -91,7 +91,11 @@ export class CommandPalette {
     system: 'theme mode system auto os',
   };
   protected readonly open = signal(false);
-  /** Hidden until the page runs: without JavaScript the anchors navigate. */
+  /**
+   * Invisible until the page runs: without JavaScript the anchors navigate.
+   * Invisible rather than hidden, so the header keeps its height and
+   * nothing shifts when the button appears.
+   */
   protected readonly ready = signal(false);
   protected readonly shortcut = signal('Ctrl K');
   /** The sections that exist on the page, read when the palette opens. */

@@ -1,5 +1,5 @@
-<section id="code" class="scroll-mt-4">
-  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-8 sm:py-28">
+<section id="code" class="scroll-mt-4 border-t border-border">
+  <div class="thread mx-auto grid max-w-6xl gap-12 py-20 sm:py-28">
     <div class="grid max-w-2xl gap-4">
       <p
         class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
@@ -17,13 +17,22 @@
     </div>
     @for (sample of copy.samples; track sample.task) {
       <article
-        class="grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] lg:gap-12"
+        class="relative grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] lg:gap-12"
       >
+        <!-- A test send runs a bead down the thread beside the sample. -->
+        <span
+          class="bead-rail"
+          aria-hidden="true"
+          [attr.data-run]="
+            sample.sendable && view.sends() > 0 ? view.sends() % 2 : null
+          "
+        ></span>
         <div class="grid content-start gap-2">
           <h3 class="text-xl font-bold tracking-tight">{{ sample.title }}</h3>
           <p class="leading-relaxed text-muted-foreground">{{ sample.text }}</p>
         </div>
         <mt-code-sample
+          #view
           class="min-w-0"
           [task]="sample.task"
           [title]="sample.title"

@@ -1,0 +1,89 @@
+<section id="pricing" class="scroll-mt-4 border-t border-border">
+  <div class="thread mx-auto grid max-w-6xl gap-12 py-20 sm:py-28">
+    <div class="grid max-w-2xl gap-4">
+      <p
+        class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        {{ copy.label }}
+      </p>
+      <h2
+        class="text-[clamp(2rem,4.5vw,3.25rem)] leading-[1] font-extrabold tracking-[-0.035em]"
+      >
+        {{ copy.title }}
+      </h2>
+      <p class="text-sm text-muted-foreground">{{ copy.note }}</p>
+    </div>
+
+    <div class="grid gap-6">
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <p class="text-sm font-semibold" aria-hidden="true">
+          {{ copy.volumeLabel }}
+        </p>
+        <div
+          ndToggleGroup
+          variant="outline"
+          [spacing]="1"
+          class="flex-wrap"
+          [attr.aria-label]="copy.volumeLabel"
+          [value]="value()"
+          (valueChange)="setVolume($event)"
+        >
+          @for (option of copy.volumes; track option.id) {
+            <button ndToggleGroupItem [value]="option.id" class="px-3 text-sm">
+              {{ option.name }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Focusable: on phones the table scrolls sideways. -->
+      <div
+        ndTableContainer
+        tabindex="0"
+        role="region"
+        class="rounded-(--radius) border border-border"
+        [attr.aria-label]="copy.caption(volume().name)"
+      >
+        <table ndTable>
+          <caption ndTableCaption class="sr-only">
+            {{
+              copy.caption(volume().name)
+            }}
+          </caption>
+          <thead ndTableHeader>
+            <tr ndTableRow>
+              <th ndTableHead scope="col">{{ copy.typeHeading }}</th>
+              @for (region of regions; track region) {
+                <th ndTableHead scope="col" class="text-right">
+                  {{ copy.regionNames[region] }}
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody ndTableBody>
+            @for (type of copy.types; track type.id) {
+              <tr ndTableRow>
+                <th ndTableHead scope="row" class="font-medium">
+                  {{ type.name }}
+                </th>
+                @for (region of regions; track region) {
+                  <td ndTableCell class="text-right font-mono tabular-nums">
+                    <!-- Keyed by volume, so each new price fades in. -->
+                    @for (factor of [volume().factor]; track factor) {
+                      <span class="price">{{
+                        copy.format(copy.price(type.id, region, factor))
+                      }}</span>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted-foreground">{{ copy.serviceNote }}</p>
+    </div>
+
+    <mt-segment-counter [factor]="volume().factor" />
+  </div>
+</section>

@@ -1,0 +1,232 @@
+/*
+ * Fil's motion. On load the hero's reply arrives line by line and the
+ * thread steps out of the terminal; as the page scrolls each section's run
+ * of thread draws down, knots fill and items rise in. Scroll-driven CSS
+ * only: it costs no JavaScript and runs before Angular hydrates. Transform
+ * and opacity only; with reduced motion, or without scroll timelines,
+ * everything shows at rest, the thread drawn in full.
+ *
+ * Imported by theme.css: component styles ship inside the JavaScript
+ * bundle, global ones in the stylesheet.
+ */
+
+/* The terminal: a block cursor on the last line. */
+mt-hero-section .cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  margin-left: 0.4em;
+  vertical-align: -0.2em;
+  background: var(--thread);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero's words rise in around the headline. The headline itself
+     stays still: it is the page's largest paint, and Lighthouse measured
+     its paint at the end of a rise, 0.7s later. */
+  mt-hero-section .thread-pad > div:first-child > :not(h1) {
+    animation: mt-arrive 0.7s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  mt-hero-section .thread-pad > div:first-child > :nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  mt-hero-section .thread-pad > div:first-child > :nth-child(4) {
+    animation-delay: 0.3s;
+  }
+
+  /* The request types out a line at a time, then the reply arrives. */
+  mt-hero-section code > .line {
+    animation: mt-arrive 0.3s ease-out both;
+  }
+
+  mt-hero-section code > .line:nth-child(1) {
+    animation-delay: 0.35s;
+  }
+
+  mt-hero-section code > .line:nth-child(2) {
+    animation-delay: 0.6s;
+  }
+
+  mt-hero-section code > .line:nth-child(3) {
+    animation-delay: 0.85s;
+  }
+
+  mt-hero-section .reply:nth-last-child(3) {
+    animation-delay: 1.3s;
+  }
+
+  mt-hero-section .reply:nth-last-child(2) {
+    animation-delay: 1.75s;
+  }
+
+  mt-hero-section .reply:nth-last-child(1) {
+    animation-delay: 2.2s;
+  }
+
+  mt-hero-section .cursor {
+    animation: mt-blink 1s steps(1) 2.5s 4 both;
+  }
+
+  /* Then the thread steps out of the terminal and runs down. */
+  .thread-start::after {
+    animation: mt-out 0.4s ease-out 2.4s both;
+  }
+
+  .thread-start::before {
+    animation: mt-down 0.6s ease-in 2.8s both;
+  }
+
+  /* A newly chosen language slides in instead of swapping in place; the
+     panel animates as it stops being hidden. */
+  mt-code-sample [role='tabpanel']:not([hidden]) pre {
+    animation: mt-swap 0.35s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  /* A new price rolls up into its cell when the volume changes. */
+  mt-pricing-section td {
+    overflow: hidden;
+  }
+
+  mt-pricing-section .price {
+    display: inline-block;
+    animation: mt-roll 0.35s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .thread::before {
+      animation: mt-down linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    .knot::after {
+      animation: mt-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 35%;
+    }
+
+    mt-features-section li,
+    mt-coverage-section .knot,
+    mt-changelog-section li,
+    mt-pricing-section tbody tr {
+      animation: mt-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+
+    /* Each region's countries pop in one after another as its knot fills. */
+    mt-coverage-section .knot li {
+      animation: mt-pop linear both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i, 0) * 5%) cover
+        calc(22% + var(--i, 0) * 3%);
+    }
+
+    /* The stitch turns into place as the thread arrives. */
+    .stitch {
+      animation: mt-stitch linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+mt-coverage-section .knot li:nth-child(2) {
+  --i: 1;
+}
+
+mt-coverage-section .knot li:nth-child(3) {
+  --i: 2;
+}
+
+mt-coverage-section .knot li:nth-child(4) {
+  --i: 3;
+}
+
+mt-coverage-section .knot li:nth-child(5) {
+  --i: 4;
+}
+
+mt-coverage-section .knot li:nth-child(6) {
+  --i: 5;
+}
+
+mt-coverage-section .knot li:nth-child(7) {
+  --i: 6;
+}
+
+mt-coverage-section .knot li:nth-child(8) {
+  --i: 7;
+}
+
+@keyframes mt-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+}
+
+@keyframes mt-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-out {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mt-down {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes mt-fill {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@keyframes mt-swap {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+}
+
+@keyframes mt-roll {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes mt-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes mt-stitch {
+  from {
+    transform: rotate(-180deg) scale(0.4);
+  }
+}

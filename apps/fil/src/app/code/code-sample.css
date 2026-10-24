@@ -2,11 +2,28 @@
    both themes. Imported by theme.css, not the component: component styles
    ship inside the JavaScript bundle, global ones in the stylesheet. Scoped
    by the component's tag. */
+/* One element per line, in the samples and the hero's terminal alike. */
+pre .line {
+  display: block;
+  /* Keeps empty lines one line tall. */
+  min-height: 1lh;
+}
+
 mt-code-sample {
-  .line {
-    display: block;
-    /* Keeps empty lines one line tall. */
-    min-height: 1lh;
+  /* Every language's panel shares one grid cell, the hidden ones kept in
+     layout but invisible, so a sample keeps one height in every language
+     and switching moves nothing below it. That height is the longest
+     language's, up to 24rem; longer code scrolls inside its panel, which
+     takes focus, so the keyboard can scroll it too. Invisible panels are
+     out of the accessibility tree and the tab order, as hidden ones are. */
+  [data-slot='tabs'] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 24rem) auto;
+  }
+
+  [role='tabpanel'] {
+    grid-area: 2 / 1;
+    overflow: auto;
   }
 
   .tk-k {
@@ -24,5 +41,15 @@ mt-code-sample {
 
   .tk-f {
     font-weight: 600;
+  }
+}
+
+/* In Tailwind's base layer: its reset hides [hidden] with !important there,
+   and an important rule in a layer beats an unlayered one whatever its
+   specificity. In the same layer, the more specific selector wins. */
+@layer base {
+  mt-code-sample [role='tabpanel'][hidden] {
+    display: block !important;
+    visibility: hidden;
   }
 }

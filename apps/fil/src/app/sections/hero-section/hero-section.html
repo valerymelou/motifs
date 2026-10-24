@@ -1,4 +1,38 @@
-<section class="mx-auto max-w-5xl px-4 py-24">
-  <h1 class="text-5xl font-semibold tracking-tight">{{ hero.title }}</h1>
-  <p class="mt-4 max-w-prose text-lg">{{ hero.tagline }}</p>
+<section class="hero">
+  <div
+    class="thread-pad mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-10 pt-16 pb-20 sm:pt-24"
+  >
+    <div class="grid max-w-3xl gap-6">
+      <p
+        class="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        {{ copy.label }}
+      </p>
+      <h1
+        class="text-[clamp(3rem,8.5vw,7.5rem)] leading-[0.88] font-extrabold tracking-[-0.055em] text-balance"
+      >
+        {{ copy.title }}
+      </h1>
+      <p
+        class="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
+      >
+        {{ copy.tagline }}
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a ndButton size="lg" href="#code">{{ copy.code }}</a>
+        <a ndButton size="lg" variant="outline" href="#pricing">{{
+          copy.pricing
+        }}</a>
+      </div>
+    </div>
+    <!-- The terminal's last line is where the thread leaves for the page. -->
+    <figure class="thread-start max-w-3xl">
+      <figcaption class="sr-only">{{ copy.terminalLabel }}</figcaption>
+      <!-- Focusable: on phones the long lines scroll sideways. -->
+      <pre
+        tabindex="0"
+        class="terminal m-0 overflow-x-auto rounded-(--radius) bg-code p-5 font-mono text-[0.8125rem] leading-relaxed text-code-foreground"
+      ><code>@for (line of copy.request; track $index) {<span class="line">@if ($first) {<span class="text-thread" aria-hidden="true">$ </span>}{{ line }}</span>}<span class="line"></span>@for (line of copy.reply; track $index) {<span class="line reply">{{ line }}@if ($last) {<span class="cursor" aria-hidden="true"></span>}</span>}</code></pre>
+    </figure>
+  </div>
 </section>

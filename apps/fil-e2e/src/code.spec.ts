@@ -47,3 +47,19 @@ test('copies the sample shown', async ({ page, context }) => {
     /^curl https:\/\/api\.fil\.example\/v1\/messages/,
   );
 });
+
+test('switching languages moves nothing below the samples', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const tabs = page.getByRole('tablist', { name: 'Send an SMS: language' });
+  const below = page.locator('#features');
+  const top = async () =>
+    below.evaluate((el) => el.getBoundingClientRect().top + scrollY);
+
+  const before = await top();
+  for (const language of ['Node', 'Python', 'PHP', 'Go']) {
+    await tabs.getByRole('tab', { name: language, exact: true }).click();
+    expect(await top()).toBe(before);
+  }
+});

@@ -1,5 +1,4 @@
 import { computed, Directive, input } from '@angular/core';
-import { NdInput } from '@ndop/primitives/input';
 import { cn } from '../../lib/utils';
 
 /**
@@ -17,7 +16,10 @@ import { cn } from '../../lib/utils';
  */
 @Directive({
   selector: 'textarea[ndTextarea]',
-  hostDirectives: [{ directive: NdInput, inputs: ['id', 'invalid'] }],
+  // No NdInput host directive: it mirrors a bound form field's state
+  // through @angular/forms, and this page's textarea belongs to no form.
+  // Importing it costs about 9 kB gzip of initial JS (an Ndop gap, logged
+  // in the spec). `id` is the native attribute instead.
   host: { 'data-slot': 'textarea', '[class]': 'classes()' },
 })
 export class Textarea {
