@@ -1,0 +1,85 @@
+<div
+  ndTabs
+  class="code-sample gap-0 overflow-hidden rounded-(--radius) bg-code text-code-foreground"
+  [value]="language.current()"
+  (valueChange)="choose($event)"
+>
+  <div
+    class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-2 pt-2"
+  >
+    <div
+      ndTabsList
+      variant="line"
+      class="h-9 bg-transparent"
+      [attr.aria-label]="copy.languages(title())"
+    >
+      @for (option of languages; track option.id) {
+        <button
+          ndTabsTrigger
+          [value]="option.id"
+          class="font-mono text-xs text-code-muted data-[state=active]:text-code-foreground"
+        >
+          {{ option.name }}
+        </button>
+      }
+    </div>
+    <div class="flex items-center gap-1 pb-1">
+      @if (sendable()) {
+        <button
+          ndButton
+          variant="ghost"
+          size="sm"
+          class="font-mono text-xs text-code-foreground hover:bg-white/10 hover:text-code-foreground"
+          (click)="sendTest()"
+        >
+          {{ copy.sendTest }}
+        </button>
+      }
+      <ng-container ndTooltip>
+        <button
+          ndButton
+          ndTooltipTrigger
+          variant="ghost"
+          size="icon-sm"
+          class="text-code-foreground hover:bg-white/10 hover:text-code-foreground"
+          [attr.aria-label]="copyLabel()"
+          (click)="copyCode()"
+        >
+          <svg [ndIcon]="copied() ? 'check' : 'copy'"></svg>
+        </button>
+        <ng-template ndTooltipPortal>
+          <div ndTooltipContent>
+            {{ copied() ? copy.copied : copy.copy }}
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+  @for (option of languages; track option.id) {
+    <div ndTabsContent [value]="option.id" class="overflow-x-auto">
+      <!-- One line per element, so the tokens need no whitespace between
+           them and Angular keeps the code exactly as written. -->
+      <pre
+        class="m-0 p-4 font-mono text-[0.8125rem] leading-relaxed"
+      ><code>@for (line of linesOf(option.id); track $index) {<span class="line">@for (token of line; track $index) {@if (isPlain(token)) {{{ token }}} @else {<span [class]="'tk-' + token[0]">{{ token[1] }}</span>}}</span>}</code></pre>
+    </div>
+  }
+  @if (sendable()) {
+    <p
+      class="flex min-h-9 items-center gap-2 border-t border-white/10 px-4 font-mono text-xs text-code-muted"
+      aria-live="polite"
+    >
+      @if (status() !== 'idle') {
+        <span
+          ndBadge
+          variant="outline"
+          class="border-thread text-code-foreground"
+          >{{
+            copy.statuses[status() === 'queued' ? 'queued' : 'delivered']
+          }}</span
+        >
+      }
+      <span>{{ copy.testNote }}</span>
+    </p>
+  }
+</div>

@@ -1,0 +1,32 @@
+<header
+  class="site-header sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-sm"
+>
+  <div
+    class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-4 sm:px-8"
+  >
+    <a href="./" class="flex items-baseline gap-3">
+      <span class="text-2xl font-extrabold tracking-[-0.04em]">{{
+        copy.name
+      }}</span>
+      <span class="font-mono text-xs text-muted-foreground">{{
+        copy.place
+      }}</span>
+    </a>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <nav [attr.aria-label]="copy.navLabel">
+        <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          @for (link of copy.links; track link.href) {
+            <li>
+              <a
+                [href]="link.href"
+                class="underline-offset-4 hover:underline focus-visible:underline"
+                >{{ link.label }}</a
+              >
+            </li>
+          }
+        </ul>
+      </nav>
+      <mt-command-palette />
+    </div>
+  </div>
+</header>

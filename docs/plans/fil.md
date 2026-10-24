@@ -1,6 +1,6 @@
 # Fil: page plan
 
-- Status: Direction chosen and decisions answered by Valery on 24 October 2026: the board's facts checked (all but the one where sources differ), the recommendations agreed, Shiki approved, and a yes to the segment counter.
+- Status: Approved by Valery on 24 October 2026, with the board's facts checked (all but the one where sources differ), the recommendations agreed, Shiki approved, a yes to the segment counter, and the Send test button kept.
 - Direction: The Thread, chosen on 24 October 2026 from the [art direction board](https://claude.ai/artifact/KEuxvPdV8gkK7F5vVsZX8K).
 - Slug and path: `fil`, `/fil/`. Mood: editorial. Accent `#22C55E`.
 
@@ -53,7 +53,7 @@ One shared language choice (a signal in a small `CodeLanguage` service) drives e
 - no `innerHTML` (Angular's sanitizer would strip Shiki's inline styles);
 - the token classes take their colours from the theme, so light and dark both work.
 
-The generated file is committed, like the photo list on the atelier, and the build doesn't depend on Shiki being run. A unit test checks it is current against the sample files.
+The generated file is committed, so it can be read and the editor knows its types. Unlike the atelier's photos, the samples are in git, so `build`, `test` and `serve` depend on the cached `highlight` target and the file is always regenerated from the samples first.
 
 **Copy buttons:** each sample has one, with a Tooltip that says "Copy" and then "Copied". **Without JavaScript:** curl shows; the other languages' tabs are inert.
 
@@ -143,13 +143,14 @@ The default is 120 kB. Toggle Group carries the `@angular/forms` gap logged for 
 
 - **No command dialog.** Command is placed inside a Dialog by hand, as Ndop's own docs do.
 - **No shortcut binding.** `ndCommandShortcut` only displays a shortcut; the page binds ⌘K / Ctrl+K itself.
-- **Shared Tabs value.** Binding every Tabs' `[(value)]` to one signal should keep them in step; Ndop's docs don't say so outright. Confirmed in the first unit of work.
+- **Shared Tabs value.** Binding every Tabs' `[value]` to one signal keeps them in step: confirmed in the first unit of work.
+- **Enter right after typing.** Command moves its highlight to the first match on the next render, so an Enter pressed in the same instant as the last keystroke runs the previous highlight. Only automated typing is that fast; the e2e tests wait for the highlight. Not logged as a gap unless a person can hit it.
 - **Overlays and reduced motion.** As on the atelier, the dialog and tooltip copies add `motion-reduce:animate-none`.
 
 ## Tests
 
-- Unit: the language choice and its storage fallback; the palette's commands; `samples.generated.ts` is current with the sample files; theme contrast in both themes; `segments(text)` on its edge cases.
-- E2E: ⌘K and Ctrl+K open the palette and Escape closes it; filtering; every command (go to, language for all samples at once, copy, theme kept across a reload); the samples' tabs by keyboard; copy buttons; the pricing volume toggle; the segment counter switching to UCS-2 on one ê and announcing it; the FAQ by keyboard; reduced motion; the page reads without JavaScript; axe on the open palette, an open FAQ item, the counter in UCS-2, and dark theme.
+- Unit: the language choice and its storage fallback; the samples render every language and copy as plain text; the test send; the highlight executor; `segments(text)` on its edge cases.
+- E2E: ⌘K and Ctrl+K open the palette and Escape closes it; filtering; every command (go to, language for all samples at once, copy, theme kept across a reload); the samples' tabs by keyboard; copy buttons; the pricing volume toggle; the segment counter switching to UCS-2 on one ê and announcing it; the FAQ by keyboard; reduced motion; the page reads without JavaScript; axe in both themes, on the page and on the open palette, an open FAQ item and the counter in UCS-2. Contrast in both themes is checked there, on the rendered page, rather than against a copy of the tokens.
 - Lighthouse on `/fil/` within the quality bar.
 
 ## Decisions

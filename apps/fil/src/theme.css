@@ -1,0 +1,148 @@
+@import 'tailwindcss' source('./');
+@import '@ndop/core/styles.css';
+@import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* The components' own styles, imported here rather than through styleUrl:
+   Angular ships component styles inside the JavaScript bundle. Each file
+   scopes its rules to its component's tag. */
+@import './app/code/code-sample.css';
+
+/*
+ * Fil: black ink on squared paper, and one green thread. #22C55E is too
+ * light for text on paper (2.2:1), so it draws lines and marks only; green
+ * text uses --accent-text, a deeper green in light and a brighter one in
+ * dark. The dark theme mirrors the light one for the palette's theme switch.
+ */
+
+@theme {
+  --font-sans: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  --color-thread: var(--thread);
+  --color-accent-text: var(--accent-text);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-muted: var(--code-muted);
+}
+
+:root {
+  --background: oklch(0.984 0.004 106.5);
+  --foreground: oklch(0.15 0.002 286.1);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.002 286.1);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.002 286.1);
+  --primary: oklch(0.15 0.002 286.1);
+  --primary-foreground: oklch(0.984 0.004 106.5);
+  --secondary: oklch(0.953 0.007 115.7);
+  --secondary-foreground: oklch(0.15 0.002 286.1);
+  --muted: oklch(0.953 0.007 115.7);
+  --muted-foreground: oklch(0.422 0.011 135);
+  --accent: oklch(0.93 0.01 125.7);
+  --accent-foreground: oklch(0.15 0.002 286.1);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.15 0.002 286.1 / 12%);
+  --input: oklch(0.15 0.002 286.1 / 18%);
+  --ring: oklch(0.527 0.137 150.1);
+  --radius: 0.375rem;
+
+  /* Fil's own. */
+  --thread: oklch(0.723 0.192 149.6);
+  --accent-text: oklch(0.527 0.137 150.1);
+  --code: oklch(0.15 0.002 286.1);
+  --code-foreground: oklch(0.927 0.007 106.5);
+  --code-muted: oklch(0.646 0.014 137.8);
+  --code-string: oklch(0.858 0.057 104.2);
+  --code-keyword: oklch(0.8 0.182 151.7);
+  --grid-line: oklch(0.15 0.002 286.1 / 4%);
+}
+
+.dark {
+  --background: oklch(0.153 0.003 145.4);
+  --foreground: oklch(0.944 0.007 115.7);
+  --card: oklch(0.197 0.005 145.4);
+  --card-foreground: oklch(0.944 0.007 115.7);
+  --popover: oklch(0.197 0.005 145.4);
+  --popover-foreground: oklch(0.944 0.007 115.7);
+  --primary: oklch(0.944 0.007 115.7);
+  --primary-foreground: oklch(0.153 0.003 145.4);
+  --secondary: oklch(0.231 0.007 145.3);
+  --secondary-foreground: oklch(0.944 0.007 115.7);
+  --muted: oklch(0.231 0.007 145.3);
+  --muted-foreground: oklch(0.707 0.015 138.7);
+  --accent: oklch(0.267 0.009 145.3);
+  --accent-foreground: oklch(0.944 0.007 115.7);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.8 0.182 151.7);
+  --thread: oklch(0.723 0.192 149.6);
+  --accent-text: oklch(0.8 0.182 151.7);
+  --code: oklch(0.197 0.005 145.4);
+  --code-foreground: oklch(0.927 0.007 106.5);
+  --code-muted: oklch(0.646 0.014 137.8);
+  --code-string: oklch(0.858 0.057 104.2);
+  --code-keyword: oklch(0.8 0.182 151.7);
+  --grid-line: oklch(1 0 0 / 3.5%);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-ndop-theme='system'] {
+    --background: oklch(0.153 0.003 145.4);
+    --foreground: oklch(0.944 0.007 115.7);
+    --card: oklch(0.197 0.005 145.4);
+    --card-foreground: oklch(0.944 0.007 115.7);
+    --popover: oklch(0.197 0.005 145.4);
+    --popover-foreground: oklch(0.944 0.007 115.7);
+    --primary: oklch(0.944 0.007 115.7);
+    --primary-foreground: oklch(0.153 0.003 145.4);
+    --secondary: oklch(0.231 0.007 145.3);
+    --secondary-foreground: oklch(0.944 0.007 115.7);
+    --muted: oklch(0.231 0.007 145.3);
+    --muted-foreground: oklch(0.707 0.015 138.7);
+    --accent: oklch(0.267 0.009 145.3);
+    --accent-foreground: oklch(0.944 0.007 115.7);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.8 0.182 151.7);
+    --thread: oklch(0.723 0.192 149.6);
+    --accent-text: oklch(0.8 0.182 151.7);
+    --code: oklch(0.197 0.005 145.4);
+    --code-foreground: oklch(0.927 0.007 106.5);
+    --code-muted: oklch(0.646 0.014 137.8);
+    --code-string: oklch(0.858 0.057 104.2);
+    --code-keyword: oklch(0.8 0.182 151.7);
+    --grid-line: oklch(1 0 0 / 3.5%);
+  }
+}
+
+@layer base {
+  /* Squared paper: two 1px lines every 16px, tiled by the browser. */
+  body {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 16px 16px;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  ::selection {
+    background: var(--thread);
+    color: oklch(0.15 0.002 286.1);
+  }
+
+  /* Links to a section glide there, and stop clear of the sticky header. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  html {
+    scroll-padding-top: 4.5rem;
+  }
+}

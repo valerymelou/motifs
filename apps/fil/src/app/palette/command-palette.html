@@ -1,0 +1,105 @@
+<ng-container ndDialog [open]="open()" (openChange)="setOpen($event)">
+  <button
+    #trigger
+    ndButton
+    ndDialogTrigger
+    variant="outline"
+    size="sm"
+    class="gap-3 font-mono text-xs text-muted-foreground"
+    aria-keyshortcuts="Meta+K Control+K"
+    [hidden]="!ready()"
+  >
+    <svg ndIcon="search"></svg>
+    {{ copy.open }}
+    <kbd class="rounded border border-border px-1.5 py-0.5 text-[0.6875rem]">{{
+      shortcut()
+    }}</kbd>
+  </button>
+  <ng-template ndDialogPortal>
+    <div ndDialogOverlay></div>
+    <div ndDialogContent class="gap-0 overflow-hidden p-0 sm:max-w-lg">
+      <h2 ndDialogTitle class="sr-only">{{ copy.label }}</h2>
+      <div ndCommand [label]="copy.label">
+        <div ndCommandInputWrapper>
+          <svg ndIcon="search"></svg>
+          <input ndCommandInput [placeholder]="copy.placeholder" />
+        </div>
+        <div ndCommandList class="max-h-96">
+          <div ndCommandEmpty>{{ copy.empty }}</div>
+          @if (sections().length) {
+            <div ndCommandGroup>
+              <div ndCommandGroupHeading>{{ copy.groups.goTo }}</div>
+              @for (section of sections(); track section.id) {
+                <div
+                  ndCommandItem
+                  [keywords]="'go jump section ' + section.id"
+                  (triggered)="goTo(section.id)"
+                >
+                  {{ section.label }}
+                </div>
+              }
+            </div>
+            <div ndCommandSeparator></div>
+          }
+          <div ndCommandGroup>
+            <div ndCommandGroupHeading>{{ copy.groups.language }}</div>
+            @for (option of languages; track option.id) {
+              <div
+                ndCommandItem
+                keywords="language lang code sample"
+                (triggered)="showLanguage(option.id)"
+              >
+                {{ copy.language(option.name) }}
+              </div>
+            }
+          </div>
+          <div ndCommandSeparator></div>
+          <div ndCommandGroup>
+            <div ndCommandGroupHeading>{{ copy.groups.copy }}</div>
+            <div
+              ndCommandItem
+              keywords="copy key token secret"
+              (triggered)="copyText(api.testKey, copy.announce.copiedKey)"
+            >
+              {{ copy.copyKey }}
+              <span ndCommandShortcut class="font-mono">fil_test_…</span>
+            </div>
+            <div
+              ndCommandItem
+              keywords="copy url endpoint base"
+              (triggered)="copyText(api.baseUrl, copy.announce.copiedUrl)"
+            >
+              {{ copy.copyUrl }}
+            </div>
+          </div>
+          <div ndCommandSeparator></div>
+          <div ndCommandGroup>
+            <div ndCommandGroupHeading>{{ copy.groups.theme }}</div>
+            @for (mode of themes; track mode) {
+              <div
+                ndCommandItem
+                [keywords]="themeKeywords[mode]"
+                (triggered)="setTheme(mode)"
+              >
+                {{ copy.themes[mode] }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      @if (fallback(); as text) {
+        <div class="grid gap-2 border-t border-border p-4 text-sm">
+          <label [for]="fallbackId">{{ copy.copyFailed }}</label>
+          <input
+            [id]="fallbackId"
+            class="rounded border border-input bg-transparent px-2 py-1 font-mono"
+            readonly
+            [value]="text"
+            (focus)="selectAll($event)"
+          />
+        </div>
+      }
+    </div>
+  </ng-template>
+</ng-container>
+<p class="sr-only" aria-live="polite">{{ announcement() }}</p>

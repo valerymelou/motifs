@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fil</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      // The visitor's remembered theme, applied before the first paint so a
+      // dark choice never flashes light. The app hands it to Ndop when it
+      // starts (theme/theme-choice.ts); system mode needs nothing here.
+      try {
+        const mode = localStorage.getItem('fil:theme');
+        if (mode === 'light' || mode === 'dark') {
+          document.documentElement.removeAttribute('data-ndop-theme');
+          document.documentElement.classList.toggle('dark', mode === 'dark');
+        }
+      } catch {
+        // Storage is blocked: the page follows the system.
+      }
+    </script>
+  </head>
+  <body>
+    <mt-root></mt-root>
+  </body>
+</html>

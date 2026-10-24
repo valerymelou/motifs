@@ -1,0 +1,110 @@
+{
+  "name": "fil",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "mt",
+  "sourceRoot": "apps/fil/src",
+  "tags": ["type:landing"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/fil",
+          "browser": "fil"
+        },
+        "browser": "apps/fil/src/main.ts",
+        "tsConfig": "apps/fil/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/fil/public"
+          }
+        ],
+        "styles": ["apps/fil/src/theme.css"],
+        "server": "apps/fil/src/main.server.ts",
+        "outputMode": "static",
+        "security": {
+          "allowedHosts": []
+        },
+        "baseHref": "/fil/"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "dependsOn": ["highlight"]
+    },
+    "serve": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4302
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "fil:build:production"
+        },
+        "development": {
+          "buildTarget": "fil:build:development"
+        }
+      },
+      "dependsOn": ["highlight"]
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false
+      },
+      "dependsOn": ["highlight"]
+    },
+    "serve-static": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"],
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "fil:build",
+        "port": 4302,
+        "staticFilePath": "dist/apps/fil",
+        "spa": false
+      }
+    },
+    "highlight": {
+      "executor": "@motifs/workspace-plugin:highlight-code",
+      "options": {
+        "input": "apps/fil/src/app/code/samples",
+        "output": "apps/fil/src/app/code/samples.generated.ts"
+      },
+      "inputs": ["{projectRoot}/src/app/code/samples/**/*"],
+      "outputs": ["{projectRoot}/src/app/code/samples.generated.ts"],
+      "cache": true
+    }
+  }
+}

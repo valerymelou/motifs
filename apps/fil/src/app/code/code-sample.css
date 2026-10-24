@@ -1,0 +1,28 @@
+/* The highlighted tokens, coloured from the theme, so the samples read in
+   both themes. Imported by theme.css, not the component: component styles
+   ship inside the JavaScript bundle, global ones in the stylesheet. Scoped
+   by the component's tag. */
+mt-code-sample {
+  .line {
+    display: block;
+    /* Keeps empty lines one line tall. */
+    min-height: 1lh;
+  }
+
+  .tk-k {
+    color: var(--code-keyword);
+  }
+
+  .tk-s,
+  .tk-n {
+    color: var(--code-string);
+  }
+
+  .tk-c {
+    color: var(--code-muted);
+  }
+
+  .tk-f {
+    font-weight: 600;
+  }
+}

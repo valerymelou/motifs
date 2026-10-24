@@ -1,0 +1,9 @@
+{
+  "name": "fil-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/fil-e2e/src",
+  "implicitDependencies": ["fil"],
+  "// targets": "to see all targets run: nx show project fil-e2e --web",
+  "targets": {}
+}
