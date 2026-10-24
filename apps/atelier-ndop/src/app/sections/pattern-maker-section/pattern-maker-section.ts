@@ -1,25 +1,17 @@
 import { Component, computed, signal } from '@angular/core';
 import { ORDER_ADDRESS, patternMaker } from '../../content';
 import { Cloth } from '../../pattern/cloth';
+import { DepthPicker } from './depth-picker';
 import { OrderDialog } from './order-dialog';
 import { MOTIFS, type MotifKind } from '../../pattern/motifs';
 import {
   DEFAULT_PATTERN,
   DENSITY,
-  DEPTHS,
-  depthOf,
   describe,
   type IndigoDepth,
   type Pattern,
 } from '../../pattern/pattern';
-import { Button } from '../../ui/button/button';
 import { Label } from '../../ui/label/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPortal,
-  PopoverTrigger,
-} from '../../ui/popover/popover';
 import {
   Slider,
   SliderRange,
@@ -48,14 +40,10 @@ let nextId = 0;
 @Component({
   selector: 'mt-pattern-maker-section',
   imports: [
-    Button,
     Cloth,
+    DepthPicker,
     Label,
     OrderDialog,
-    Popover,
-    PopoverContent,
-    PopoverPortal,
-    PopoverTrigger,
     Slider,
     SliderRange,
     SliderThumb,
@@ -74,7 +62,6 @@ let nextId = 0;
 export class PatternMakerSection {
   protected readonly copy = patternMaker;
   protected readonly motifs = MOTIFS;
-  protected readonly depths = DEPTHS;
   protected readonly density = DENSITY;
   protected readonly dyeId = `mt-pattern-dye-${nextId++}`;
 
@@ -85,9 +72,7 @@ export class PatternMakerSection {
   protected readonly rowValues = signal<readonly (readonly MotifKind[])[]>(
     DEFAULT_PATTERN.rows.map((kind) => [kind]),
   );
-  protected readonly depthValue = signal<readonly IndigoDepth[]>([
-    DEFAULT_PATTERN.depth,
-  ]);
+  protected readonly depth = signal<IndigoDepth>(DEFAULT_PATTERN.depth);
   protected readonly motifsPerRow = signal(DEFAULT_PATTERN.density);
   protected readonly dyed = signal(DEFAULT_PATTERN.dyed);
 
@@ -95,9 +80,6 @@ export class PatternMakerSection {
     this.rowValues().map(
       (value, i) => value[0] ?? DEFAULT_PATTERN.rows[i] ?? 'lozenge',
     ),
-  );
-  private readonly depth = computed(
-    () => this.depthValue()[0] ?? DEFAULT_PATTERN.depth,
   );
 
   protected readonly pattern = computed<Pattern>(() => ({
@@ -111,7 +93,6 @@ export class PatternMakerSection {
   protected readonly chosen = computed(() =>
     this.rows().map((kind) => MOTIFS.find((option) => option.kind === kind)),
   );
-  protected readonly currentDepth = computed(() => depthOf(this.depth()));
 
   protected readonly orderLink = computed(() => {
     const pattern = this.pattern();
@@ -133,12 +114,5 @@ export class PatternMakerSection {
         rows.map((current, i) => (i === row ? [kind] : current)),
       );
     }
-  }
-
-  protected setDepth(value: readonly string[]): void {
-    const depth =
-      DEPTHS.find((candidate) => candidate.depth === value[0])?.depth ??
-      this.depth();
-    this.depthValue.set([depth]);
   }
 }

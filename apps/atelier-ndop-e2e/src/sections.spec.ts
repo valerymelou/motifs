@@ -75,6 +75,7 @@ test('the story tells four chapters and names its sources', async ({
 
   await expect(story.getByRole('listitem')).toHaveCount(4);
   await expect(story).toContainText('Cameroon Grassfields');
+  await expect(story).toContainText('Ndop UI');
   await expect(
     story.getByRole('link', { name: 'Cleveland Museum of Art' }),
   ).toHaveAttribute('href', 'https://clevelandart.org/art/2025.274');

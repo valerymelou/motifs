@@ -20,7 +20,8 @@ export const hero = {
  * The story of ndop. Only claims the art direction board marked as agreed
  * between its sources; claims where sources differ, or rest on one weak
  * source, are left out. The sources are listed with the section and in the
- * app's README.
+ * app's README. The last line, where Ndop UI's name comes from, was
+ * confirmed by Valery.
  */
 export const story = {
   label: 'The story of ndop',
@@ -45,6 +46,8 @@ export const story = {
     },
   ],
   care: 'Ndop belongs to royalty and to mourning. We dye in its tradition and leave its meanings to those they belong to.',
+  namesake:
+    'Ndop UI, the component library this page is built with, is named after this cloth.',
   stripsImage: 'story-strips',
   stripsAlt:
     'Hands sewing long, narrow strips of white cotton together on a wooden table, beside a coil of raffia.',

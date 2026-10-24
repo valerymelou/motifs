@@ -86,9 +86,12 @@
     <div
       class="mt-24 grid gap-4 border-t border-border pt-8 text-sm lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20"
     >
-      <p class="max-w-prose font-serif text-xl leading-snug">
-        {{ copy.care }}
-      </p>
+      <div class="grid content-start gap-3">
+        <p class="max-w-prose font-serif text-xl leading-snug">
+          {{ copy.care }}
+        </p>
+        <p class="max-w-prose">{{ copy.namesake }}</p>
+      </div>
       <p class="leading-relaxed text-muted-foreground">
         {{ copy.sourcesLabel }}:
         @for (source of copy.sources; track source.url; let last = $last) {

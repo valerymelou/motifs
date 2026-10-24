@@ -107,59 +107,7 @@
 
         <div class="grid gap-3">
           <p class="text-sm font-semibold">{{ copy.depthLabel }}</p>
-          <ng-container ndPopover>
-            <button
-              ndButton
-              variant="outline"
-              ndPopoverTrigger
-              class="justify-start gap-3"
-            >
-              <span
-                class="size-4 rounded-full ring-1 ring-current/30"
-                [style.background-color]="currentDepth().color"
-                aria-hidden="true"
-              ></span>
-              {{ currentDepth().name }}, {{ currentDepth().dips }}
-            </button>
-            <ng-template ndPopoverPortal>
-              <div
-                ndPopoverContent
-                class="w-72"
-                [attr.aria-label]="copy.depthLabel"
-              >
-                <p class="mb-3 text-sm text-muted-foreground">
-                  {{ copy.depthHint }}
-                </p>
-                <div
-                  ndToggleGroup
-                  orientation="vertical"
-                  [spacing]="1"
-                  class="w-full flex-col items-stretch"
-                  [attr.aria-label]="copy.depthLabel"
-                  [value]="depthValue()"
-                  (valueChange)="setDepth($event)"
-                >
-                  @for (option of depths; track option.depth) {
-                    <button
-                      ndToggleGroupItem
-                      [value]="option.depth"
-                      class="h-11 justify-start gap-3"
-                    >
-                      <span
-                        class="size-5 rounded-full"
-                        [style.background-color]="option.color"
-                        aria-hidden="true"
-                      ></span>
-                      {{ option.name }}
-                      <span class="ms-auto text-muted-foreground">{{
-                        option.dips
-                      }}</span>
-                    </button>
-                  }
-                </div>
-              </div>
-            </ng-template>
-          </ng-container>
+          <mt-depth-picker [(depth)]="depth" />
         </div>
 
         <div class="grid gap-2">

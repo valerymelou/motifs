@@ -1,6 +1,6 @@
 # Atelier Ndop: page plan
 
-- Status: Approved by Valery on 23 October 2026, with sharp as a dev dependency, a fictional order address on `example.com`, and fictional prices in FCFA.
+- Status: Approved by Valery on 23 October 2026, with sharp as a dev dependency, a fictional order address on `example.com`, and fictional prices in FCFA. Set live in the pages manifest on 24 October 2026; deploys with the next push to `main`.
 - Direction: The Dye Pit, chosen on 23 October 2026 from the [art direction board](https://claude.ai/artifact/T4buopcZSVZW5qee79W2rM).
 - Slug and path: `atelier-ndop`, `/atelier-ndop/`. Mood: immersive. Accent `#1E3170`.
 
