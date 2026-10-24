@@ -77,7 +77,7 @@ describe('landing-page generator', () => {
       `"Yaoundé's weekly night market of soya grills and plantains."`,
     );
     expect(read(`${root}/src/app/app.html`)).toContain(
-      '<mt-series-footer slug="soya-nights" />',
+      '<mt-series-footer slug="soya-nights" name="Soya Nights" />',
     );
   });
 

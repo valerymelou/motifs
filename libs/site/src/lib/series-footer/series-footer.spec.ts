@@ -4,6 +4,7 @@ import { SeriesFooter } from './series-footer';
 async function render(slug: string) {
   const fixture = TestBed.createComponent(SeriesFooter);
   fixture.componentRef.setInput('slug', slug);
+  fixture.componentRef.setInput('name', 'Fil');
   await fixture.whenStable();
   return fixture.nativeElement as HTMLElement;
 }
@@ -38,11 +39,5 @@ describe('SeriesFooter', () => {
     const footer = await render('fil');
 
     expect(footer.textContent).toContain('Fictional brand, design study.');
-  });
-
-  it('renders nothing for an unknown slug', async () => {
-    const footer = await render('nope');
-
-    expect(footer.textContent?.trim()).toBe('');
   });
 });

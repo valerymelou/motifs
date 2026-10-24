@@ -2,5 +2,5 @@
   <mt-hero-section />
 </main>
 <footer class="mx-auto max-w-5xl px-4">
-  <mt-series-footer slug="<%- slug %>" />
+  <mt-series-footer slug="<%- slug %>" name="<%= name %>" />
 </footer>
