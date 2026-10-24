@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/schema",
   "version": 2,
   "title": "Optimize images",
-  "description": "Makes AVIF and WebP files at several widths from a page's original photos, and writes a TypeScript list of what it made.",
+  "description": "Makes WebP (or AVIF) files at several widths from a page's original photos, and writes a TypeScript list of what it made.",
   "type": "object",
   "properties": {
     "input": {
@@ -31,7 +31,33 @@
     },
     "webpQuality": {
       "type": "number",
-      "default": 72
+      "default": 65
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Names of originals to leave alone, without their extension, such as one another target uses.",
+      "default": []
+    },
+    "crops": {
+      "type": "array",
+      "description": "Photos of other proportions to cut from originals, each made at every width that fits.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "from": { "type": "string" },
+          "aspect": { "type": "number", "exclusiveMinimum": 0 },
+          "focusX": { "type": "number", "minimum": 0, "maximum": 1 },
+          "focusY": { "type": "number", "minimum": 0, "maximum": 1 },
+          "widths": { "type": "array", "items": { "type": "number" } },
+          "blur": { "type": "number", "minimum": 0.3 }
+        },
+        "required": ["name", "from", "aspect"]
+      },
+      "default": []
     },
     "formats": {
       "type": "array",
@@ -39,7 +65,7 @@
         "type": "string",
         "enum": ["webp", "avif"]
       },
-      "description": "Formats to make. WebP alone suits NgOptimizedImage, whose preload of a priority image uses the img's format.",
+      "description": "Formats to make. WebP alone keeps one file per width.",
       "default": ["webp"]
     }
   },

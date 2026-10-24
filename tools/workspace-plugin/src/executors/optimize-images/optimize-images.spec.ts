@@ -11,7 +11,7 @@ import {
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import sharp from 'sharp';
-import executor from './optimize-images';
+import executor, { cropRegion } from './optimize-images';
 
 function contextFor(root: string): ExecutorContext {
   return {
@@ -98,7 +98,7 @@ describe('optimize-images executor', () => {
     await executor(options, contextFor(root));
 
     expect(readFileSync(join(root, options.manifest), 'utf-8')).toContain(
-      "'visit-courtyard': { width: 1600, height: 900, widths: [480, 1080] },",
+      "'visit-courtyard': { widths: [480, 1080] },",
     );
   });
 
@@ -109,6 +109,104 @@ describe('optimize-images executor', () => {
     await executor(options, contextFor(root));
 
     expect(existsSync(join(root, 'public/images/old-480.webp'))).toBe(false);
+  });
+
+  it('leaves excluded originals alone', async () => {
+    await photo(join(root, 'images-src/og.png'), 600, 400);
+
+    await executor({ ...options, exclude: ['og'] }, contextFor(root));
+
+    expect(readdirSync(join(root, 'public/images'))).toEqual([]);
+    expect(readFileSync(join(root, options.manifest), 'utf-8')).not.toContain(
+      "'og'",
+    );
+  });
+
+  it('cuts a crop from an original, named and listed on its own', async () => {
+    await photo(join(root, 'images-src/hero-dip.png'), 1600, 900);
+
+    await executor(
+      {
+        ...options,
+        crops: [{ name: 'hero-dip-square', from: 'hero-dip', aspect: 1 }],
+      },
+      contextFor(root),
+    );
+
+    const { width, height } = await sharp(
+      join(root, 'public/images/hero-dip-square-480.webp'),
+    ).metadata();
+    expect([width, height]).toEqual([480, 480]);
+    expect(readFileSync(join(root, options.manifest), 'utf-8')).toContain(
+      "'hero-dip-square': { widths: [480] },",
+    );
+  });
+
+  it('makes a crop at its own widths when it has them', async () => {
+    await photo(join(root, 'images-src/hero-dip.png'), 1600, 900);
+
+    await executor(
+      {
+        ...options,
+        widths: [480, 768],
+        crops: [
+          {
+            name: 'hero-dip-square',
+            from: 'hero-dip',
+            aspect: 1,
+            widths: [480],
+          },
+        ],
+      },
+      contextFor(root),
+    );
+
+    expect(
+      readdirSync(join(root, 'public/images')).filter((file) =>
+        file.startsWith('hero-dip-square'),
+      ),
+    ).toEqual(['hero-dip-square-480.webp']);
+  });
+
+  it('softens a crop when asked, making a smaller file', async () => {
+    const path = join(root, 'images-src/grain.png');
+    const noise = Buffer.alloc(800 * 800 * 3);
+    for (let i = 0; i < noise.length; i++) {
+      noise[i] = (i * 7919) % 251;
+    }
+    await sharp(noise, { raw: { width: 800, height: 800, channels: 3 } })
+      .png()
+      .toFile(path);
+
+    await executor(
+      {
+        ...options,
+        crops: [
+          { name: 'grain-plain', from: 'grain', aspect: 1 },
+          { name: 'grain-soft', from: 'grain', aspect: 1, blur: 0.8 },
+        ],
+      },
+      contextFor(root),
+    );
+
+    const size = (name: string) =>
+      readFileSync(join(root, `public/images/${name}-480.webp`)).length;
+    expect(size('grain-soft')).toBeLessThan(size('grain-plain'));
+  });
+
+  it('places a crop as object-position would', () => {
+    expect(cropRegion(1600, 900, { aspect: 1, focusX: 0.25 })).toEqual({
+      left: 175,
+      top: 0,
+      width: 900,
+      height: 900,
+    });
+    expect(cropRegion(900, 1600, { aspect: 1 })).toEqual({
+      left: 0,
+      top: 350,
+      width: 900,
+      height: 900,
+    });
   });
 
   it('refuses a photo whose name is not lowercase words and hyphens', async () => {
