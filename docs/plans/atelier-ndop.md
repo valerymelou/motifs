@@ -153,7 +153,7 @@ The page measures 121.2 kB of initial JS with its brief complete, against the sp
 None of the brief's items is missing from Ndop's catalog. Building the pattern maker found five gaps, now in the spec's gaps table with their workarounds:
 
 - A tooltip on a toggle button: both set `data-state`, so the pressed style disappears. The copied toggle also styles `aria-pressed`.
-- Dialog, popover and tooltip animate even with reduced motion. The copies add `motion-reduce:animate-none`.
+- Dialog, popover and tooltip animate even with reduced motion. The copies add `motion-reduce:animate-none` with its `data-[state=open]` and `data-[state=closed]` variants (the plain class loses to the animations' own, more specific `data-[state]` variants).
 - The slider, switch and toggle primitives import `@angular/forms` without a form, about 7 kB gzip.
 - The outline toggle uses `--accent` for both hover and pressed. The copy hovers with `--muted`.
 - `tw-animate-css` 1.4.0 ships an invalid selector: four harmless build warnings.

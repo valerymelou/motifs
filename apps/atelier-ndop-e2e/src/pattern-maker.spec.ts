@@ -106,6 +106,25 @@ test.describe('with reduced motion', () => {
       '0s',
     );
   });
+
+  test('the depth popover and the order dialog open without animating', async ({
+    page,
+  }) => {
+    await page.goto('./');
+    const animation = (slot: string) =>
+      page
+        .locator(`[data-slot="${slot}"]`)
+        .evaluate((el) => getComputedStyle(el).animationName);
+
+    await page.getByRole('button', { name: /Deep indigo, six dips/ }).click();
+    await expect(page.locator('[data-slot="popover-content"]')).toBeVisible();
+    expect(await animation('popover-content')).toBe('none');
+    await page.keyboard.press('Escape');
+
+    await page.getByRole('button', { name: 'Order as a scarf' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    expect(await animation('dialog-content')).toBe('none');
+  });
 });
 
 test.describe('without JavaScript', () => {

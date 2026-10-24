@@ -26,7 +26,7 @@ Prices and the order address (`atelier@example.com`) are fictional, and the page
 Edits to the copied files, each commented where it is made:
 
 - `toggle`: the pressed style keys on `aria-pressed` as well as `data-state`, since a tooltip on the same button overwrites `data-state`. The outline variant hovers with `--muted` instead of `--accent`, so hover and pressed differ.
-- `dialog`, `popover` and `tooltip`: `motion-reduce:animate-none`, since Ndop's overlays animate even with reduced motion.
+- `dialog`, `popover` and `tooltip`: `motion-reduce:animate-none` with its `data-[state=open]` and `data-[state=closed]` variants (the plain class loses to the animations' own, more specific `data-[state]` variants), since Ndop's overlays animate even with reduced motion.
 
 `src/app/lib/icons.ts` registers only `x`, the dialog's close icon, inlined from Lucide rather than importing the icon set.
 
