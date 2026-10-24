@@ -8,7 +8,7 @@ export const PAGES: readonly Page[] = [
     tagline: 'Indigo cloth, dyed by hand, one motif at a time.',
     mood: 'immersive',
     accent: '#1E3170',
-    status: 'soon',
+    status: 'live',
     ndopItems: [
       'toggle-group',
       'slider',

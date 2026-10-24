@@ -89,11 +89,14 @@ test.describe('with reduced motion', () => {
   });
 });
 
-test('lists all twelve pages, coming soon', async ({ page }) => {
+test('lists all twelve pages, live ones linked', async ({ page }) => {
   await page.goto('/');
 
   await expect(cards(page)).toHaveCount(12);
-  await expect(collection(page).getByText('Coming soon')).toHaveCount(12);
+  await expect(collection(page).getByText('Coming soon')).toHaveCount(11);
+  await expect(
+    collection(page).getByRole('link', { name: 'Atelier Ndop' }),
+  ).toHaveAttribute('href', '/atelier-ndop/');
   await expect(page.getByRole('contentinfo')).toContainText(
     'implemented with AI coding tools',
   );

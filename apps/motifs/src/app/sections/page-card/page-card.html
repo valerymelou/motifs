@@ -5,12 +5,14 @@
     [style.background-color]="page().accent"
   >
     @if (live()) {
+      <!-- Open Graph images set their type on the left, so the 4:3 crop
+           keeps that side. -->
       <img
         [ngSrc]="image()"
         width="1200"
         height="630"
         alt=""
-        class="absolute inset-0 size-full object-cover"
+        class="absolute inset-0 size-full object-cover object-left"
       />
     } @else {
       <div
