@@ -27,6 +27,31 @@ const atMost = (maxNumericValue) => [
   { maxNumericValue, aggregationMethod: 'median-run' },
 ];
 
+// Initial JS ≤ 120 kB gzip, measured as transferred script bytes. A page may
+// carry a higher budget, up to 125 kB, when an Ndop gap in the spec's gaps
+// table accounts for the excess. Each one names its gap (ADR-0004), and the
+// budget comes back down when Ndop fixes it.
+const DEFAULT_SCRIPT_BUDGET = 120_000;
+const SCRIPT_BUDGETS = {
+  // Ndop's slider, switch and toggle primitives import @angular/forms
+  // without a form, about 7 kB gzip; the page is ~114 kB without it.
+  'atelier-ndop': 124_000,
+};
+
+const assertionsFor = (scriptBudget) => ({
+  'categories:performance': atLeast(0.95),
+  'categories:accessibility': atLeast(1),
+  'categories:best-practices': atLeast(0.95),
+  'categories:seo': atLeast(0.95),
+  'largest-contentful-paint': atMost(2000),
+  'cumulative-layout-shift': atMost(0.05),
+  // Lab runs can't measure INP; blocking time is its usual stand-in.
+  'total-blocking-time': atMost(200),
+  'resource-summary:script:size': atMost(scriptBudget),
+});
+
+const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 module.exports = {
   ci: {
     collect: {
@@ -42,18 +67,19 @@ module.exports = {
       },
     },
     assert: {
-      assertions: {
-        'categories:performance': atLeast(0.95),
-        'categories:accessibility': atLeast(1),
-        'categories:best-practices': atLeast(0.95),
-        'categories:seo': atLeast(0.95),
-        'largest-contentful-paint': atMost(2000),
-        'cumulative-layout-shift': atMost(0.05),
-        // Lab runs can't measure INP; blocking time is its usual stand-in.
-        'total-blocking-time': atMost(200),
-        // Initial JS ≤ 120 kB gzip, measured as transferred script bytes.
-        'resource-summary:script:size': atMost(120_000),
-      },
+      // One set of assertions per URL, so each page meets its own budget.
+      assertMatrix: [
+        {
+          matchingUrlPattern: '^https?://[^/]+/$',
+          assertions: assertionsFor(DEFAULT_SCRIPT_BUDGET),
+        },
+        ...pages.map((path) => ({
+          matchingUrlPattern: `${escape(path)}$`,
+          assertions: assertionsFor(
+            SCRIPT_BUDGETS[path.slice(1, -1)] ?? DEFAULT_SCRIPT_BUDGET,
+          ),
+        })),
+      ],
     },
     // Reports stay on disk (CI keeps them as an artifact) instead of a
     // public upload.
