@@ -9,6 +9,11 @@
       "implementation": "./src/executors/optimize-images/optimize-images",
       "schema": "./src/executors/optimize-images/schema.json",
       "description": "Makes AVIF and WebP sizes of a page's photos and lists them"
+    },
+    "highlight-code": {
+      "implementation": "./src/executors/highlight-code/highlight-code",
+      "schema": "./src/executors/highlight-code/schema.json",
+      "description": "Highlights a page's code samples with Shiki at build time, as token lines the page renders"
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Highlight code",
+  "description": "Highlights a page's code samples with Shiki at build time and writes them as typed token lines, so the page ships no highlighter.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "string",
+      "description": "Folder of samples named <task>.<extension>, such as send-sms.py, relative to the workspace root."
+    },
+    "output": {
+      "type": "string",
+      "description": "TypeScript file the token lines are written to."
+    }
+  },
+  "required": ["input", "output"]
+}
