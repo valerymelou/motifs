@@ -14,7 +14,7 @@ async function render(page: Page) {
 
 describe('PageCard', () => {
   it('shows an unlaunched page as coming soon, on its motif, without a link', async () => {
-    const card = await render(fil);
+    const card = await render({ ...fil, status: 'soon' });
 
     expect(card.textContent).toContain('Coming soon');
     expect(card.querySelector('a')).toBeNull();

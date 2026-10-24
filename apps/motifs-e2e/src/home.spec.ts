@@ -93,10 +93,13 @@ test('lists all twelve pages, live ones linked', async ({ page }) => {
   await page.goto('/');
 
   await expect(cards(page)).toHaveCount(12);
-  await expect(collection(page).getByText('Coming soon')).toHaveCount(11);
+  await expect(collection(page).getByText('Coming soon')).toHaveCount(10);
   await expect(
     collection(page).getByRole('link', { name: 'Atelier Ndop' }),
   ).toHaveAttribute('href', '/atelier-ndop/');
+  await expect(
+    collection(page).getByRole('link', { name: 'Fil' }),
+  ).toHaveAttribute('href', '/fil/');
   await expect(page.getByRole('contentinfo')).toContainText(
     'implemented with AI coding tools',
   );

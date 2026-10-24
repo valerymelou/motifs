@@ -27,7 +27,7 @@ export const PAGES: readonly Page[] = [
       'Send SMS and WhatsApp messages across African networks with one API.',
     mood: 'editorial',
     accent: '#22C55E',
-    status: 'soon',
+    status: 'live',
     ndopItems: [
       'command',
       'tabs',
