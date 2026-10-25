@@ -42,9 +42,16 @@
       <div class="lg:pt-2">
         <div class="flex flex-wrap gap-3">
           <a ndButton size="lg" href="#motifs">{{ copy.explore }}</a>
-          <a ndButton size="lg" variant="outline" [href]="site.repoUrl">{{
-            copy.source
-          }}</a>
+          <a
+            ndButton
+            size="lg"
+            variant="outline"
+            [href]="site.repoUrl"
+            target="_blank"
+            rel="noopener"
+            ><svg ndIcon="github"></svg>{{ copy.source
+            }}<span class="sr-only"> {{ links.newTab }}</span></a
+          >
         </div>
         <p class="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
           {{ copy.origin }}

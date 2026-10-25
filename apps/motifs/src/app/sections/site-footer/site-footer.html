@@ -14,14 +14,24 @@
       class="flex flex-wrap gap-6 font-mono text-xs tracking-[0.18em] uppercase"
     >
       <li>
-        <a class="underline underline-offset-4" [href]="site.repoUrl">{{
-          copy.links.source
-        }}</a>
+        <a
+          class="inline-flex items-center gap-2 underline underline-offset-4"
+          [href]="site.repoUrl"
+          target="_blank"
+          rel="noopener"
+          ><svg ndIcon="github" class="size-3.5"></svg>{{ copy.links.source
+          }}<span class="sr-only"> {{ links.newTab }}</span></a
+        >
       </li>
       <li>
-        <a class="underline underline-offset-4" [href]="site.ndopUrl">{{
-          copy.links.ndop
-        }}</a>
+        <a
+          class="inline-flex items-center gap-2 underline underline-offset-4"
+          [href]="site.ndopUrl"
+          target="_blank"
+          rel="noopener"
+          >{{ copy.links.ndop }}<span class="sr-only"> {{ links.newTab }}</span
+          ><svg ndIcon="external-link" class="size-3.5"></svg
+        ></a>
       </li>
     </ul>
   </div>

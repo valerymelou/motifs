@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { NdIcon } from '@ndop/core';
 import { PAGES, SITE } from '@motifs/pages-manifest';
-import { hero } from '../../content';
+import { hero, links } from '../../content';
 import { motifOf, motifTile, threadOn } from '../../motifs/motifs';
 import { Button } from '../../ui/button/button';
 
@@ -11,12 +12,13 @@ import { Button } from '../../ui/button/button';
  */
 @Component({
   selector: 'mt-cloth-hero',
-  imports: [Button],
+  imports: [Button, NdIcon],
   templateUrl: './cloth-hero.html',
   styleUrl: './cloth-hero.css',
 })
 export class ClothHero {
   protected readonly copy = hero;
+  protected readonly links = links;
   protected readonly site = SITE;
   protected readonly bands = PAGES.map((page, index) => ({
     slug: page.slug,

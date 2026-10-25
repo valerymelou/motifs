@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideIcons } from '../../lib/icons';
 import { MotifsSection } from './motifs-section';
 
 async function render() {
@@ -9,16 +10,23 @@ async function render() {
     Array.from(section.querySelectorAll('button')).find((candidate) =>
       candidate.textContent?.trim().startsWith(label),
     );
+  // Each visible name, without the new-tab note only screen readers hear.
   const titles = () =>
-    Array.from(section.querySelectorAll('h3')).map((title) =>
-      title.textContent?.trim(),
-    );
+    Array.from(section.querySelectorAll('h3')).map((title) => {
+      const name = title.cloneNode(true) as HTMLElement;
+      name.querySelector('.sr-only')?.remove();
+      return name.textContent?.trim();
+    });
   const summary = () =>
     section.querySelector('[aria-live]')?.textContent?.trim();
   return { fixture, section, button, titles, summary };
 }
 
 describe('MotifsSection', () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({ providers: [provideIcons()] }),
+  );
+
   it('lists every page in launch order, numbered, until a mood is picked', async () => {
     const { section, titles, summary } = await render();
 

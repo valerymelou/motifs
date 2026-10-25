@@ -28,3 +28,13 @@ a {
   color: inherit;
   text-underline-offset: 0.2em;
 }
+
+/* Read out, not shown: the page stays open behind the link. */
+.new-tab {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

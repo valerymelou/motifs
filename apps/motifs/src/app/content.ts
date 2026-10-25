@@ -4,6 +4,14 @@ import type { PageMood } from '@motifs/pages-manifest';
  * The index's copy. Sections read their words from here, never from
  * templates.
  */
+/**
+ * Read after every link that opens in a new tab: the index stays open
+ * while a visitor tries a page or reads the source.
+ */
+export const links = {
+  newTab: '(opens in a new tab)',
+} as const;
+
 export const header = {
   name: 'Motifs',
   count: (live: number, total: number) => `${live} of ${total} live`,

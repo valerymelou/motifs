@@ -105,6 +105,36 @@ test('lists all twelve pages, live ones linked', async ({ page }) => {
   );
 });
 
+test('opens the pages and the source in a new tab, and says so', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const leaving = page.locator('a[target="_blank"]');
+  // Two live pages, three GitHub links and Ndop UI.
+  await expect(leaving).toHaveCount(6);
+  for (const link of await leaving.all()) {
+    await expect(link).toHaveAttribute('rel', 'noopener');
+    await expect(link).toHaveAccessibleName(/\(opens in a new tab\)$/);
+  }
+  await expect(
+    page.getByRole('link', { name: /^GitHub/ }).locator('svg'),
+  ).toBeVisible();
+});
+
+test("lines up every card's last line in a row", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/');
+
+  const lines = cards(page).locator('article > p:last-child');
+  const bottoms = await lines.evaluateAll((all) =>
+    all
+      .slice(0, 3)
+      .map((line) => Math.round(line.getBoundingClientRect().bottom)),
+  );
+  expect(new Set(bottoms).size).toBe(1);
+});
+
 test('filters the collection by mood, with the keyboard too', async ({
   page,
 }) => {

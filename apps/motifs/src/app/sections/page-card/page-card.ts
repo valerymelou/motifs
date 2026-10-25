@@ -1,7 +1,8 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
+import { NdIcon } from '@ndop/core';
 import type { Page } from '@motifs/pages-manifest';
-import { motifs } from '../../content';
+import { links, motifs } from '../../content';
 import { motifOf, motifTile, threadOn } from '../../motifs/motifs';
 import { Badge } from '../../ui/badge/badge';
 
@@ -12,10 +13,10 @@ import { Badge } from '../../ui/badge/badge';
  */
 @Component({
   selector: 'mt-page-card',
-  imports: [NgOptimizedImage, Badge],
+  imports: [NgOptimizedImage, Badge, NdIcon],
   templateUrl: './page-card.html',
   styleUrl: './page-card.css',
-  host: { class: 'block' },
+  host: { class: 'block h-full' },
 })
 export class PageCard {
   readonly page = input.required<Page>();
@@ -23,6 +24,7 @@ export class PageCard {
   readonly number = input.required<string>();
 
   protected readonly copy = motifs;
+  protected readonly links = links;
   protected readonly live = computed(() => this.page().status === 'live');
   protected readonly href = computed(() => `/${this.page().slug}/`);
   protected readonly image = computed(() => `/${this.page().slug}/og.png`);

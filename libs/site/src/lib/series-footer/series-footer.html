@@ -4,8 +4,16 @@
 <nav aria-label="Series">
   <ul>
     <li><a href="/">All pages</a></li>
-    <li><a [href]="sourceUrl()">Source on GitHub</a></li>
-    <li><a [href]="site.ndopUrl">Built with Ndop UI</a></li>
+    <li>
+      <a [href]="sourceUrl()" target="_blank" rel="noopener"
+        >Source on GitHub<span class="new-tab"> (opens in a new tab)</span></a
+      >
+    </li>
+    <li>
+      <a [href]="site.ndopUrl" target="_blank" rel="noopener"
+        >Built with Ndop UI<span class="new-tab"> (opens in a new tab)</span></a
+      >
+    </li>
   </ul>
 </nav>
 <p>

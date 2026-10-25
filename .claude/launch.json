@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4300", "--directory", "dist/site"],
+      "port": 4300
+    },
+    {
+      "name": "atelier-ndop",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "nx", "run", "atelier-ndop:serve-static"],
+      "port": 4301
+    },
+    {
+      "name": "fil",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "nx", "run", "fil:serve-static"],
+      "port": 4302
+    }
+  ]
+}

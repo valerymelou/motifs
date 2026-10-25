@@ -8,8 +8,11 @@
     <span>{{ count }}</span>
     <a
       [href]="site.repoUrl"
-      class="underline-offset-4 transition-colors hover:text-foreground hover:underline"
-      >{{ copy.source }} <span aria-hidden="true">↗</span></a
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-2 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+      ><svg ndIcon="github" class="size-3.5"></svg>{{ copy.source
+      }}<span class="sr-only"> {{ links.newTab }}</span></a
     >
   </div>
 </header>

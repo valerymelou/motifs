@@ -21,17 +21,21 @@ describe('SeriesFooter', () => {
   it("links to the index, the page's source folder and Ndop UI", async () => {
     const footer = await render('fil');
     const links = Array.from(footer.querySelectorAll('nav a')).map((link) => [
-      link.textContent,
+      link.textContent?.trim(),
       link.getAttribute('href'),
+      link.getAttribute('target'),
     ]);
 
+    // The series' links stay on the site; the others open in a new tab and
+    // say so to screen readers.
     expect(links).toEqual([
-      ['All pages', '/'],
+      ['All pages', '/', null],
       [
-        'Source on GitHub',
+        'Source on GitHub (opens in a new tab)',
         'https://github.com/valerymelou/motifs/tree/master/apps/fil',
+        '_blank',
       ],
-      ['Built with Ndop UI', 'https://ndop.dev'],
+      ['Built with Ndop UI (opens in a new tab)', 'https://ndop.dev', '_blank'],
     ]);
   });
 

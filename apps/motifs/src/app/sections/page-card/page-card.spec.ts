@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { findPage, type Page } from '@motifs/pages-manifest';
+import { provideIcons } from '../../lib/icons';
 import { PageCard } from './page-card';
 
 const fil = findPage('fil') as Page;
@@ -13,6 +14,10 @@ async function render(page: Page) {
 }
 
 describe('PageCard', () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({ providers: [provideIcons()] }),
+  );
+
   it('shows an unlaunched page as coming soon, on its motif, without a link', async () => {
     const card = await render({ ...fil, status: 'soon' });
 
@@ -26,6 +31,12 @@ describe('PageCard', () => {
     const card = await render({ ...fil, status: 'live' });
 
     expect(card.querySelector('a')?.getAttribute('href')).toBe('/fil/');
+    // The index stays open behind the page, and screen readers hear so.
+    expect(card.querySelector('a')?.getAttribute('target')).toBe('_blank');
+    expect(card.querySelector('a')?.textContent).toContain(
+      '(opens in a new tab)',
+    );
+    expect(card.querySelector('svg')).not.toBeNull();
     expect(card.querySelector('img')?.getAttribute('src')).toBe('/fil/og.png');
     expect(card.textContent).not.toContain('Coming soon');
   });

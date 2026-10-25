@@ -1,5 +1,6 @@
 <!-- The title link stretches over the card; the swatch ring shows focus. -->
-<article class="group relative">
+<!-- A column, so each card's last line sits on the row's common bottom. -->
+<article class="group relative flex h-full flex-col">
   <div
     class="swatch relative aspect-[4/3] overflow-hidden rounded-[calc(var(--radius)+4px)]"
     [style.background-color]="page().accent"
@@ -29,9 +30,13 @@
   <div class="mt-5 flex items-baseline justify-between gap-4">
     <h3 class="font-serif text-3xl leading-tight">
       @if (live()) {
-        <a [href]="href()" class="outline-none after:absolute after:inset-0">{{
-          page().name
-        }}</a>
+        <a
+          [href]="href()"
+          target="_blank"
+          rel="noopener"
+          class="outline-none after:absolute after:inset-0"
+          >{{ page().name }}<span class="sr-only"> {{ links.newTab }}</span></a
+        >
       } @else {
         {{ page().name }}
       }
@@ -43,9 +48,11 @@
   <p class="mt-2 leading-relaxed text-muted-foreground">
     {{ page().tagline }}
   </p>
-  <p class="mt-4 font-mono text-xs tracking-[0.18em] uppercase">
+  <p
+    class="mt-auto flex items-center gap-2 pt-4 font-mono text-xs tracking-[0.18em] uppercase"
+  >
     @if (live()) {
-      {{ copy.visit }} <span aria-hidden="true">→</span>
+      {{ copy.visit }}<svg ndIcon="external-link" class="size-3.5"></svg>
     } @else {
       {{ copy.comingSoon }}
     }

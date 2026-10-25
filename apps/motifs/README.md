@@ -20,9 +20,12 @@ The two interactive sections hydrate with the page; only the static "How it is m
 
 ## Asset credits
 
-| Asset             | Source                                                                                                                     | License |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------- | ------- |
-| Instrument Serif  | [The Instrument Serif Project Authors](https://github.com/Instrument/instrument-serif), via `@fontsource/instrument-serif` | SIL OFL |
-| Geist, Geist Mono | [Vercel](https://vercel.com/font), via `@fontsource-variable`                                                              | SIL OFL |
-| Motif patterns    | Drawn for this series in `motifs/motifs.ts`                                                                                | MIT     |
-| `public/og.png`   | Rendered from the motif model by `og/render-og.mts` (`nx run motifs:og`)                                                   | MIT     |
+| Asset                | Source                                                                                                                     | License |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------- |
+| Instrument Serif     | [The Instrument Serif Project Authors](https://github.com/Instrument/instrument-serif), via `@fontsource/instrument-serif` | SIL OFL |
+| Geist, Geist Mono    | [Vercel](https://vercel.com/font), via `@fontsource-variable`                                                              | SIL OFL |
+| Motif patterns       | Drawn for this series in `motifs/motifs.ts`                                                                                | MIT     |
+| `public/og.png`      | Rendered from the motif model by `og/render-og.mts` (`nx run motifs:og`)                                                   | MIT     |
+| `public/favicon.svg` | The cloth from the Open Graph image, drawn small for this series                                                           | MIT     |
+| External link icon   | [Lucide](https://lucide.dev)                                                                                               | ISC     |
+| GitHub mark          | [Simple Icons](https://simpleicons.org) 15.22.0                                                                            | CC0     |
