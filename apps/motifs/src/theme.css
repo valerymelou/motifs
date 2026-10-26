@@ -49,18 +49,12 @@
 
 @layer base {
   body {
-    /* A faint woven texture: two 1px thread lines, tiled by the browser. */
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        oklch(0.95 0.018 85 / 2.5%) 0 1px,
-        transparent 1px 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        oklch(0.95 0.018 85 / 2%) 0 1px,
-        transparent 1px 4px
-      );
+    /* A faint woven texture: two 1px thread lines in a 4px tile, in the
+       foreground's cream (#f4eee1). An image tile is drawn once and
+       repeated; the same lines as repeating gradients were redrawn pixel
+       by pixel for every strip scrolled into view, which made scrolling
+       stutter. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect y='3' width='4' height='1' fill='%23f4eee1' fill-opacity='.025'/%3E%3Crect width='1' height='4' fill='%23f4eee1' fill-opacity='.02'/%3E%3C/svg%3E");
     -webkit-font-smoothing: antialiased;
   }
 
