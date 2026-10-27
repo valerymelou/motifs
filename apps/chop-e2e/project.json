@@ -1,0 +1,9 @@
+{
+  "name": "chop-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/chop-e2e/src",
+  "implicitDependencies": ["chop"],
+  "// targets": "to see all targets run: nx show project chop-e2e --web",
+  "targets": {}
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chop</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <style>
+      /*
+       * A fallback sized like Plus Jakarta Sans, so text takes the same room
+       * before and after the web font arrives; without it the hero's
+       * headline rewraps when the font loads. Declared here, not in
+       * theme.css: the build inlines only the critical rules and defers the
+       * full stylesheet, and leaves @font-face out of the inlined part.
+       * Measured in Chromium: Plus Jakarta Sans runs 5.0% wider than Arial
+       * at 400 and 3.0% at 800, and its ascent and descent are 1.04em and
+       * 0.22em; the overrides are divided by size-adjust, which scales them
+       * too. Liberation Sans is Arial's metric twin on Linux.
+       */
+      @font-face {
+        font-family: 'Plus Jakarta Sans Fallback';
+        src: local('Arial'), local('ArialMT'), local('Liberation Sans');
+        font-weight: 100 600;
+        size-adjust: 104.98%;
+        ascent-override: 99.07%;
+        descent-override: 20.96%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'Plus Jakarta Sans Fallback';
+        src:
+          local('Arial Bold'), local('Arial-BoldMT'),
+          local('Liberation Sans Bold');
+        font-weight: 700 900;
+        size-adjust: 103%;
+        ascent-override: 100.97%;
+        descent-override: 21.36%;
+        line-gap-override: 0%;
+      }
+    </style>
+  </head>
+  <body>
+    <mt-root></mt-root>
+  </body>
+</html>

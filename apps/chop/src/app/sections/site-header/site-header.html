@@ -1,0 +1,32 @@
+<header>
+  <div
+    class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-4 sm:px-8"
+  >
+    <a href="./" class="flex items-baseline gap-3">
+      <span class="text-2xl font-extrabold tracking-[-0.04em]">{{
+        copy.name
+      }}</span>
+      <span class="text-xs font-semibold text-muted-foreground">{{
+        copy.place
+      }}</span>
+    </a>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <nav [attr.aria-label]="copy.navLabel">
+        <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold">
+          @for (link of copy.links; track link.href) {
+            <li>
+              <a
+                [href]="link.href"
+                class="underline-offset-4 hover:underline focus-visible:underline"
+                >{{ link.label }}</a
+              >
+            </li>
+          }
+        </ul>
+      </nav>
+      <a ndButton size="sm" [href]="copy.getApp.href">{{
+        copy.getApp.label
+      }}</a>
+    </div>
+  </div>
+</header>

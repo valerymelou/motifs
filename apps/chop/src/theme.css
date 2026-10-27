@@ -1,0 +1,105 @@
+@import 'tailwindcss' source('./');
+@import '@ndop/core/styles.css';
+@import '@fontsource-variable/plus-jakarta-sans/wght.css';
+@import '@fontsource-variable/plus-jakarta-sans/wght-italic.css';
+
+/* The components' own styles, imported here rather than through styleUrl:
+   Angular ships component styles inside the JavaScript bundle. Each file
+   scopes its rules to its component's tag. */
+@import './app/sections/calculator-section/calculator-section.css';
+
+/*
+ * Chop: warm sand, soft cards and one green, the colours of the app's own
+ * screens. #2F7D5B is the brief's green; it carries white text (5.0:1) and
+ * draws the ring, the marker and the bars, but at 4.1:1 on sand it is too
+ * light for words. Green words use --accent-text, the same hue a step
+ * darker, on sand and on cards only (4.3:1 on --muted, so never there).
+ */
+
+/* The 'Plus Jakarta Sans Fallback' faces are declared in index.html: see
+   there. */
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans Variable', 'Plus Jakarta Sans Fallback',
+    'Helvetica Neue', Arial, sans-serif;
+  --color-accent-text: var(--accent-text);
+  --color-biro: var(--biro);
+}
+
+:root {
+  /* Sand #F1E9DA, card #FBF7EF, ink #1C2A22, green #2F7D5B. */
+  --background: oklch(0.936 0.022 83.3);
+  --foreground: oklch(0.269 0.024 159.2);
+  --card: oklch(0.977 0.011 84.6);
+  --card-foreground: oklch(0.269 0.024 159.2);
+  --popover: oklch(0.977 0.011 84.6);
+  --popover-foreground: oklch(0.269 0.024 159.2);
+  --primary: oklch(0.532 0.094 161.7);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.906 0.026 84.6);
+  --secondary-foreground: oklch(0.269 0.024 159.2);
+  --muted: oklch(0.906 0.026 84.6);
+  /* #536358: 4.8:1 on --muted, 5.3:1 on sand, 6.0:1 on cards. */
+  --muted-foreground: oklch(0.483 0.026 155.3);
+  /* Hover and pressed surfaces: a pale wash of the green. */
+  --accent: oklch(0.9 0.04 161.7);
+  --accent-foreground: oklch(0.269 0.024 159.2);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.269 0.024 159.2 / 14%);
+  --input: oklch(0.269 0.024 159.2 / 24%);
+  --ring: oklch(0.532 0.094 161.7);
+  --radius: 1.25rem;
+
+  /* The calculator's bars: paid in so far, and the turn in focus. */
+  --chart-1: oklch(0.532 0.094 161.7 / 45%);
+  --chart-2: oklch(0.532 0.094 161.7);
+
+  /* #2A7353: 4.7:1 on sand, 5.4:1 on cards. */
+  --accent-text: oklch(0.501 0.089 161.5);
+  /* The treasurer's biro, for the notebook: 9.0:1 on cards. */
+  --biro: oklch(0.398 0.13 268.8);
+
+  /* Motion: quick and springy, like the app's own screens. */
+  --mt-reveal-duration: 700ms;
+  --mt-reveal-easing: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --mt-reveal-distance: 1.25rem;
+}
+
+@layer base {
+  :root {
+    /* The index's ring for this page, as a faint 28px tile in the ink. An
+       image tile is drawn once and repeated, so scrolling stays smooth; a
+       gradient would be redrawn for every strip scrolled into view. */
+    --mt-rings: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='%231c2a22' stroke-opacity='.045' stroke-width='2.5'/%3E%3C/svg%3E");
+  }
+
+  /* Links to a section glide there, and stop clear of the sticky header. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    html {
+      scroll-padding-top: 5rem;
+    }
+  }
+
+  body {
+    background-image: var(--mt-rings);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+/* Every amount lines up, in the copy and in the calculator. */
+@utility money {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

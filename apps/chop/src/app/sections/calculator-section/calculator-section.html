@@ -1,0 +1,278 @@
+<section [id]="copy.id" class="calculator" aria-labelledby="calculator-title">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-8 sm:py-28">
+    <div class="grid max-w-2xl gap-4">
+      <p class="text-sm font-bold text-accent-text">{{ copy.label }}</p>
+      <h2
+        id="calculator-title"
+        class="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-balance"
+      >
+        {{ copy.title }}
+      </h2>
+      <p class="text-lg leading-relaxed text-muted-foreground">
+        {{ copy.intro }}
+      </p>
+    </div>
+
+    <div
+      class="grid gap-8 rounded-[calc(var(--radius)*1.6)] bg-card p-5 shadow-[0_1px_0_oklch(0.269_0.024_159.2/6%),0_24px_48px_-24px_oklch(0.269_0.024_159.2/22%)] sm:p-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:gap-12"
+    >
+      <div class="controls grid content-start gap-7">
+        <div class="grid gap-3">
+          <div class="flex items-baseline justify-between gap-4">
+            <span id="members-label" class="text-sm font-semibold">{{
+              copy.members
+            }}</span>
+            <span class="money text-2xl font-extrabold" aria-hidden="true">{{
+              members()
+            }}</span>
+          </div>
+          <div
+            ndSlider
+            [min]="limits.members.min"
+            [max]="limits.members.max"
+            [step]="1"
+          >
+            <div ndSliderTrack><div ndSliderRange></div></div>
+            <span
+              ndSliderThumb
+              aria-labelledby="members-label"
+              [(value)]="members"
+            ></span>
+          </div>
+        </div>
+
+        <div class="grid gap-3">
+          <div class="flex items-baseline justify-between gap-4">
+            <span id="contribution-label" class="text-sm font-semibold">{{
+              copy.contribution
+            }}</span>
+            <span class="money text-2xl font-extrabold" aria-hidden="true">{{
+              fcfa(contribution())
+            }}</span>
+          </div>
+          <div
+            ndSlider
+            [min]="limits.contribution.min"
+            [max]="limits.contribution.max"
+            [step]="limits.contribution.step"
+          >
+            <div ndSliderTrack><div ndSliderRange></div></div>
+            <span
+              ndSliderThumb
+              aria-labelledby="contribution-label"
+              [valueText]="fcfa(contribution())"
+              [(value)]="contribution"
+            ></span>
+          </div>
+        </div>
+
+        <div class="grid gap-3">
+          <label for="start-trigger" class="text-sm font-semibold">{{
+            copy.start
+          }}</label>
+          <ng-container ndSelect [(value)]="start">
+            <button ndSelectTrigger id="start-trigger" class="h-11! w-full">
+              <span ndSelectValue></span>
+              <svg ndIcon="chevron-down" class="size-4 opacity-60"></svg>
+            </button>
+            <div ndSelectContent>
+              @for (month of months; track month.value) {
+                <div ndSelectItem [value]="month.value">
+                  <span ndSelectItemIndicator><svg ndIcon="check"></svg></span>
+                  <span ndSelectItemText>{{ month.label }}</span>
+                </div>
+              }
+            </div>
+          </ng-container>
+        </div>
+
+        <dl class="result grid grid-cols-2 gap-4 border-t border-border pt-6">
+          <div class="grid gap-1">
+            <dt class="text-sm text-muted-foreground">{{ copy.pot }}</dt>
+            <dd class="money text-xl font-extrabold text-accent-text">
+              {{ fcfa(pot()) }}
+            </dd>
+          </div>
+          <div class="grid gap-1">
+            <dt class="text-sm text-muted-foreground">{{ copy.lastTurn }}</dt>
+            <dd class="text-xl font-extrabold">
+              {{ turns()[turns().length - 1]?.month }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <figure
+        ndChartContainer
+        [config]="config"
+        class="aspect-auto min-w-0 flex-col justify-start gap-4"
+      >
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <figcaption
+            id="calculator-caption"
+            class="max-w-md text-sm font-semibold"
+          >
+            {{ copy.caption }}
+          </figcaption>
+          <button
+            ndToggle
+            variant="outline"
+            size="sm"
+            class="table-toggle px-3"
+            [(pressed)]="asTable"
+          >
+            {{ copy.table.toggle }}
+          </button>
+        </div>
+
+        <div class="chart" [hidden]="asTable()">
+          <p
+            class="money mb-2 flex items-center gap-2 text-sm font-semibold text-accent-text"
+            aria-hidden="true"
+          >
+            <span class="pot-key"></span>{{ copy.pot }}: {{ fcfa(pot()) }}
+          </p>
+          <div class="relative">
+            <svg
+              ndChartPlot
+              [attr.viewBox]="'0 0 ' + width + ' ' + height"
+              [xs]="centers()"
+              [(active)]="active"
+              aria-labelledby="calculator-caption"
+              aria-describedby="calculator-hint"
+            >
+              <g ndChartGrid>
+                @for (y of grid(); track $index) {
+                  <line x1="0" [attr.x2]="width" [attr.y1]="y" [attr.y2]="y" />
+                }
+              </g>
+              @if (current(); as turn) {
+                <rect
+                  ndChartCursor
+                  kind="band"
+                  [attr.x]="x()(turn.month) - x().step * 0.1"
+                  y="0"
+                  [attr.width]="x().bandwidth + x().step * 0.2"
+                  [attr.height]="height"
+                />
+              }
+              @for (turn of turns(); track turn.member; let i = $index) {
+                <rect
+                  class="bar"
+                  [class.is-turn]="i === highlighted()"
+                  [attr.x]="x()(turn.month)"
+                  [attr.y]="y()(turn.paidIn)"
+                  [attr.width]="x().bandwidth"
+                  [attr.height]="y()(0) - y()(turn.paidIn)"
+                  [attr.rx]="x().bandwidth > 16 ? 6 : 3"
+                />
+              }
+              <!-- The pot: every bar's turn takes this much. -->
+              <line
+                class="pot-line"
+                x1="0"
+                [attr.x2]="width"
+                [attr.y1]="y()(pot())"
+                [attr.y2]="y()(pot())"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            @if (current(); as turn) {
+              <div ndChartTooltip [style.left.%]="tooltipLeft()" class="top-4">
+                <div ndChartTooltipLabel class="font-semibold">
+                  {{ turn.month }}: {{ copy.turnOf(turn.member) }}
+                </div>
+                <div ndChartTooltipList>
+                  <div ndChartTooltipItem>
+                    <div ndChartTooltipBody class="gap-4">
+                      <span ndChartTooltipName>{{ copy.paidIn }}</span>
+                      <span ndChartTooltipValue class="font-sans">{{
+                        fcfa(turn.paidIn)
+                      }}</span>
+                    </div>
+                  </div>
+                  <div ndChartTooltipItem>
+                    <div ndChartTooltipBody class="gap-4">
+                      <span ndChartTooltipName>{{ copy.takes }}</span>
+                      <span ndChartTooltipValue class="font-sans">{{
+                        fcfa(turn.takes)
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <div ndChartAxis>
+            @for (turn of turns(); track turn.member; let i = $index) {
+              @if (labelled()[i]) {
+                <span
+                  ndChartLabel
+                  [style.left.%]="((centers()[i] ?? 0) / width) * 100"
+                  >{{ axisLabel(turn.month, i) }}</span
+                >
+              }
+            }
+          </div>
+          <ul ndChartLegend class="justify-start pt-4">
+            <li ndChartLegendItem>
+              <span ndChartLegendIndicator color="var(--chart-1)"></span>
+              {{ copy.legend.paidIn }}
+            </li>
+            <li ndChartLegendItem>
+              <span ndChartLegendIndicator color="var(--chart-2)"></span>
+              {{ copy.legend.turn }}
+            </li>
+          </ul>
+          <p id="calculator-hint" class="sr-only">{{ copy.hint }}</p>
+          <p class="sr-only" aria-live="polite">{{ currentText() }}</p>
+        </div>
+
+        <!-- The chart's text alternative: on screen with "Show as a table"
+             or without JavaScript, and read by screen readers either way. -->
+        <div class="turns" [class.sr-only]="!asTable()">
+          <table class="w-full text-left text-sm">
+            <caption class="sr-only">
+              {{
+                copy.table.caption
+              }}
+            </caption>
+            <thead class="text-muted-foreground">
+              <tr class="border-b border-border">
+                <th scope="col" class="py-2 pr-4 font-semibold">
+                  {{ copy.table.month }}
+                </th>
+                <th scope="col" class="py-2 pr-4 font-semibold">
+                  {{ copy.table.member }}
+                </th>
+                <th scope="col" class="py-2 pr-4 text-right font-semibold">
+                  {{ copy.table.paidIn }}
+                </th>
+                <th scope="col" class="py-2 text-right font-semibold">
+                  {{ copy.table.takes }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (turn of turns(); track turn.member) {
+                <tr class="border-b border-border/60">
+                  <th scope="row" class="py-2 pr-4 font-normal">
+                    {{ turn.month }}
+                  </th>
+                  <td class="py-2 pr-4">{{ turn.member }}</td>
+                  <td class="money py-2 pr-4 text-right">
+                    {{ fcfa(turn.paidIn) }}
+                  </td>
+                  <td class="money py-2 text-right">{{ fcfa(turn.takes) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </figure>
+    </div>
+
+    <p class="max-w-2xl text-muted-foreground">{{ copy.note }}</p>
+    <p class="sr-only" aria-live="polite">{{ announcement() }}</p>
+  </div>
+</section>

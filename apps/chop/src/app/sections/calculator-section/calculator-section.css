@@ -1,0 +1,44 @@
+/* The calculator's chart. Scoped by the component's tag; imported by
+   theme.css, so it ships in the stylesheet rather than the JavaScript. */
+
+mt-calculator-section {
+  .bar {
+    fill: var(--chart-1);
+    transition: fill 150ms ease;
+
+    &.is-turn {
+      fill: var(--chart-2);
+    }
+  }
+
+  /* The pot, dashed, in the ink: the height every turn takes. */
+  .pot-line {
+    stroke: var(--foreground);
+    stroke-width: 1.5px;
+    stroke-dasharray: 6 5;
+  }
+
+  .pot-key {
+    width: 1rem;
+    border-top: 2px dashed var(--foreground);
+  }
+
+  /* Without JavaScript the controls can't move and the chart can't be
+     read by key, so the example shows as its table. */
+  @media (scripting: none) {
+    .table-toggle,
+    .chart {
+      display: none;
+    }
+
+    .turns.sr-only {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
+    }
+  }
+}
