@@ -55,7 +55,7 @@ export const SPECIMENS: Record<string, Specimen> = {
       uppercase: false,
     },
   },
-  njangi: {
+  chop: {
     title: 'The lunch-break circle',
     text: 'Eight friends, 25,000 FCFA a month each.',
     action: 'Join the circle',

@@ -37,7 +37,7 @@ const PATHS: Record<MotifKind, string> = {
 const PAGE_MOTIFS: Record<string, MotifKind> = {
   'atelier-ndop': 'spindle',
   fil: 'stitch',
-  njangi: 'ring',
+  chop: 'ring',
   'bamboutos-coffee': 'seed',
   'lobe-house': 'wave',
   canopee: 'leaf',

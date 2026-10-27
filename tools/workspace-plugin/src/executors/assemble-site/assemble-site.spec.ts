@@ -74,13 +74,13 @@ describe('assemble-site executor', () => {
   it('writes robots.txt, a 404 page and a sitemap without unlaunched pages', async () => {
     fakeBuild(root, 'dist/apps/motifs/browser', 'index');
     fakeBuild(root, 'dist/apps/fil/fil', 'fil');
-    fakeBuild(root, 'dist/apps/njangi/njangi', 'njangi');
+    fakeBuild(root, 'dist/apps/chop/chop', 'chop');
     const context = contextFor(root, {
       motifs: app('motifs', 'dist/apps/motifs'),
       fil: app('fil', { base: 'dist/apps/fil', browser: 'fil' }, [
         'type:landing',
       ]),
-      njangi: app('njangi', { base: 'dist/apps/njangi', browser: 'njangi' }, [
+      chop: app('chop', { base: 'dist/apps/chop', browser: 'chop' }, [
         'type:landing',
       ]),
     });
@@ -91,9 +91,9 @@ describe('assemble-site executor', () => {
       'Sitemap: https://motifs.valerymelou.com/sitemap.xml',
     );
     expect(read('404.html')).toContain('<h1>Page not found</h1>');
-    // Fil is live in the manifest; Njangi is still "soon".
+    // Fil is live in the manifest; Chop is still "soon".
     expect(read('sitemap.xml')).toContain('/fil/');
-    expect(read('sitemap.xml')).not.toContain('/njangi/');
+    expect(read('sitemap.xml')).not.toContain('/chop/');
   });
 
   it('replaces whatever an earlier run left behind', async () => {
