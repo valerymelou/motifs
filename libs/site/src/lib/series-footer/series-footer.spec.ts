@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { seriesFacts } from '@motifs/pages-manifest';
 import { SeriesFooter } from './series-footer';
 
 async function render(slug: string) {
@@ -43,5 +44,25 @@ describe('SeriesFooter', () => {
     const footer = await render('fil');
 
     expect(footer.textContent).toContain('Fictional brand, design study.');
+  });
+
+  // Pages that draw their own footer lay out seriesFacts(); the strip
+  // spells the same facts out, so the two must agree.
+  it('says what seriesFacts says', async () => {
+    const footer = await render('fil');
+    const facts = seriesFacts('fil', 'Fil');
+    const links = Array.from(footer.querySelectorAll('nav a')).map((link) => [
+      link.firstChild?.textContent?.trim(),
+      link.getAttribute('href'),
+    ]);
+
+    expect(footer.textContent).toContain(facts.byline);
+    expect(footer.textContent).toContain(facts.note);
+    expect(links).toEqual(
+      [facts.series, facts.source, facts.ndop].map((link) => [
+        link.label,
+        link.href,
+      ]),
+    );
   });
 });
