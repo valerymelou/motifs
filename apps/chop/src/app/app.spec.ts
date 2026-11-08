@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
 describe('App', () => {
-  it('renders the page heading, the calculator and the series footer', async () => {
+  it('renders the headline, the seven sections and the closing ring', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
@@ -10,7 +10,31 @@ describe('App', () => {
     expect(page.querySelector('h1')?.textContent).toContain(
       'Ten friends. One pot. Every turn comes.',
     );
-    expect(page.querySelector('mt-calculator-section')).not.toBeNull();
-    expect(page.querySelector('mt-series-footer')).not.toBeNull();
+    expect(
+      [...page.querySelectorAll('[id]')]
+        .map((el) => el.id)
+        .filter((id) =>
+          [
+            'year',
+            'circle',
+            'month',
+            'book',
+            'dues',
+            'questions',
+            'full-circle',
+          ].includes(id),
+        ),
+    ).toEqual([
+      'year',
+      'circle',
+      'month',
+      'book',
+      'dues',
+      'questions',
+      'full-circle',
+    ]);
+    expect(page.querySelector('footer')?.textContent).toContain(
+      'Chop is part of Motifs by Valery Melou.',
+    );
   });
 });

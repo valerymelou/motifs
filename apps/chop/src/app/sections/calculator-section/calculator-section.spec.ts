@@ -8,14 +8,15 @@ describe('CalculatorSection', () => {
     return { fixture, page: fixture.nativeElement as HTMLElement };
   }
 
-  it('draws the example: ten bars, the first one as this turn', async () => {
+  it('draws the example: ten wedges, the first one as this turn', async () => {
     const { page } = await render();
 
-    const bars = page.querySelectorAll('rect.bar');
-    expect(bars).toHaveLength(10);
-    expect(bars[0]?.classList).toContain('is-turn');
-    expect(page.textContent).toContain('The pot: 250,000 FCFA');
-    expect(page.textContent).toContain('October 2027');
+    const wedges = page.querySelectorAll('path.wedge');
+    expect(wedges).toHaveLength(10);
+    expect(wedges[0]?.classList).toContain('is-turn');
+    const centre = page.querySelector('.centre')?.textContent;
+    expect(centre).toContain('250,000\u00a0FCFA');
+    expect(centre).toContain('October 2027');
   });
 
   it('keeps the table for screen readers and shows it on request', async () => {
@@ -32,29 +33,27 @@ describe('CalculatorSection', () => {
     expect((page.querySelector('.chart') as HTMLElement).hidden).toBe(true);
   });
 
-  it('marks a new year on the axis', async () => {
+  it('marks a new year on the rim', async () => {
     const { fixture, page } = await render();
     fixture.componentRef.instance['start'].set('10');
     await fixture.whenStable();
 
-    const labels = [...page.querySelectorAll('[ndChartAxis] span')].map(
-      (label) => label.textContent?.trim(),
+    const labels = [...page.querySelectorAll('text.month')].map((label) =>
+      label.textContent?.trim(),
     );
     expect(labels.slice(0, 4)).toEqual(['Nov', 'Dec', 'Jan ’28', 'Feb']);
   });
 
-  it('keeps each January on a crowded axis', async () => {
+  it('labels only the Januaries on a crowded wheel', async () => {
     const { fixture, page } = await render();
     fixture.componentRef.instance['members'].set(20);
     fixture.componentRef.instance['start'].set('9');
     await fixture.whenStable();
 
-    const labels = [...page.querySelectorAll('[ndChartAxis] span')].map(
-      (label) => label.textContent?.trim(),
+    const labels = [...page.querySelectorAll('text.month')].map((label) =>
+      label.textContent?.trim(),
     );
-    expect(labels).toContain('Jan ’28');
-    expect(labels).toContain('Jan ’29');
-    expect(labels).not.toContain('Dec');
+    expect(labels).toEqual(['Jan ’28', 'Jan ’29']);
   });
 
   it('announces the circle once the controls settle, not on load', async () => {

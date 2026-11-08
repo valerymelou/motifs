@@ -1,0 +1,71 @@
+<section [id]="copy.id" class="year" [attr.aria-label]="copy.label">
+  <div class="stage">
+    <p class="pointer" aria-hidden="true">{{ copy.pointer }}</p>
+
+    <div class="wheel">
+      <!-- The wheel itself is drawing: the cards carry the words. -->
+      <div class="decor turn" aria-hidden="true">
+        <div class="disc"></div>
+        @for (month of copy.months; track month; let i = $index) {
+          <span class="spoke" [style.--i]="i"></span>
+          <span class="month" [style.--i]="i">{{ month }}</span>
+        }
+        @for (seat of seats; track seat.name) {
+          <span
+            class="seat"
+            [style.--i]="seat.month"
+            [style.--at]="seat.choppedAt"
+            >{{ seat.initial }}</span
+          >
+        }
+      </div>
+      <div class="hub" aria-hidden="true">
+        <small>{{ copy.pot.label }}</small>
+        <b class="money">{{ copy.pot.amount }}</b>
+        <small>{{ copy.pot.note }}</small>
+      </div>
+
+      <ol class="cards">
+        @for (card of cards; track card.month; let first = $first) {
+          <li class="slot turn" [style.--i]="card.month">
+            <div class="place">
+              <article
+                ndCard
+                class="card"
+                [class.first]="first"
+                [style.--from]="card.from"
+                [style.--to]="card.to"
+              >
+                <div ndCardHeader class="gap-3 px-6">
+                  <p class="tag">{{ card.tag }}</p>
+                  @if (first) {
+                    <h1 ndCardTitle class="title headline">
+                      {{ card.title }}
+                    </h1>
+                  } @else {
+                    <h2 ndCardTitle class="title">{{ card.title }}</h2>
+                  }
+                  <p ndCardDescription class="text">{{ card.text }}</p>
+                </div>
+              </article>
+            </div>
+          </li>
+        }
+      </ol>
+    </div>
+
+    <div class="actions">
+      <a ndButton size="lg" class="action" [href]="copy.calculator.href">{{
+        copy.calculator.label
+      }}</a>
+      <a
+        ndButton
+        size="lg"
+        variant="outline"
+        class="action"
+        [href]="copy.getApp.href"
+        >{{ copy.getApp.label }}</a
+      >
+    </div>
+  </div>
+</section>

@@ -1,0 +1,195 @@
+/* "Dues": the two plans side by side on a sand shade, each drawn as its
+   rings above its words, the Toggle Group for the period above them. A new
+   price rolls up into place when the period changes. Imported by
+   theme.css, scoped by the component's tag. */
+mt-pricing-section {
+  display: block;
+  background: var(--muted);
+
+  .dues {
+    display: grid;
+    justify-items: center;
+    gap: 2.5rem;
+    padding: clamp(6rem, 14vh, 10rem) clamp(1rem, 5vw, 4rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  /* In the ink: the green words fail 4.5:1 on this sand shade. */
+  .kicker {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .heading {
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .lead {
+    color: var(--muted-foreground);
+  }
+
+  /* Ndop's Toggle Group as a pill switch. */
+  .period {
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: var(--background);
+    box-shadow: inset 0 1px 2px oklch(0.269 0.024 159.2 / 10%);
+  }
+
+  .period-option {
+    height: 2.5rem;
+    padding-inline: 1.25rem;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: transparent;
+    font-weight: 700;
+    box-shadow: none;
+
+    &[data-state='on'] {
+      background: var(--card);
+      color: var(--foreground);
+      box-shadow:
+        0 1px 2px oklch(0.269 0.024 159.2 / 12%),
+        0 4px 10px -6px oklch(0.269 0.024 159.2 / 35%);
+    }
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: clamp(2.5rem, 7vw, 7rem);
+    width: min(100%, 52rem);
+  }
+
+  .plan {
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    justify-items: start;
+    gap: 0.875rem;
+  }
+
+  .art {
+    justify-self: center;
+    width: min(100%, 15rem);
+    height: auto;
+    margin-bottom: 1rem;
+    overflow: visible;
+  }
+
+  .art-ring {
+    fill: none;
+    stroke: oklch(0.269 0.024 159.2 / 18%);
+    stroke-width: 2;
+  }
+
+  .art-seat {
+    fill: var(--primary);
+  }
+
+  .featured .art-ring {
+    fill: var(--card);
+  }
+
+  .plan-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .plan-name {
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .plan-text {
+    color: var(--muted-foreground);
+  }
+
+  .plan-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  .price {
+    display: inline-block;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+
+    &.per {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: var(--muted-foreground);
+    }
+  }
+
+  .features {
+    display: grid;
+    align-content: start;
+    gap: 0.625rem;
+    margin: 0.25rem 0 0.5rem;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.125rem;
+      flex: none;
+      fill: none;
+      stroke: var(--accent-text);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .plan-action {
+    width: 100%;
+    height: 3rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+
+    &[data-variant='outline'] {
+      background: var(--card);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .price {
+      animation: mt-price-roll 0.35s cubic-bezier(0.2, 0, 0, 1) both;
+    }
+  }
+}
+
+@keyframes mt-price-roll {
+  from {
+    opacity: 0;
+    transform: translateY(60%);
+  }
+}

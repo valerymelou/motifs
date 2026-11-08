@@ -1,0 +1,41 @@
+<section [id]="copy.id" class="book" aria-labelledby="book-title">
+  <div class="intro">
+    <p class="kicker">{{ copy.label }}</p>
+    <h2 id="book-title" class="heading">{{ copy.title }}</h2>
+    <p class="lead">{{ copy.intro }}</p>
+  </div>
+
+  <figure class="notebook">
+    <figcaption class="sr-only">{{ copy.notebook.label }}</figcaption>
+    <p class="page-head">{{ copy.notebook.month }}</p>
+    <ul class="rows">
+      @for (row of copy.notebook.rows; track row.name) {
+        <li class="row">
+          <span class="name">{{ row.name }}</span>
+          <span class="cell">
+            <s class="mark">{{ row.mark }}</s>
+            <span
+              ndBadge
+              class="status"
+              [attr.data-tone]="row.tone"
+              [variant]="row.tone === 'turn' ? 'default' : 'secondary'"
+              >{{ row.status }}</span
+            >
+          </span>
+        </li>
+      }
+    </ul>
+  </figure>
+
+  <ol class="rules" [attr.aria-label]="copy.rulesLabel">
+    @for (rule of copy.rules; track rule.title; let i = $index) {
+      <li class="rule">
+        <span class="numeral" aria-hidden="true">{{ numerals[i] }}</span>
+        <div>
+          <h3 class="rule-title">{{ rule.title }}</h3>
+          <p class="rule-text">{{ rule.text }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+</section>

@@ -35,3 +35,11 @@ test('has no axe violations with the Select open', async ({ page }) => {
 
   expect(await violations(page)).toEqual([]);
 });
+
+test('has no axe violations with an FAQ answer open', async ({ page }) => {
+  await page.goto('./');
+  await page.getByRole('button', { name: 'Who goes first?' }).click();
+  await expect(page.locator('#questions')).toContainText('often by drawing');
+
+  expect(await violations(page)).toEqual([]);
+});

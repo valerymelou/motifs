@@ -1,0 +1,295 @@
+<section [id]="copy.id" class="month" aria-labelledby="month-title">
+  <div class="stage">
+    <div class="intro">
+      <p class="kicker">{{ copy.label }}</p>
+      <h2 id="month-title" class="heading">{{ copy.title }}</h2>
+    </div>
+
+    <figure class="scene">
+      <figcaption class="sr-only">{{ copy.phoneLabel }}</figcaption>
+      <p class="pointer" aria-hidden="true">{{ copy.pointer }}</p>
+      <div class="dial" aria-hidden="true">
+        <div class="dial-ring">
+          @for (tick of ticks; track tick) {
+            <span
+              class="tick"
+              [class.sunday]="tick % 7 === 0"
+              [style.--d]="tick"
+            ></span>
+          }
+          @for (mark of marks; track mark.day) {
+            <span
+              class="mark"
+              [class.meeting]="mark.day === 0"
+              [style.--a]="mark.angle + 'deg'"
+              >{{ mark.mark }}</span
+            >
+          }
+        </div>
+      </div>
+
+      <mt-phone class="phone">
+        <!-- Sunday 7 March: the meeting, in the book. -->
+        <div
+          class="screen first"
+          [style.--from]="days[0]?.from"
+          [style.--to]="days[0]?.to"
+        >
+          <mt-status-bar />
+          <div class="app">
+            <p class="app-over">{{ app.circle }}</p>
+            <h3 class="app-title">{{ app.book.title }}</h3>
+            <span class="app-pill">{{ app.book.month }}</span>
+            <div ndCard class="app-card hero">
+              <div ndCardContent class="grid gap-1 px-5">
+                <div class="flex items-center justify-between">
+                  <span class="app-label light">{{ app.book.took }}</span>
+                  <span ndBadge variant="secondary" class="app-badge">{{
+                    app.book.recorded
+                  }}</span>
+                </div>
+                <p class="app-amount money">{{ app.book.pot }}</p>
+                <p class="app-meta light">{{ app.book.when }}</p>
+              </div>
+            </div>
+            <div class="app-section">
+              <span>{{ app.book.payments }}</span
+              ><span class="app-meta">{{ app.book.paid }}</span>
+            </div>
+            <div ndCard class="app-card list">
+              @for (row of app.book.rows; track row.name) {
+                <div class="app-row">
+                  <span class="avatar">{{ row.name[0] }}</span>
+                  <span class="grow">{{ row.name }}</span>
+                  <span class="money">{{ row.amount }}</span>
+                  <svg viewBox="0 0 24 24" class="check">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+              }
+              <div class="app-row more">{{ app.book.more }}</div>
+            </div>
+          </div>
+          <mt-tab-bar [tabs]="app.tabs" [active]="1" />
+        </div>
+
+        <!-- Tuesday 16 March: a swap to approve. -->
+        <div
+          class="screen"
+          [style.--from]="days[1]?.from"
+          [style.--to]="days[1]?.to"
+        >
+          <mt-status-bar />
+          <div class="app">
+            <p class="app-over">{{ app.circle }}</p>
+            <h3 class="app-title">{{ app.swap.title }}</h3>
+            <div ndCard class="app-card">
+              <div ndCardContent class="grid gap-4 px-5">
+                <div class="flex items-center justify-between">
+                  <span class="app-label">{{ app.swap.request }}</span>
+                  <span ndBadge class="app-badge warn">{{
+                    app.swap.waiting
+                  }}</span>
+                </div>
+                <div class="swap">
+                  <span class="avatar big">B</span>
+                  <svg viewBox="0 0 24 24" class="swap-arrows">
+                    <path d="m16 3 4 4-4 4" />
+                    <path d="M20 7H4" />
+                    <path d="m8 21-4-4 4-4" />
+                    <path d="M4 17h16" />
+                  </svg>
+                  <span class="avatar big">T</span>
+                </div>
+                <div class="grid gap-1 text-center">
+                  <p class="app-strong">{{ app.swap.what }}</p>
+                  <p class="app-meta">{{ app.swap.agreed }}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button ndButton variant="outline" class="app-button">
+                    {{ app.swap.decline }}
+                  </button>
+                  <button ndButton class="app-button">
+                    {{ app.swap.approve }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="app-section">
+              <span>{{ app.swap.order }}</span>
+            </div>
+            <div ndCard class="app-card list">
+              @for (row of app.swap.rows; track row.month) {
+                <div class="app-row" [class.moving]="row.swap">
+                  <span class="app-month">{{ row.month }}</span>
+                  <span class="avatar">{{ row.name[0] }}</span>
+                  <span class="grow">{{ row.name }}</span>
+                  @if (row.swap) {
+                    <span class="app-meta">→ {{ row.swap }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+          <mt-tab-bar [tabs]="app.tabs" [active]="2" />
+        </div>
+
+        <!-- Saturday 20 March: the circle gives for Fru's wedding. -->
+        <div
+          class="screen"
+          [style.--from]="days[2]?.from"
+          [style.--to]="days[2]?.to"
+        >
+          <mt-status-bar />
+          <div class="app">
+            <p class="app-over">{{ app.circle }}</p>
+            <h3 class="app-title">{{ app.gift.title }}</h3>
+            <div ndCard class="app-card gift">
+              <div ndCardContent class="grid gap-4 px-5">
+                <div class="gift-head">
+                  <span class="gift-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"
+                      />
+                    </svg>
+                  </span>
+                  <div class="grid">
+                    <span class="app-strong">{{ app.gift.event }}</span>
+                    <span class="app-meta">{{ app.gift.when }}</span>
+                  </div>
+                </div>
+                <p class="app-meta">{{ app.gift.each }}</p>
+                <div class="grid gap-2">
+                  <div class="flex items-baseline justify-between">
+                    <span class="app-strong">{{ app.gift.given }}</span>
+                    <span class="money app-meta">{{ app.gift.total }}</span>
+                  </div>
+                  <div class="progress"><span style="width: 70%"></span></div>
+                </div>
+                <div class="stack">
+                  @for (initial of givers; track $index) {
+                    <span class="avatar">{{ initial }}</span>
+                  }
+                  @for (initial of owing; track $index) {
+                    <span class="avatar pending">{{ initial }}</span>
+                  }
+                </div>
+                <button ndButton class="app-button">{{ app.gift.give }}</button>
+              </div>
+            </div>
+          </div>
+          <mt-tab-bar [tabs]="app.tabs" [active]="1" />
+        </div>
+
+        <!-- Saturday 3 April: the reminder, on the lock screen. -->
+        <div
+          class="screen lock"
+          [style.--from]="days[3]?.from"
+          [style.--to]="days[3]?.to"
+        >
+          <mt-status-bar [light]="true" />
+          <div class="lock-clock">
+            <p class="lock-date">{{ app.reminder.date }}</p>
+            <p class="lock-time">{{ app.reminder.time }}</p>
+          </div>
+          <div class="notification">
+            <span class="app-icon">
+              <svg viewBox="0 0 48 48">
+                <path
+                  fill-rule="evenodd"
+                  d="M24 8a16 16 0 1 1 0 32 16 16 0 1 1 0-32Z M24 14a10 10 0 1 0 0 20 10 10 0 1 0 0-20Z"
+                />
+                <circle cx="24" cy="5" r="3" />
+              </svg>
+            </span>
+            <div class="grid gap-0.5">
+              <div class="flex justify-between">
+                <span class="notification-app">{{ app.reminder.app }}</span>
+                <span class="notification-now">{{ app.reminder.now }}</span>
+              </div>
+              <p class="notification-title">{{ app.reminder.title }}</p>
+              <p class="notification-text">{{ app.reminder.text }}</p>
+            </div>
+          </div>
+          <span class="lock-button left">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18 6c0 2-2 2-2 4v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V10c0-2-2-2-2-4V2h12z"
+              />
+              <path d="M6 6h12" />
+              <path d="M12 12v4" />
+            </svg>
+          </span>
+          <span class="lock-button right">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
+              />
+              <circle cx="12" cy="13" r="3" />
+            </svg>
+          </span>
+        </div>
+
+        <!-- Sunday 4 April: the next meeting, who has paid. -->
+        <div
+          class="screen last"
+          [style.--from]="days[4]?.from"
+          [style.--to]="days[4]?.to"
+        >
+          <mt-status-bar time="16:12" />
+          <div class="app">
+            <p class="app-over">{{ app.circle }}</p>
+            <h3 class="app-title">{{ app.meeting.title }}</h3>
+            <p class="app-meta">{{ app.meeting.when }}</p>
+            <div ndCard class="app-card">
+              <div ndCardContent class="grid gap-3 px-5">
+                <div class="flex items-baseline justify-between">
+                  <span class="app-label">{{ app.meeting.paid }}</span>
+                  <span class="app-strong">{{ app.meeting.count }}</span>
+                </div>
+                <div class="progress"><span style="width: 96%"></span></div>
+                <p class="app-meta money">{{ app.meeting.amount }}</p>
+              </div>
+            </div>
+            <div ndCard class="app-card">
+              <div ndCardContent class="flex items-center gap-3 px-4">
+                <span class="avatar owes">K</span>
+                <span class="grow app-strong">{{ app.meeting.owes }}</span>
+                <button ndButton size="sm" variant="outline" class="app-small">
+                  {{ app.meeting.remind }}
+                </button>
+              </div>
+            </div>
+            <div ndCard class="app-card takes">
+              <div ndCardContent class="grid gap-1 px-5">
+                <span class="app-label light">{{ app.meeting.takes }}</span>
+                <p class="app-amount money">{{ app.meeting.pot }}</p>
+              </div>
+            </div>
+            <button ndButton class="app-button wide">
+              {{ app.meeting.confirm }}
+            </button>
+          </div>
+          <mt-tab-bar [tabs]="app.tabs" [active]="0" />
+        </div>
+      </mt-phone>
+    </figure>
+
+    <ol class="days">
+      @for (day of days; track day.day; let first = $first; let last = $last) {
+        <li
+          class="day"
+          [class.first]="first"
+          [class.last]="last"
+          [style.--from]="day.from"
+          [style.--to]="day.to"
+        >
+          <p class="when">{{ day.when }}</p>
+          <h3 class="day-title">{{ day.title }}</h3>
+          <p class="day-text">{{ day.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,330 @@
+/* Chop's header: the wordmark and the dial, two pills floating over the
+   page. The dial's hand sweeps from mark to mark across each section, and
+   the mark of the section in view lights, read from each section's view
+   timeline (theme.css shares them through timeline-scope). Scroll-driven
+   CSS, no JavaScript. Its menu is a popover: the seven sections round a
+   ring, a plain ordered list in the DOM. Imported by theme.css, scoped by
+   the component's tag. */
+mt-site-header {
+  --mt-pill-shadow:
+    0 1px 0 oklch(0.269 0.024 159.2 / 6%),
+    0 8px 20px -12px oklch(0.269 0.024 159.2 / 45%);
+
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem clamp(1rem, 3vw, 1.5rem);
+    /* The strip between the pills lets clicks through to the page. */
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+
+  .wordmark,
+  .dial {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--foreground);
+    box-shadow: var(--mt-pill-shadow);
+    outline: none;
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease;
+
+    &:hover {
+      box-shadow:
+        0 1px 0 oklch(0.269 0.024 159.2 / 6%),
+        0 12px 24px -12px oklch(0.269 0.024 159.2 / 55%);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 3px var(--background),
+        0 0 0 5px var(--ring);
+    }
+  }
+
+  .wordmark {
+    padding: 0.55rem 1rem;
+    font-size: 1.375rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+  }
+
+  .dial {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.9rem;
+    cursor: pointer;
+
+    svg {
+      width: 2.875rem;
+      height: 2.875rem;
+    }
+  }
+
+  .dial-label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: right;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .face {
+    fill: var(--background);
+    stroke: var(--border);
+  }
+
+  .mark {
+    fill: oklch(0.269 0.024 159.2 / 24%);
+  }
+
+  .hand {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+
+    line {
+      stroke: var(--foreground);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
+
+    circle {
+      fill: var(--foreground);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .dial-label {
+      display: none;
+    }
+
+    .dial {
+      padding: 0.3rem;
+    }
+  }
+
+  /* The menu: a card-coloured disc with the sections round its rim. */
+  .sections-menu {
+    --size: min(92vw, 32rem);
+    width: var(--size);
+    height: var(--size);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--card);
+    color: var(--foreground);
+    overflow: visible;
+    box-shadow: 0 40px 80px -40px oklch(0.2 0.03 160 / 70%);
+
+    &::backdrop {
+      background: oklch(0.269 0.024 159.2 / 55%);
+      backdrop-filter: blur(2px);
+    }
+
+    /* The inner ring the links sit outside. */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 24%;
+      border: 2px dashed var(--border);
+      border-radius: 50%;
+    }
+
+    /* The links are placed round the disc, so the list fills it. */
+    nav,
+    ol {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: rotate(calc(var(--i) * 360deg / 7))
+        translateY(calc(var(--size) * -0.36))
+        rotate(calc(var(--i) * -360deg / 7)) translate(-50%, -50%);
+    }
+
+    a {
+      display: grid;
+      justify-items: center;
+      gap: 0.2rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 0.875rem;
+      font-size: 0.9375rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      outline: none;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--accent);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 2px var(--ring);
+      }
+    }
+
+    small {
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-text);
+    }
+
+    .close {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      padding: 0.6rem 1.1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--foreground);
+      color: var(--background);
+      font: inherit;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+
+      &:focus-visible {
+        box-shadow:
+          0 0 0 3px var(--card),
+          0 0 0 5px var(--ring);
+      }
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hand {
+        animation-name:
+          mt-hand-1, mt-hand-2, mt-hand-3, mt-hand-4, mt-hand-5, mt-hand-6,
+          mt-hand-7;
+        animation-timing-function: linear;
+        animation-timeline:
+          --year, --circle, --month, --book, --dues, --questions, --full-circle;
+        animation-range: entry 50% exit 50%;
+      }
+
+      .mark {
+        animation: mt-mark-lit linear;
+        animation-range: entry 50% exit 50%;
+      }
+
+      .mark[data-section='year'] {
+        animation-timeline: --year;
+      }
+      .mark[data-section='circle'] {
+        animation-timeline: --circle;
+      }
+      .mark[data-section='month'] {
+        animation-timeline: --month;
+      }
+      .mark[data-section='book'] {
+        animation-timeline: --book;
+      }
+      .mark[data-section='dues'] {
+        animation-timeline: --dues;
+      }
+      .mark[data-section='questions'] {
+        animation-timeline: --questions;
+      }
+      .mark[data-section='full-circle'] {
+        animation-timeline: --full-circle;
+      }
+    }
+  }
+}
+
+/* Mark i to mark i + 1: a seventh of a turn per section. */
+@keyframes mt-hand-1 {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(calc(1turn / 7));
+  }
+}
+@keyframes mt-hand-2 {
+  from {
+    transform: rotate(calc(1turn / 7));
+  }
+  to {
+    transform: rotate(calc(2turn / 7));
+  }
+}
+@keyframes mt-hand-3 {
+  from {
+    transform: rotate(calc(2turn / 7));
+  }
+  to {
+    transform: rotate(calc(3turn / 7));
+  }
+}
+@keyframes mt-hand-4 {
+  from {
+    transform: rotate(calc(3turn / 7));
+  }
+  to {
+    transform: rotate(calc(4turn / 7));
+  }
+}
+@keyframes mt-hand-5 {
+  from {
+    transform: rotate(calc(4turn / 7));
+  }
+  to {
+    transform: rotate(calc(5turn / 7));
+  }
+}
+@keyframes mt-hand-6 {
+  from {
+    transform: rotate(calc(5turn / 7));
+  }
+  to {
+    transform: rotate(calc(6turn / 7));
+  }
+}
+@keyframes mt-hand-7 {
+  from {
+    transform: rotate(calc(6turn / 7));
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes mt-mark-lit {
+  from,
+  to {
+    fill: var(--primary);
+  }
+}

@@ -1,0 +1,25 @@
+<section [id]="copy.id" class="questions" aria-labelledby="questions-title">
+  <div class="intro">
+    <p class="kicker">{{ copy.label }}</p>
+    <h2 id="questions-title" class="heading">{{ copy.title }}</h2>
+  </div>
+  <div ndAccordion collapsible class="list">
+    @for (item of copy.items; track item.id) {
+      <div ndAccordionItem [value]="item.id" class="item">
+        <span class="who" aria-hidden="true">{{ item.askedBy[0] }}</span>
+        <h3 ndAccordionHeader>
+          <button ndAccordionTrigger class="trigger">
+            <span class="q">
+              <small>{{ copy.asks(item.askedBy) }}</small>
+              <span>{{ item.question }}</span>
+            </span>
+            <svg ndIcon="chevron-down"></svg>
+          </button>
+        </h3>
+        <div ndAccordionContent class="answer">
+          <p>{{ item.answer }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>

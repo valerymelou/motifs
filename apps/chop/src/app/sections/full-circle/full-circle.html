@@ -1,0 +1,60 @@
+<footer [id]="copy.id" class="full-circle" aria-labelledby="full-circle-title">
+  <div class="stage">
+    <div class="scene">
+      <svg class="ring-art" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="base" cx="50" cy="50" r="44" />
+        <circle class="close" cx="50" cy="50" r="44" pathLength="100" />
+      </svg>
+      @for (seat of seats; track seat.name) {
+        <span
+          class="seat"
+          aria-hidden="true"
+          [style.--i]="seat.i"
+          [style.--at]="seat.at"
+          >{{ seat.initial }}</span
+        >
+      }
+
+      <div class="centre">
+        <p class="tag">{{ copy.tag }}</p>
+        <h2 id="full-circle-title" class="title">{{ copy.title }}</h2>
+        <div class="stores">
+          @for (store of copy.stores; track store.id) {
+            <a
+              ndButton
+              size="lg"
+              class="store"
+              [href]="'#' + copy.id"
+              aria-describedby="no-app"
+            >
+              <svg ndIcon="smartphone"></svg>
+              {{ store.label }}
+            </a>
+          }
+        </div>
+        <p id="no-app" class="note">{{ copy.text }}</p>
+        <p class="place">{{ copy.place }}</p>
+      </div>
+
+      <div class="facts">
+        <p class="fact at-top">
+          {{ facts.byline }}
+          <a [href]="facts.series.href">{{ facts.series.label }}</a>
+        </p>
+        <p class="fact at-right">
+          <a [href]="facts.source.href" target="_blank" rel="noopener"
+            >{{ facts.source.label
+            }}<span class="sr-only"> (opens in a new tab)</span></a
+          >
+        </p>
+        <p class="fact at-bottom">
+          <a [href]="facts.ndop.href" target="_blank" rel="noopener"
+            >{{ facts.ndop.label
+            }}<span class="sr-only"> (opens in a new tab)</span></a
+          >
+        </p>
+        <p class="fact at-left">{{ facts.note }}</p>
+      </div>
+    </div>
+  </div>
+</footer>

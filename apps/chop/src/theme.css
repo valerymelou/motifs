@@ -6,7 +6,15 @@
 /* The components' own styles, imported here rather than through styleUrl:
    Angular ships component styles inside the JavaScript bundle. Each file
    scopes its rules to its component's tag. */
+@import './app/phone/phone.css';
+@import './app/sections/book-section/book-section.css';
 @import './app/sections/calculator-section/calculator-section.css';
+@import './app/sections/faq-section/faq-section.css';
+@import './app/sections/full-circle/full-circle.css';
+@import './app/sections/month-section/month-section.css';
+@import './app/sections/pricing-section/pricing-section.css';
+@import './app/sections/site-header/site-header.css';
+@import './app/sections/year-section/year-section.css';
 
 /*
  * Chop: warm sand, soft cards and one green, the colours of the app's own
@@ -74,22 +82,66 @@
     --mt-rings: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='%231c2a22' stroke-opacity='.045' stroke-width='2.5'/%3E%3C/svg%3E");
   }
 
-  /* Links to a section glide there, and stop clear of the sticky header. */
+  /* Links to a section glide there. The header floats over the page, so
+     each section starts at the top of the screen. */
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
     }
   }
 
-  @media (min-width: 40rem) {
-    html {
-      scroll-padding-top: 5rem;
-    }
-  }
-
+  /* Each section's view timeline, shared with the whole page so the
+     header's dial can follow them all (site-header.css), and the pinned
+     sections can play their scenes on their own. */
   body {
     background-image: var(--mt-rings);
     -webkit-font-smoothing: antialiased;
+    timeline-scope:
+      --year, --circle, --month, --book, --dues, --questions, --full-circle;
+  }
+
+  /* Sections below the first screen skip their layout and paint until
+     they come near, which keeps the first load's main thread short. A
+     skipped section takes its placeholder size, so each is about its real
+     height, and its view timeline still runs on that box. */
+  mt-calculator-section,
+  mt-month-section,
+  mt-book-section,
+  mt-pricing-section,
+  mt-faq-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 75rem;
+  }
+
+  /* The pinned month is a track five screens tall. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      mt-month-section {
+        contain-intrinsic-size: auto 500vh;
+      }
+    }
+  }
+
+  #year {
+    view-timeline: --year block;
+  }
+  #circle {
+    view-timeline: --circle block;
+  }
+  #month {
+    view-timeline: --month block;
+  }
+  #book {
+    view-timeline: --book block;
+  }
+  #dues {
+    view-timeline: --dues block;
+  }
+  #questions {
+    view-timeline: --questions block;
+  }
+  #full-circle {
+    view-timeline: --full-circle block;
   }
 
   ::selection {

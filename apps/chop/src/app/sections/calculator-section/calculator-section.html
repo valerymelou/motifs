@@ -1,30 +1,17 @@
-<section [id]="copy.id" class="calculator" aria-labelledby="calculator-title">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-8 sm:py-28">
-    <div class="grid max-w-2xl gap-4">
-      <p class="text-sm font-bold text-accent-text">{{ copy.label }}</p>
-      <h2
-        id="calculator-title"
-        class="text-[clamp(2rem,5vw,3.25rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-balance"
-      >
-        {{ copy.title }}
-      </h2>
-      <p class="text-lg leading-relaxed text-muted-foreground">
-        {{ copy.intro }}
-      </p>
+<section [id]="copy.id" class="circle" aria-labelledby="circle-title">
+  <div class="inner">
+    <div class="intro">
+      <p class="kicker">{{ copy.label }}</p>
+      <h2 id="circle-title" class="heading">{{ copy.title }}</h2>
+      <p class="lead">{{ copy.intro }}</p>
     </div>
 
-    <div
-      class="grid gap-8 rounded-[calc(var(--radius)*1.6)] bg-card p-5 shadow-[0_1px_0_oklch(0.269_0.024_159.2/6%),0_24px_48px_-24px_oklch(0.269_0.024_159.2/22%)] sm:p-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:gap-12"
-    >
-      <div class="controls grid content-start gap-7">
-        <div class="grid gap-3">
-          <div class="flex items-baseline justify-between gap-4">
-            <span id="members-label" class="text-sm font-semibold">{{
-              copy.members
-            }}</span>
-            <span class="money text-2xl font-extrabold" aria-hidden="true">{{
-              members()
-            }}</span>
+    <div class="calc">
+      <div class="controls start">
+        <div class="control">
+          <div class="control-head">
+            <span id="members-label">{{ copy.members }}</span>
+            <span class="value money" aria-hidden="true">{{ members() }}</span>
           </div>
           <div
             ndSlider
@@ -39,14 +26,16 @@
               [(value)]="members"
             ></span>
           </div>
+          <div class="scale" aria-hidden="true">
+            <span>{{ limits.members.min }}</span
+            ><span>{{ limits.members.max }}</span>
+          </div>
         </div>
 
-        <div class="grid gap-3">
-          <div class="flex items-baseline justify-between gap-4">
-            <span id="contribution-label" class="text-sm font-semibold">{{
-              copy.contribution
-            }}</span>
-            <span class="money text-2xl font-extrabold" aria-hidden="true">{{
+        <div class="control">
+          <div class="control-head">
+            <span id="contribution-label">{{ copy.contribution }}</span>
+            <span class="value money" aria-hidden="true">{{
               fcfa(contribution())
             }}</span>
           </div>
@@ -64,121 +53,79 @@
               [(value)]="contribution"
             ></span>
           </div>
-        </div>
-
-        <div class="grid gap-3">
-          <label for="start-trigger" class="text-sm font-semibold">{{
-            copy.start
-          }}</label>
-          <ng-container ndSelect [(value)]="start">
-            <button ndSelectTrigger id="start-trigger" class="h-11! w-full">
-              <span ndSelectValue></span>
-              <svg ndIcon="chevron-down" class="size-4 opacity-60"></svg>
-            </button>
-            <div ndSelectContent>
-              @for (month of months; track month.value) {
-                <div ndSelectItem [value]="month.value">
-                  <span ndSelectItemIndicator><svg ndIcon="check"></svg></span>
-                  <span ndSelectItemText>{{ month.label }}</span>
-                </div>
-              }
-            </div>
-          </ng-container>
-        </div>
-
-        <dl class="result grid grid-cols-2 gap-4 border-t border-border pt-6">
-          <div class="grid gap-1">
-            <dt class="text-sm text-muted-foreground">{{ copy.pot }}</dt>
-            <dd class="money text-xl font-extrabold text-accent-text">
-              {{ fcfa(pot()) }}
-            </dd>
+          <div class="scale" aria-hidden="true">
+            <span>{{ fcfa(limits.contribution.min) }}</span
+            ><span>{{ fcfa(limits.contribution.max) }}</span>
           </div>
-          <div class="grid gap-1">
-            <dt class="text-sm text-muted-foreground">{{ copy.lastTurn }}</dt>
-            <dd class="text-xl font-extrabold">
-              {{ turns()[turns().length - 1]?.month }}
-            </dd>
-          </div>
-        </dl>
+        </div>
       </div>
 
-      <figure
-        ndChartContainer
-        [config]="config"
-        class="aspect-auto min-w-0 flex-col justify-start gap-4"
-      >
-        <div class="flex flex-wrap items-start justify-between gap-3">
-          <figcaption
-            id="calculator-caption"
-            class="max-w-md text-sm font-semibold"
-          >
-            {{ copy.caption }}
-          </figcaption>
-          <button
-            ndToggle
-            variant="outline"
-            size="sm"
-            class="table-toggle px-3"
-            [(pressed)]="asTable"
-          >
-            {{ copy.table.toggle }}
-          </button>
-        </div>
+      <figure ndChartContainer [config]="config" class="wheel-figure">
+        <figcaption id="calculator-caption" class="sr-only">
+          {{ copy.caption }}
+        </figcaption>
 
         <div class="chart" [hidden]="asTable()">
-          <p
-            class="money mb-2 flex items-center gap-2 text-sm font-semibold text-accent-text"
-            aria-hidden="true"
-          >
-            <span class="pot-key"></span>{{ copy.pot }}: {{ fcfa(pot()) }}
-          </p>
-          <div class="relative">
+          <div class="plot">
             <svg
               ndChartPlot
-              [attr.viewBox]="'0 0 ' + width + ' ' + height"
-              [xs]="centers()"
+              [attr.viewBox]="'0 0 ' + wheel.size + ' ' + wheel.size"
+              [xs]="xs()"
+              [trackPointer]="false"
               [(active)]="active"
               aria-labelledby="calculator-caption"
               aria-describedby="calculator-hint"
             >
-              <g ndChartGrid>
-                @for (y of grid(); track $index) {
-                  <line x1="0" [attr.x2]="width" [attr.y1]="y" [attr.y2]="y" />
-                }
-              </g>
-              @if (current(); as turn) {
-                <rect
-                  ndChartCursor
-                  kind="band"
-                  [attr.x]="x()(turn.month) - x().step * 0.1"
-                  y="0"
-                  [attr.width]="x().bandwidth + x().step * 0.2"
-                  [attr.height]="height"
-                />
-              }
-              @for (turn of turns(); track turn.member; let i = $index) {
-                <rect
-                  class="bar"
-                  [class.is-turn]="i === highlighted()"
-                  [attr.x]="x()(turn.month)"
-                  [attr.y]="y()(turn.paidIn)"
-                  [attr.width]="x().bandwidth"
-                  [attr.height]="y()(0) - y()(turn.paidIn)"
-                  [attr.rx]="x().bandwidth > 16 ? 6 : 3"
-                />
-              }
-              <!-- The pot: every bar's turn takes this much. -->
-              <line
-                class="pot-line"
-                x1="0"
-                [attr.x2]="width"
-                [attr.y1]="y()(pot())"
-                [attr.y2]="y()(pot())"
-                vector-effect="non-scaling-stroke"
+              <circle
+                class="rim"
+                [attr.cx]="wheel.center"
+                [attr.cy]="wheel.center"
+                [attr.r]="wheel.rim"
               />
+              <circle
+                class="hole"
+                [attr.cx]="wheel.center"
+                [attr.cy]="wheel.center"
+                [attr.r]="wheel.hole - 8"
+              />
+              @for (wedge of wedges(); track $index; let i = $index) {
+                <path
+                  class="wedge"
+                  [class.is-turn]="i === highlighted()"
+                  [attr.d]="wedge.d"
+                  (pointerenter)="point(i)"
+                />
+              }
+              @for (wedge of wedges(); track $index; let i = $index) {
+                @if (labels()[i]; as label) {
+                  <text
+                    class="month"
+                    [attr.x]="wedge.label.x"
+                    [attr.y]="wedge.label.y"
+                    text-anchor="middle"
+                    dominant-baseline="central"
+                    aria-hidden="true"
+                  >
+                    {{ label }}
+                  </text>
+                }
+              }
             </svg>
+
+            <div class="centre" aria-hidden="true">
+              <small>{{ copy.pot }}</small>
+              <b class="money">{{ fcfa(pot()) }}</b>
+              <small>{{ copy.lastTurn }}</small>
+              <span>{{ turns()[turns().length - 1]?.month }}</span>
+            </div>
+
             @if (current(); as turn) {
-              <div ndChartTooltip [style.left.%]="tooltipLeft()" class="top-4">
+              <div
+                ndChartTooltip
+                class="tooltip"
+                [style.left.%]="tooltipAt().left"
+                [style.top.%]="tooltipAt().top"
+              >
                 <div ndChartTooltipLabel class="font-semibold">
                   {{ turn.month }}: {{ copy.turnOf(turn.member) }}
                 </div>
@@ -203,18 +150,7 @@
               </div>
             }
           </div>
-          <div ndChartAxis>
-            @for (turn of turns(); track turn.member; let i = $index) {
-              @if (labelled()[i]) {
-                <span
-                  ndChartLabel
-                  [style.left.%]="((centers()[i] ?? 0) / width) * 100"
-                  >{{ axisLabel(turn.month, i) }}</span
-                >
-              }
-            }
-          </div>
-          <ul ndChartLegend class="justify-start pt-4">
+          <ul ndChartLegend class="legend">
             <li ndChartLegendItem>
               <span ndChartLegendIndicator color="var(--chart-1)"></span>
               {{ copy.legend.paidIn }}
@@ -222,6 +158,10 @@
             <li ndChartLegendItem>
               <span ndChartLegendIndicator color="var(--chart-2)"></span>
               {{ copy.legend.turn }}
+            </li>
+            <li ndChartLegendItem>
+              <span class="rim-key"></span>
+              {{ copy.pot }}
             </li>
           </ul>
           <p id="calculator-hint" class="sr-only">{{ copy.hint }}</p>
@@ -270,9 +210,42 @@
           </table>
         </div>
       </figure>
+
+      <div class="controls end">
+        <div class="control">
+          <label for="start-trigger" class="control-head">{{
+            copy.start
+          }}</label>
+          <ng-container ndSelect [(value)]="start">
+            <button ndSelectTrigger id="start-trigger" class="select">
+              <span ndSelectValue></span>
+              <svg ndIcon="chevron-down" class="size-4 opacity-60"></svg>
+            </button>
+            <div ndSelectContent>
+              @for (month of months; track month.value) {
+                <div ndSelectItem [value]="month.value">
+                  <span ndSelectItemIndicator><svg ndIcon="check"></svg></span>
+                  <span ndSelectItemText>{{ month.label }}</span>
+                </div>
+              }
+            </div>
+          </ng-container>
+        </div>
+
+        <button
+          ndToggle
+          variant="outline"
+          size="sm"
+          class="table-toggle"
+          [(pressed)]="asTable"
+        >
+          {{ copy.table.toggle }}
+        </button>
+
+        <p class="note">{{ copy.note }}</p>
+      </div>
     </div>
 
-    <p class="max-w-2xl text-muted-foreground">{{ copy.note }}</p>
     <p class="sr-only" aria-live="polite">{{ announcement() }}</p>
   </div>
 </section>

@@ -1,0 +1,823 @@
+/* "A month in Chop": a 28-day dial round a phone. The dial turns under a
+   "Today" pointer, from the March meeting to the April one, and rests on
+   five days; on each, the phone shows that day's screen and the caption
+   beside it says what happened.
+
+   The base layout, for reduced motion and without scroll timelines: the
+   dial rests on the meeting, the phone shows the book, and the five days
+   are a list. With scroll timelines and motion welcome, the section is a
+   tall track whose stage pins, and the dial's turn, the screens and the
+   captions are transform and opacity keyframes on its view timeline.
+
+   The app's screens are drawn at true phone scale inside <mt-phone>
+   (phone.css), so their sizes here are a real app's, in px. Imported by
+   theme.css, scoped by the component's tag. */
+mt-month-section {
+  /* The phone's scale, and the dial round it. */
+  --s: 0.5;
+  --D: calc(868px * var(--s) * 1.14);
+
+  display: block;
+
+  .month {
+    position: relative;
+    overflow-x: clip;
+    background: var(--background);
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 2.5rem;
+    padding: clamp(6rem, 14vh, 10rem) clamp(1rem, 5vw, 4rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .kicker {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .heading {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .scene {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--D);
+    max-width: 100%;
+    height: var(--D);
+    margin: 0;
+  }
+
+  .pointer {
+    position: absolute;
+    z-index: 3;
+    top: -1.75rem;
+    left: 50%;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 0.3rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+
+    &::after {
+      content: '';
+      border: 0.45rem solid transparent;
+      border-top: 0.55rem solid var(--foreground);
+      border-bottom: 0;
+    }
+  }
+
+  .dial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--D);
+    height: var(--D);
+    margin: calc(var(--D) / -2) 0 0 calc(var(--D) / -2);
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow:
+      inset 0 0 0 1px var(--border),
+      0 30px 60px -40px oklch(0.269 0.024 159.2 / 50%);
+  }
+
+  /* Not "ring": that is a Tailwind utility, and draws a box. */
+  .dial-ring {
+    position: absolute;
+    inset: 0;
+  }
+
+  .tick {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 0.6rem;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: oklch(0.269 0.024 159.2 / 22%);
+    transform: rotate(calc(var(--d) * 360deg / 28))
+      translateY(calc(var(--D) * -0.5 + 0.5rem));
+
+    &.sunday {
+      height: 1rem;
+      background: oklch(0.269 0.024 159.2 / 45%);
+    }
+  }
+
+  .mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4.5rem;
+    margin: -0.6rem 0 0 -2.25rem;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    transform: rotate(var(--a)) translateY(calc(var(--D) * -0.5 + 2rem));
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -1.65rem;
+      left: 50%;
+      width: 4px;
+      height: 1.1rem;
+      margin-left: -2px;
+      border-radius: 2px;
+      background: var(--primary);
+    }
+  }
+
+  .phone {
+    --phone-scale: var(--s);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Five screens, stacked; the base layout shows the book. */
+  .screen {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+
+    &.first {
+      opacity: 1;
+    }
+  }
+
+  .days {
+    display: grid;
+    gap: 1.75rem;
+    max-width: 40rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .when {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .day-title {
+    margin-top: 0.5rem;
+    font-size: clamp(1.5rem, 3vw, 2.375rem);
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .day-text {
+    max-width: 32ch;
+    margin-top: 0.625rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+
+  /* ── The app, at true scale ── */
+  .app {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 6px 16px 0;
+  }
+
+  .app-over {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted-foreground);
+  }
+
+  .app-title {
+    margin-top: -8px;
+    font-size: 34px;
+    line-height: 41px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .app-pill {
+    justify-self: start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .app-card {
+    gap: 0;
+    padding-block: 16px;
+    border-color: oklch(0.269 0.024 159.2 / 7%);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px oklch(0.269 0.024 159.2 / 6%);
+
+    &.hero,
+    &.takes {
+      border: 0;
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    &.list {
+      padding-block: 4px;
+    }
+  }
+
+  .app-label {
+    font-size: 15px;
+    font-weight: 700;
+
+    &.light {
+      color: oklch(1 0 0 / 85%);
+    }
+  }
+
+  .app-amount {
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .app-meta {
+    font-size: 14px;
+    color: var(--muted-foreground);
+
+    &.light {
+      color: oklch(1 0 0 / 75%);
+    }
+  }
+
+  .app-strong {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .app-badge {
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 700;
+
+    &.warn {
+      background: oklch(0.93 0.06 75);
+      color: oklch(0.42 0.1 60);
+    }
+  }
+
+  .hero .app-badge {
+    background: oklch(1 0 0 / 20%);
+    color: oklch(1 0 0);
+  }
+
+  .app-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 6px;
+    padding-inline: 4px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .app-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+
+    & + & {
+      border-top: 0.5px solid oklch(0.269 0.024 159.2 / 10%);
+    }
+
+    &.more {
+      justify-content: center;
+      color: var(--accent-text);
+      font-size: 15px;
+    }
+
+    &.moving {
+      background: oklch(0.9 0.04 161.7 / 45%);
+    }
+  }
+
+  .grow {
+    flex: 1;
+  }
+
+  .app-month {
+    width: 32px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted-foreground);
+  }
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 800;
+
+    &.big {
+      width: 56px;
+      height: 56px;
+      font-size: 22px;
+    }
+
+    &.pending {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+
+    &.owes {
+      background: oklch(0.93 0.06 75);
+      color: oklch(0.42 0.1 60);
+    }
+  }
+
+  .check {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .swap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .swap-arrows {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: var(--muted-foreground);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .app-button {
+    height: 46px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+
+    &.wide {
+      margin-top: 4px;
+    }
+  }
+
+  .app-small {
+    height: 34px;
+    border-radius: 999px;
+    padding-inline: 14px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .gift-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gift-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: oklch(0.93 0.05 20);
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: oklch(0.6 0.17 20);
+    }
+  }
+
+  .progress {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--muted);
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--primary);
+    }
+  }
+
+  .stack {
+    display: flex;
+
+    .avatar {
+      box-shadow: 0 0 0 2px var(--card);
+    }
+
+    .avatar + .avatar {
+      margin-left: -6px;
+    }
+  }
+
+  /* The lock screen: the circle's green, with the ring as wallpaper. */
+  .lock {
+    background:
+      radial-gradient(
+        circle at 50% 62%,
+        transparent 0 92px,
+        oklch(1 0 0 / 6%) 92px 132px,
+        transparent 132px
+      ),
+      radial-gradient(
+        circle at 50% 62%,
+        transparent 0 190px,
+        oklch(1 0 0 / 4%) 190px 228px,
+        transparent 228px
+      ),
+      linear-gradient(170deg, oklch(0.42 0.07 160), oklch(0.24 0.04 160));
+    color: oklch(1 0 0);
+  }
+
+  .lock-clock {
+    display: grid;
+    justify-items: center;
+    margin-top: 22px;
+  }
+
+  .lock-date {
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+
+  .lock-time {
+    font-size: 96px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .notification {
+    display: flex;
+    gap: 12px;
+    margin: 230px 10px 0;
+    padding: 14px;
+    border-radius: 24px;
+    background: oklch(0.97 0.01 85 / 78%);
+    backdrop-filter: blur(24px);
+    color: var(--foreground);
+    box-shadow: 0 10px 30px -14px oklch(0 0 0 / 50%);
+  }
+
+  .app-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 9px;
+    background: var(--primary);
+
+    svg {
+      width: 26px;
+      height: 26px;
+      fill: oklch(1 0 0);
+    }
+  }
+
+  .notification-app {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--muted-foreground);
+  }
+
+  .notification-now {
+    font-size: 13px;
+    color: var(--muted-foreground);
+  }
+
+  .notification-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .notification-text {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .lock-button {
+    position: absolute;
+    bottom: 48px;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: oklch(0 0 0 / 28%);
+    backdrop-filter: blur(10px);
+
+    &.left {
+      left: 46px;
+    }
+
+    &.right {
+      right: 46px;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: oklch(1 0 0);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* The phone grows with the screen. */
+  @media (min-width: 52rem) and (min-height: 44rem) {
+    --s: 0.56;
+  }
+
+  @media (min-width: 72rem) and (min-height: 50rem) {
+    --s: 0.62;
+  }
+
+  @media (max-width: 40rem) {
+    --s: 0.46;
+  }
+
+  @media (max-height: 40rem) {
+    --s: 0.44;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .month {
+        height: 500vh;
+      }
+
+      .stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: clip;
+        grid-template-rows: auto 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        padding: 5.5rem 1rem 1.5rem;
+      }
+
+      .scene {
+        max-width: none;
+      }
+
+      .days {
+        position: relative;
+        width: min(100%, 26rem);
+        height: 8.5rem;
+        text-align: center;
+      }
+
+      .day {
+        position: absolute;
+        inset: 0;
+      }
+
+      .day-text {
+        margin-inline: auto;
+      }
+
+      .dial-ring,
+      .screen,
+      .day {
+        animation-fill-mode: both;
+        animation-timeline: --month;
+      }
+
+      .dial-ring {
+        animation-name: mt-month-turn;
+        animation-timing-function: ease-in-out;
+        animation-range: contain 0% contain 100%;
+      }
+
+      .screen,
+      .day {
+        animation-name: mt-month-show;
+        animation-timing-function: linear;
+        animation-range: contain var(--from) contain var(--to);
+      }
+
+      .screen.first,
+      .day.first {
+        animation-name: mt-month-first;
+      }
+
+      .screen.last,
+      .day.last {
+        animation-name: mt-month-last;
+      }
+    }
+
+    /* From 60rem: the dial on the left, the title above the caption on
+       the right; from 72rem, the title, the dial and the caption side by
+       side. */
+    @media (prefers-reduced-motion: no-preference) and (min-width: 60rem) {
+      .stage {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        justify-items: start;
+        column-gap: clamp(2rem, 5vw, 4rem);
+        row-gap: 0;
+        padding: 5rem clamp(1.5rem, 5vw, 4rem) 2rem;
+      }
+
+      .intro {
+        grid-column: 2;
+        align-self: end;
+        text-align: left;
+      }
+
+      .scene {
+        grid-row: 1 / 3;
+        grid-column: 1;
+        align-self: center;
+      }
+
+      .heading {
+        font-size: clamp(2rem, 3.2vw, 2.75rem);
+      }
+
+      .days {
+        grid-column: 2;
+        align-self: start;
+        height: 16rem;
+        text-align: left;
+      }
+
+      .day {
+        display: grid;
+        align-content: center;
+      }
+
+      .day-text {
+        margin-inline: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) and (min-width: 72rem) {
+      .stage {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-rows: 1fr;
+      }
+
+      .intro {
+        grid-column: 1;
+        align-self: start;
+        margin-top: 2rem;
+      }
+
+      .scene {
+        grid-row: 1;
+        grid-column: 2;
+      }
+
+      .days {
+        grid-column: 3;
+        align-self: center;
+      }
+    }
+
+    /* On phones the dial is wider than the screen: its top and bottom
+       arcs show round the phone, and its marks pass under the pointer. */
+    @media (prefers-reduced-motion: no-preference) and (max-width: 40rem) {
+      .days {
+        height: 9.5rem;
+      }
+
+      .heading {
+        font-size: 1.625rem;
+      }
+
+      .day-title {
+        font-size: 1.5rem;
+      }
+
+      .day-text {
+        font-size: 0.9375rem;
+      }
+    }
+  }
+}
+
+/* The dial turns so each resting day sits under the pointer: the meeting
+   on 7 March, the 16th, the 20th, 3 April, then the next meeting. */
+@keyframes mt-month-turn {
+  0%,
+  8% {
+    transform: rotate(0deg);
+  }
+  22%,
+  32% {
+    transform: rotate(calc(-9turn / 28));
+  }
+  44%,
+  54% {
+    transform: rotate(calc(-13turn / 28));
+  }
+  66%,
+  76% {
+    transform: rotate(calc(-27turn / 28));
+  }
+  88%,
+  100% {
+    transform: rotate(-1turn);
+  }
+}
+
+@keyframes mt-month-show {
+  0% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-month-first {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-month-last {
+  0% {
+    opacity: 0;
+  }
+  30%,
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,284 @@
+/* "The book": the treasurer's exercise book, full width, with ruled lines,
+   a red margin and biro in Plus Jakarta Sans italic. As each row scrolls
+   past the middle of the screen, its biro mark is struck through and
+   Chop's status is written in over it: a stroke drawn, then a wipe, on the
+   row's own view timeline. With reduced motion, or without scroll
+   timelines, the strikes and the statuses are there at rest. Imported by
+   theme.css, scoped by the component's tag. */
+mt-book-section {
+  --paper: oklch(0.99 0.008 95);
+  --rule: oklch(0.85 0.04 245);
+  --margin: oklch(0.75 0.1 25);
+  --line: 3.25rem;
+
+  display: block;
+
+  .book {
+    display: grid;
+    justify-items: center;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    padding: clamp(6rem, 14vh, 10rem) clamp(1rem, 5vw, 4rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 1rem;
+    max-width: 46rem;
+    text-align: center;
+  }
+
+  .kicker {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .heading {
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+  }
+
+  .notebook {
+    position: relative;
+    width: min(100%, 54rem);
+    margin: 0;
+    padding: 1.75rem 1.75rem 2rem 5.75rem;
+    border-radius: 0.375rem 1.125rem 1.125rem 0.375rem;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(
+        90deg,
+        transparent 4.25rem,
+        var(--margin) 4.25rem 4.375rem,
+        transparent 4.375rem
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0 calc(var(--line) - 1px),
+        var(--rule) calc(var(--line) - 1px) var(--line)
+      );
+    background-position: 0 1.75rem;
+    box-shadow:
+      -0.375rem 0 0 oklch(0.84 0.04 80),
+      -0.5rem 0 0 oklch(0.78 0.04 80),
+      0 30px 50px -34px oklch(0.269 0.024 159.2 / 55%);
+    rotate: -0.6deg;
+  }
+
+  .page-head,
+  .name,
+  .mark {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--biro);
+  }
+
+  .page-head {
+    height: var(--line);
+    font-size: 1.25rem;
+    line-height: var(--line);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    height: var(--line);
+  }
+
+  .name {
+    font-size: 1.1875rem;
+  }
+
+  .cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-width: 0;
+  }
+
+  .mark {
+    position: relative;
+    font-size: 1.1875rem;
+    white-space: nowrap;
+    text-decoration: none;
+
+    /* The treasurer's strike, drawn by hand. */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 54%;
+      right: -0.25rem;
+      left: -0.25rem;
+      height: 2.5px;
+      border-radius: 2px;
+      background: var(--biro);
+      transform-origin: 0 50%;
+      rotate: -2deg;
+    }
+  }
+
+  .status {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px -6px oklch(0.269 0.024 159.2 / 45%);
+
+    /* A deeper green than --accent-text: 5.8:1 on the pale wash. */
+    &[data-tone='paid'] {
+      background: var(--accent);
+      color: oklch(0.43 0.075 161);
+    }
+
+    &[data-tone='owes'] {
+      background: oklch(0.93 0.06 75);
+      color: oklch(0.4 0.1 60);
+    }
+  }
+
+  .rules {
+    width: min(100%, 54rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+    padding-block: 1.25rem;
+    border-top: 1.5px solid var(--border);
+
+    &:last-child {
+      border-bottom: 1.5px solid var(--border);
+    }
+  }
+
+  .numeral {
+    padding-left: 1.5rem;
+    font-size: 1.625rem;
+    line-height: 1;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--biro);
+  }
+
+  .rule-title {
+    font-size: 1.375rem;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  .rule-text {
+    margin-top: 0.25rem;
+    color: var(--muted-foreground);
+  }
+
+  @media (max-width: 40rem) {
+    .notebook {
+      padding: 1.5rem 1rem 1.75rem 4.5rem;
+      background-image:
+        linear-gradient(
+          90deg,
+          transparent 3.5rem,
+          var(--margin) 3.5rem 3.625rem,
+          transparent 3.625rem
+        ),
+        repeating-linear-gradient(
+          180deg,
+          transparent 0 calc(var(--line) - 1px),
+          var(--rule) calc(var(--line) - 1px) var(--line)
+        );
+      background-position: 0 1.5rem;
+    }
+
+    .row {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      gap: 0.5rem;
+    }
+
+    .name,
+    .mark {
+      font-size: 1rem;
+    }
+
+    /* On a phone the status is written over the end of the struck mark,
+       like a sticker on the page. */
+    .status {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      translate: 0 -50%;
+      rotate: -3deg;
+      font-size: 0.75rem;
+    }
+
+    .rule {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+    }
+
+    .numeral {
+      padding-left: 0.5rem;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .row {
+        view-timeline: --book-row block;
+      }
+
+      .mark::after,
+      .status {
+        animation-fill-mode: both;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        animation-timeline: --book-row;
+      }
+
+      .mark::after {
+        animation-name: mt-book-strike;
+        animation-range: cover 36% cover 46%;
+      }
+
+      .status {
+        animation-name: mt-book-write;
+        animation-range: cover 44% cover 54%;
+      }
+    }
+  }
+}
+
+@keyframes mt-book-strike {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mt-book-write {
+  from {
+    clip-path: inset(0 100% 0 0 round 999px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 999px);
+  }
+}

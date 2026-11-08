@@ -1,6 +1,19 @@
 <mt-site-header />
 <main>
-  <mt-hero-section />
-  <mt-calculator-section />
+  <mt-year-section />
+  <!-- The interactive sections are prerendered, then hydrated only once
+       they scroll into view: their code, the Select's overlay above all,
+       stays out of the first load. -->
+  @defer (hydrate on viewport) {
+    <mt-calculator-section />
+  }
+  <mt-month-section />
+  <mt-book-section />
+  @defer (hydrate on viewport) {
+    <mt-pricing-section />
+  }
+  @defer (hydrate on viewport) {
+    <mt-faq-section />
+  }
 </main>
-<mt-page-footer />
+<mt-full-circle />

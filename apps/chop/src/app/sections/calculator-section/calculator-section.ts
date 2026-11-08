@@ -13,12 +13,10 @@ import {
   summary,
   turns,
 } from '../../circle/circle';
+import { WHEEL, wedges } from '../../circle/wheel';
 import { calculator } from '../../content';
 import {
   ChartContainer,
-  ChartCursor,
-  ChartGrid,
-  ChartLabel,
   ChartLegend,
   ChartLegendIndicator,
   ChartLegendItem,
@@ -30,9 +28,6 @@ import {
   ChartTooltipList,
   ChartTooltipName,
   ChartTooltipValue,
-  ChartAxis,
-  scaleBand,
-  scaleLinear,
   type ChartConfig,
 } from '../../ui/chart/chart';
 import {
@@ -52,27 +47,22 @@ import {
 } from '../../ui/slider/slider';
 import { Toggle } from '../../ui/toggle/toggle';
 
-/** The plot's size in viewBox units; the SVG scales it to the column. */
-const WIDTH = 640;
-const HEIGHT = 280;
-/** Room above the pot line, so its dashes aren't cut. */
-const TOP = 4;
-
 /**
- * The savings calculator, the page's signature moment: choose the members,
- * the monthly contribution and the first turn, and a bar chart shows what
- * each member has paid in by their turn against the pot they take. The
- * table under it holds the same rows; "Show as a table" puts it on screen
- * in the chart's place, and without JavaScript it shows the example.
+ * "Your circle", the savings calculator: choose the members, the monthly
+ * contribution and the first turn, and the wheel shows each member's turn
+ * as a wedge, as long as what they have paid in by then, against the pot
+ * at the rim (circle/wheel.ts). The table under it holds the same rows;
+ * "Show as a table" puts it on screen in the wheel's place, and without
+ * JavaScript it shows the example.
+ *
+ * The wheel is Ndop's Chart: its container, plot, tooltip and legend. The
+ * plot's arrow keys step through the turns; its pointer reads x alone,
+ * which doesn't fit a wheel, so each wedge sets the turn it is over.
  */
 @Component({
   selector: 'mt-calculator-section',
   imports: [
-    ChartAxis,
     ChartContainer,
-    ChartCursor,
-    ChartGrid,
-    ChartLabel,
     ChartLegend,
     ChartLegendIndicator,
     ChartLegendItem,
@@ -103,8 +93,7 @@ const TOP = 4;
 export class CalculatorSection {
   protected readonly copy = calculator;
   protected readonly fcfa = fcfa;
-  protected readonly width = WIDTH;
-  protected readonly height = HEIGHT;
+  protected readonly wheel = WHEEL;
   protected readonly limits = {
     members: { min: MIN_MEMBERS, max: MAX_MEMBERS },
     contribution: {
@@ -138,52 +127,24 @@ export class CalculatorSection {
   protected readonly pot = computed(
     () => this.circle().contribution * this.circle().members,
   );
-
-  /** One band per turn, keyed by month, which is unique in a circle. */
-  protected readonly x = computed(() =>
-    scaleBand(
-      this.turns().map((turn) => turn.month),
-      [0, WIDTH],
-      { inner: 0.25, outer: 0.15 },
-    ),
-  );
-  /** From zero to the pot exactly, so the last bar meets the line. */
-  protected readonly y = computed(() =>
-    scaleLinear([0, this.pot()], [HEIGHT, TOP], false),
-  );
-  protected readonly centers = computed(() => {
-    const x = this.x();
-    return this.turns().map((turn) => x(turn.month) + x.bandwidth / 2);
-  });
-  /** Gridlines at quarters of the pot. */
-  protected readonly grid = computed(() =>
-    [0.25, 0.5, 0.75].map((share) => this.y()(this.pot() * share)),
-  );
-  /**
-   * Which bars get a month label: all of them up to twelve turns; past
-   * that, every other one, but always each January, which names its year,
-   * and never the bars beside it.
-   */
-  protected readonly labelled = computed(() => {
-    const months = this.turns().map((turn) => turn.month);
-    if (months.length <= 12) {
-      return months.map(() => true);
-    }
-    const january = months.map((month) => month.startsWith('January'));
-    return months.map(
-      (_, i) =>
-        january[i] || (i % 2 === 0 && !january[i - 1] && !january[i + 1]),
-    );
-  });
+  protected readonly wedges = computed(() => wedges(this.turns()));
+  /** The plot's keys step through the turns; their positions don't matter. */
+  protected readonly xs = computed(() => this.turns().map((_, i) => i));
 
   /**
-   * A month's label under its bar: "Mar", or "Jan ’28" where a new year
-   * starts, so a long circle's months don't read as one year.
+   * Each wedge's month label outside the rim: "Mar", or "Jan ’28" where a
+   * new year starts, so a long circle's months don't read as one year. Up
+   * to twelve turns every wedge is labelled; past that, only the Januaries.
    */
-  protected axisLabel(month: string, index: number): string {
-    const short = month.slice(0, 3);
-    return index > 0 && short === 'Jan' ? `Jan ’${month.slice(-2)}` : short;
-  }
+  protected readonly labels = computed(() => {
+    const turns = this.turns();
+    return turns.map((turn, i) => {
+      const short = turn.month.slice(0, 3);
+      const label =
+        i > 0 && short === 'Jan' ? `Jan ’${turn.month.slice(-2)}` : short;
+      return turns.length <= 12 || short === 'Jan' ? label : '';
+    });
+  });
 
   /** The highlighted turn: the active one, or the first at rest. */
   protected readonly highlighted = computed(() => this.active() ?? 0);
@@ -191,9 +152,13 @@ export class CalculatorSection {
     const index = this.active();
     return index === null ? null : (this.turns()[index] ?? null);
   });
-  protected readonly tooltipLeft = computed(() => {
+  /** Where the tooltip sits, in percent of the wheel: by its wedge's edge. */
+  protected readonly tooltipAt = computed(() => {
     const index = this.active();
-    return index === null ? 0 : ((this.centers()[index] ?? 0) / WIDTH) * 100;
+    const tip = index === null ? undefined : this.wedges()[index]?.tip;
+    return tip
+      ? { left: (tip.x / WHEEL.size) * 100, top: (tip.y / WHEEL.size) * 100 }
+      : { left: 50, top: 50 };
   });
   /** What the live region reads as the chart's keys move. */
   protected readonly currentText = computed(() => {
@@ -218,5 +183,10 @@ export class CalculatorSection {
       const timer = setTimeout(() => this.announcement.set(message), 700);
       onCleanup(() => clearTimeout(timer));
     });
+  }
+
+  /** The pointer picks the wedge it is over. */
+  protected point(index: number): void {
+    this.active.set(index);
   }
 }

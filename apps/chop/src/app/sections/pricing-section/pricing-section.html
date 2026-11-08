@@ -1,0 +1,84 @@
+<section [id]="copy.id" class="dues" aria-labelledby="dues-title">
+  <div class="intro">
+    <p class="kicker">{{ copy.label }}</p>
+    <h2 id="dues-title" class="heading">{{ copy.title }}</h2>
+    <p class="lead">{{ copy.note }}</p>
+  </div>
+
+  <div
+    ndToggleGroup
+    variant="outline"
+    [spacing]="1"
+    class="period"
+    [attr.aria-label]="copy.periodLabel"
+    [value]="value()"
+    (valueChange)="setPeriod($event)"
+  >
+    @for (option of copy.periods; track option.id) {
+      <button ndToggleGroupItem [value]="option.id" class="period-option">
+        {{ option.name }}
+      </button>
+    }
+  </div>
+
+  <div class="plans">
+    @for (plan of copy.plans; track plan.id; let featured = $last) {
+      <article class="plan" [class.featured]="featured">
+        <svg class="art" viewBox="0 0 200 200" aria-hidden="true">
+          @for (ring of featured ? art.treasurer : art.circle; track $index) {
+            <circle
+              class="art-ring"
+              [attr.cx]="ring.cx"
+              [attr.cy]="ring.cy"
+              [attr.r]="ring.r"
+            />
+            @for (seat of ring.seats; track $index) {
+              <circle
+                class="art-seat"
+                [attr.cx]="seat.x"
+                [attr.cy]="seat.y"
+                [attr.r]="featured ? 3.2 : 6.5"
+              />
+            }
+          }
+        </svg>
+        <div class="plan-head">
+          <h3 class="plan-name">{{ plan.name }}</h3>
+          @if (featured && period() === 'yearly') {
+            <span ndBadge>{{ copy.saving }}</span>
+          }
+        </div>
+        <p class="plan-text">{{ plan.text }}</p>
+        <p class="plan-price">
+          <!-- Keyed by period, so each new price rolls in. -->
+          @for (key of [period()]; track key) {
+            <span class="price money">{{
+              plan.price[key] === 0 ? copy.free : fcfa(plan.price[key])
+            }}</span>
+            @if (plan.price[key] !== 0) {
+              <span class="price per">{{ copy.per[key] }}</span>
+            }
+          }
+        </p>
+        <ul class="features">
+          @for (feature of plan.features; track feature) {
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+              {{ feature }}
+            </li>
+          }
+        </ul>
+        <a
+          ndButton
+          size="lg"
+          href="#full-circle"
+          class="plan-action"
+          [variant]="featured ? 'default' : 'outline'"
+          >{{ plan.action }}</a
+        >
+      </article>
+    }
+  </div>
+</section>

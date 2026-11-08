@@ -1,0 +1,212 @@
+/* The drawn phone, its status bar and the app's tab bar. The body is laid
+   out at a real phone's size, a 390 by 844 screen in a 12px bezel, and
+   scaled as one by --phone-scale, so everything on the screen is drawn at
+   true scale: 17px body text, a 34px large title, 44px rows. Imported by
+   theme.css, scoped by the components' tags. */
+mt-phone {
+  --phone-scale: 0.5;
+  --phone-bezel: 12px;
+  --phone-w: calc(390px + var(--phone-bezel) * 2);
+  --phone-h: calc(844px + var(--phone-bezel) * 2);
+
+  display: block;
+  position: relative;
+  width: calc(var(--phone-w) * var(--phone-scale));
+  height: calc(var(--phone-h) * var(--phone-scale));
+  flex: none;
+
+  .phone-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--phone-w);
+    height: var(--phone-h);
+    padding: var(--phone-bezel);
+    border-radius: 68px;
+    transform: scale(var(--phone-scale));
+    transform-origin: 0 0;
+    /* The frame: a satin metal band round a black bezel. */
+    background: oklch(0.14 0.01 160);
+    box-shadow:
+      inset 0 0 0 2px oklch(0.55 0.01 160),
+      inset 0 0 0 3.5px oklch(0.3 0.01 160),
+      inset 0 0 0 5px oklch(0.1 0.005 160),
+      0 2px 0 oklch(0.269 0.024 159.2 / 10%),
+      0 50px 70px -36px oklch(0.2 0.03 160 / 55%),
+      0 24px 30px -24px oklch(0.2 0.03 160 / 35%);
+  }
+
+  .phone-button {
+    position: absolute;
+    width: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      90deg,
+      oklch(0.32 0.01 160),
+      oklch(0.55 0.01 160) 60%,
+      oklch(0.4 0.01 160)
+    );
+
+    &.action {
+      top: 120px;
+      left: -3px;
+      height: 32px;
+    }
+
+    &.volume-up {
+      top: 176px;
+      left: -3px;
+      height: 62px;
+    }
+
+    &.volume-down {
+      top: 252px;
+      left: -3px;
+      height: 62px;
+    }
+
+    &.power {
+      top: 212px;
+      right: -3px;
+      height: 98px;
+    }
+  }
+
+  .phone-screen {
+    position: relative;
+    width: 390px;
+    height: 844px;
+    overflow: hidden;
+    border-radius: 56px;
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 17px;
+    line-height: 1.3;
+    /* The glass: a faint sheen across the top corner. */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      border-radius: inherit;
+      background: linear-gradient(
+        125deg,
+        oklch(1 0 0 / 9%) 0%,
+        oklch(1 0 0 / 0%) 32%
+      );
+      pointer-events: none;
+    }
+  }
+
+  .phone-island {
+    position: absolute;
+    z-index: 21;
+    top: 11px;
+    left: 50%;
+    width: 126px;
+    height: 37px;
+    margin-left: -63px;
+    border-radius: 999px;
+    background: #000;
+  }
+
+  .phone-home {
+    position: absolute;
+    z-index: 21;
+    bottom: 8px;
+    left: 50%;
+    width: 140px;
+    height: 5px;
+    margin-left: -70px;
+    border-radius: 999px;
+    background: oklch(0.15 0.01 160);
+  }
+
+  .dark .phone-home {
+    background: oklch(1 0 0 / 90%);
+  }
+}
+
+mt-status-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 0 30px 0 50px;
+  color: var(--foreground);
+
+  &.light {
+    color: oklch(1 0 0);
+  }
+
+  .status-time {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .status-glyphs {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    svg {
+      fill: currentColor;
+    }
+  }
+
+  .signal {
+    width: 18px;
+    height: 12px;
+  }
+
+  .wifi {
+    width: 16px;
+    height: 12px;
+  }
+
+  .battery {
+    width: 27px;
+    height: 13px;
+  }
+
+  .battery-case {
+    fill: none;
+    stroke: currentColor;
+    stroke-opacity: 0.4;
+  }
+}
+
+mt-tab-bar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 8px 8px 30px;
+  border-top: 0.5px solid oklch(0.269 0.024 159.2 / 14%);
+  background: oklch(0.977 0.011 84.6 / 92%);
+  backdrop-filter: blur(20px);
+
+  .tab {
+    display: grid;
+    justify-items: center;
+    gap: 3px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: oklch(0.269 0.024 159.2 / 45%);
+
+    &.active {
+      color: var(--primary);
+    }
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}

@@ -1,0 +1,526 @@
+/* The opening wheel. A disc of twelve months on a deep green ground, its
+   centre below the screen so only the top arc shows, January under the
+   "This month" pointer.
+
+   The base layout, for reduced motion and for browsers without scroll
+   timelines: the wheel stays on January as a drawing behind the section's
+   top, and the month cards are a column below it.
+
+   With scroll timelines and motion welcome, the section is a tall track
+   and its stage pins while the track scrolls. The wheel turns a month a
+   step and rests at each card's month; each card rides the rim on its own
+   layer, turning with the wheel and counter-turning so it stays upright,
+   and fades in and out round its rest. After October the wheel shrinks
+   into the header's dial. Every moving part is a transform or opacity
+   keyframe on the section's view timeline, --year (theme.css), so the wheel turns on the
+   compositor; only the seats' colour is painted.
+
+   Imported by theme.css, scoped by the component's tag. */
+mt-year-section {
+  --night: oklch(0.31 0.04 158);
+  --pale: oklch(0.9 0.03 161);
+  /* The wheel's radius, the cards' radius, and the rim's top. */
+  --R: clamp(35rem, 56vw, 48.75rem);
+  --r: calc(var(--R) - 13rem);
+  --top: 16svh;
+  --cy: calc(var(--top) + var(--R));
+  /* The header dial's centre, where the wheel ends up. */
+  --dial-x: calc(100vw - 3.2rem);
+  --dial-y: 2.65rem;
+
+  display: block;
+
+  .year {
+    position: relative;
+    background: var(--night);
+    color: var(--pale);
+  }
+
+  .stage {
+    position: relative;
+    overflow: clip;
+    padding: calc(var(--top) + 8rem) clamp(1rem, 5vw, 4rem) 3rem;
+  }
+
+  .pointer {
+    position: absolute;
+    z-index: 2;
+    top: calc(var(--top) - 2.25rem);
+    left: 50%;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    font-size: 0.625rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+
+    &::after {
+      content: '';
+      border: 0.5rem solid transparent;
+      border-top: 0.625rem solid var(--background);
+      border-bottom: 0;
+    }
+  }
+
+  /* The wheel's parts are placed from its centre, a point. */
+  .decor,
+  .hub {
+    position: absolute;
+    top: var(--cy);
+    left: 50%;
+  }
+
+  .decor {
+    width: 0;
+    height: 0;
+  }
+
+  .disc {
+    position: absolute;
+    top: calc(var(--R) * -1);
+    left: calc(var(--R) * -1);
+    width: calc(var(--R) * 2);
+    height: calc(var(--R) * 2);
+    border-radius: 50%;
+    background-color: var(--background);
+    /* Faint rings, drawn once: the disc turns as a single layer. */
+    background-image: repeating-radial-gradient(
+      circle,
+      transparent 0 3.625rem,
+      oklch(0.269 0.024 159.2 / 5%) 3.625rem 3.75rem
+    );
+    box-shadow:
+      0 0 0 0.75rem oklch(0.936 0.022 83.3 / 12%),
+      0 0 0 1.75rem oklch(0.936 0.022 83.3 / 5%),
+      0 -2rem 6rem oklch(0.2 0.03 160 / 50%);
+  }
+
+  .spoke {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: calc(var(--R) - 4.5rem);
+    background: oklch(0.269 0.024 159.2 / 7%);
+    transform-origin: 50% 0;
+    transform: rotate(calc(var(--i) * 30deg + 180deg));
+  }
+
+  .month {
+    position: absolute;
+    top: 0;
+    left: -2rem;
+    width: 4rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    transform: rotate(calc(var(--i) * 30deg))
+      translateY(calc(var(--R) * -1 + 1.375rem));
+  }
+
+  .seat {
+    position: absolute;
+    top: -0.9375rem;
+    left: -0.9375rem;
+    width: 1.875rem;
+    height: 1.875rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--card);
+    color: var(--foreground);
+    box-shadow: inset 0 0 0 2px var(--primary);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    transform: rotate(calc(var(--i) * 30deg))
+      translateY(calc(var(--R) * -1 + 3.75rem));
+  }
+
+  /* The pot, at the wheel's centre: it never turns. In the column it
+     would sit under the cards, so it shows only on the pinned wheel. */
+  .hub {
+    display: none;
+    width: 16.25rem;
+    height: 16.25rem;
+    margin: -8.125rem 0 0 -8.125rem;
+    align-content: start;
+    justify-items: center;
+    gap: 0.4rem;
+    padding-top: 2.5rem;
+    border-radius: 50%;
+    background: var(--night);
+    text-align: center;
+    box-shadow: 0 0 0 0.5rem oklch(0.31 0.04 158 / 18%);
+
+    small {
+      max-width: 11rem;
+      font-size: 0.625rem;
+      line-height: 1.3;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    b {
+      font-size: 1.625rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--background);
+    }
+  }
+
+  /* The cards: a column in the base layout. */
+  .cards {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 1rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .slot:first-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 30rem;
+  }
+
+  .card {
+    gap: 0;
+    border-color: oklch(0.269 0.024 159.2 / 8%);
+    border-radius: 1.625rem;
+    box-shadow:
+      0 1px 0 oklch(0.269 0.024 159.2 / 5%),
+      0 1.5rem 2.5rem -1.5rem oklch(0.2 0.03 160 / 60%);
+  }
+
+  .tag {
+    font-size: 0.6875rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .title {
+    font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .headline {
+    font-size: clamp(1.875rem, 4.2vw, 2.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .text {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .actions {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.625rem;
+    margin-top: 2rem;
+  }
+
+  .action {
+    height: 3rem;
+    padding-inline: 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 15%) inset,
+      0 10px 24px -12px oklch(0.2 0.03 160 / 70%);
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &[data-variant='outline'] {
+      background: var(--card);
+      color: var(--foreground);
+    }
+  }
+
+  @media (max-width: 52rem) {
+    .hub {
+      width: 13.75rem;
+      height: 13.75rem;
+      margin: -6.875rem 0 0 -6.875rem;
+      padding-top: 1.9rem;
+
+      b {
+        font-size: 1.375rem;
+      }
+    }
+  }
+
+  @media (max-width: 30rem) {
+    --dial-x: calc(100vw - 2.75rem);
+    --dial-y: 2.6rem;
+  }
+
+  /* The pinned, turning wheel. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .year {
+        height: 600vh;
+      }
+
+      .stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        padding: 0;
+      }
+
+      .wheel {
+        position: absolute;
+        top: var(--cy);
+        left: 50%;
+        width: 0;
+        height: 0;
+      }
+
+      .decor,
+      .hub {
+        top: 0;
+        left: 0;
+      }
+
+      .hub {
+        display: grid;
+      }
+
+      .cards {
+        position: absolute;
+        inset: 0;
+        display: block;
+        max-width: none;
+        margin: 0;
+      }
+
+      /* Each card's layer turns about the wheel's centre with the disc;
+         its place on the rim is fixed within the layer. */
+      .slot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .place {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(calc(var(--i) * 30deg))
+          translateY(calc(var(--r) * -1)) rotate(calc(var(--i) * -30deg));
+      }
+
+      .card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: min(84vw, 27rem);
+        translate: -50% -50%;
+      }
+
+      .actions {
+        position: absolute;
+        right: 0;
+        bottom: 5svh;
+        left: 0;
+        margin: 0;
+        padding-inline: 1rem;
+      }
+
+      .turn,
+      .card,
+      .seat,
+      .wheel,
+      .pointer {
+        animation-fill-mode: both;
+        animation-timeline: --year;
+        animation-range: contain 0% contain 100%;
+      }
+
+      .turn {
+        animation-name: mt-year-turn;
+        animation-timing-function: ease-in-out;
+      }
+
+      .card {
+        animation-name: mt-year-upright, mt-year-show;
+        animation-timing-function: ease-in-out, linear;
+        animation-timeline: --year, --year;
+        animation-range:
+          contain 0% contain 100%,
+          contain var(--from) contain var(--to);
+      }
+
+      .card.first {
+        animation-name: mt-year-upright, mt-year-first;
+      }
+
+      .seat {
+        animation-name: mt-year-chop;
+        animation-timing-function: linear;
+        animation-range: contain var(--at) contain calc(var(--at) + 2%);
+      }
+
+      .wheel {
+        animation-name: mt-year-shrink;
+        animation-timing-function: ease-in;
+        animation-range: contain 87% contain 100%;
+      }
+
+      .pointer {
+        animation-name: mt-year-out;
+        animation-timing-function: linear;
+        animation-range: contain 85% contain 89%;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) and (min-width: 52.01rem) {
+      .actions {
+        justify-content: flex-start;
+        right: auto;
+        left: clamp(1rem, 5vw, 4rem);
+        padding: 0;
+      }
+    }
+  }
+}
+
+/* Rests at January, February, March, April and May, then a run through
+   June to October, held while the cards fade and the wheel shrinks. */
+@keyframes mt-year-turn {
+  0%,
+  7% {
+    transform: rotate(0deg);
+  }
+  11%,
+  19% {
+    transform: rotate(-30deg);
+  }
+  23%,
+  31% {
+    transform: rotate(-60deg);
+  }
+  35%,
+  43% {
+    transform: rotate(-90deg);
+  }
+  47%,
+  55% {
+    transform: rotate(-120deg);
+  }
+  79%,
+  100% {
+    transform: rotate(-270deg);
+  }
+}
+
+@keyframes mt-year-upright {
+  0%,
+  7% {
+    transform: rotate(0deg);
+  }
+  11%,
+  19% {
+    transform: rotate(30deg);
+  }
+  23%,
+  31% {
+    transform: rotate(60deg);
+  }
+  35%,
+  43% {
+    transform: rotate(90deg);
+  }
+  47%,
+  55% {
+    transform: rotate(120deg);
+  }
+  79%,
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes mt-year-show {
+  0% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-year-first {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-year-chop {
+  from {
+    background: var(--card);
+    color: var(--foreground);
+  }
+  to {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+@keyframes mt-year-shrink {
+  85% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate(
+        calc(var(--dial-x) - 50vw),
+        calc(var(--dial-y) - var(--cy))
+      )
+      scale(0.03);
+  }
+}
+
+@keyframes mt-year-out {
+  to {
+    opacity: 0;
+  }
+}

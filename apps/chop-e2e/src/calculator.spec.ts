@@ -32,22 +32,32 @@ test('sets the circle by keyboard and announces it once it settles', async ({
   await page.getByRole('option', { name: 'June 2027' }).click();
   await expect(trigger).toHaveText('June 2027');
 
-  await expect(page.locator('#calculator p[aria-live]').last()).toHaveText(
+  await expect(page.locator('#circle p[aria-live]').last()).toHaveText(
     '8 members at 30,000 FCFA: each takes 240,000 FCFA once; the last turn is January 2028.',
   );
-  await expect(page.locator('rect.bar')).toHaveCount(8);
+  await expect(page.locator('#circle path.wedge')).toHaveCount(8);
 });
 
 test('reads each turn with the chart’s arrow keys', async ({ page }) => {
-  await page.locator('#calculator [data-slot="chart-plot"]').focus();
+  const plot = page.locator('#circle [data-slot="chart-plot"]');
+  await plot.scrollIntoViewIfNeeded();
+  // The calculator hydrates once it's in view; until then, keys do nothing.
+  // Focus marks the first turn once it has.
+  await expect(async () => {
+    await plot.blur();
+    await plot.focus();
+    await expect(plot).toHaveAttribute('data-active', '0', { timeout: 500 });
+  }).toPass();
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('ArrowRight');
 
-  await expect(page.locator('#calculator .chart p[aria-live]')).toHaveText(
+  await expect(page.locator('#circle .chart p[aria-live]')).toHaveText(
     'March 2027, Ebai’s turn: paid in 75,000 FCFA, takes 250,000 FCFA.',
   );
-  await expect(page.locator('rect.bar.is-turn')).toHaveCount(1);
-  await expect(page.locator('rect.bar').nth(2)).toHaveClass(/is-turn/);
+  await expect(page.locator('#circle path.wedge.is-turn')).toHaveCount(1);
+  await expect(page.locator('#circle path.wedge').nth(2)).toHaveClass(
+    /is-turn/,
+  );
 });
 
 test('swaps the chart for the table and back', async ({ page }) => {
@@ -58,8 +68,8 @@ test('swaps the chart for the table and back', async ({ page }) => {
   await toggle.click();
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await expect(table).toBeVisible();
-  await expect(page.locator('#calculator .chart')).toBeHidden();
+  await expect(page.locator('#circle .chart')).toBeHidden();
 
   await toggle.click();
-  await expect(page.locator('#calculator .chart')).toBeVisible();
+  await expect(page.locator('#circle .chart')).toBeVisible();
 });
