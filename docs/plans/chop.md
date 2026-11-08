@@ -1,35 +1,77 @@
 # Chop: page plan
 
-- Status: Approved by Valery on 27 October 2026, with the board's eight decisions as recommended, its facts confirmed, the name Chop kept after weighing Njangi, and decisions 9 and 10.
-- Direction: The Circle, chosen on 27 October 2026 from the [art direction board](https://claude.ai/artifact/WqHa3QkCdTgcXQptxQpBjs), with B's notebook as one small moment in "How a njangi works".
-- Slug and path: `chop`, `/chop/` (was `njangi`). Mood: playful. Accent `#2F7D5B`.
+- Status: Approved by Valery on 28 October 2026, with its five decisions and one addition: the components, the phone frames and the app screens are polished until they look like the real thing (see Fidelity). It replaces the plan approved on 27 October 2026 (The Circle), whose built page Valery found too much like every app landing page.
+- Direction: The Year Wheel, chosen on 28 October 2026 from the [revisit board](https://claude.ai/artifact/SHft9EaM9TxB42nWxBWzpk). It is kept as a page of sections, with three of them pinned for the wheel's set pieces.
+- Slug and path: `chop`, `/chop/`. Mood: playful. Accent `#2F7D5B`.
 
 ## The idea
 
-A fictional mobile app from Bamenda for running a njangi, a rotating savings circle, with friends or colleagues. The brief's page was called Njangi, but a real savings-circle app already has that name, so the app is called _Chop_, after "chop njangi", to take the pot. The practice keeps its own name in the copy: "Run your njangi on Chop."
+Chop is a fictional mobile app from Bamenda for running a njangi, a rotating savings circle, with friends or colleagues. It keeps the book, never the money.
 
-The page is a circle of members, the index's ring motif for this page. In the hero phone, the pot passes from member to member as you scroll, one turn a month. The calculator draws the same circle as a chart: each member's turn, what they've paid in by then, and the pot they take.
+The page runs through one njangi year, Mami Ama's circle of ten in 2027. A giant wheel of twelve months is its motif, and the scroll turns it. The page is still a page of sections that you scroll through like any other. Three of them pin while their scene plays and then let go. The other four scroll freely, each laid out in its own way rather than as a label, a heading and a grid.
 
-Chop keeps the book, never the money (decision 4). Members pay each other as they do now; Chop records who paid, whose turn it is, and reminds people.
+| #   | Section         | Kind   | What it does                                                                                                                                                                                           |
+| --- | --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | The year        | Pinned | The opening wheel. January holds the headline, and February to May hold how a njangi works. Then the wheel spins through the remaining turns to October, the last, and shrinks into the header's dial. |
+| 2   | Your circle     | Free   | The calculator, drawn as a wheel: one wedge per member, each as long as what they have paid in by their turn, inside a dashed ring for the pot.                                                        |
+| 3   | A month in Chop | Pinned | A smaller dial, one month from meeting to meeting. As its hand sweeps round, the app screen at its centre shows each feature on the day it happens.                                                    |
+| 4   | The book        | Free   | Trust. The treasurer's exercise book: as it scrolls by, its biro marks are struck out and Chop's statuses are written over them. Below, Chop's four promises are set out as the rules of the book.     |
+| 5   | Dues            | Free   | Pricing. Circle is one ring; Treasurer is ten small rings. A Toggle Group switches between monthly and yearly.                                                                                         |
+| 6   | Questions       | Free   | The FAQ, an Accordion. Each question is signed by the member who asks it at the meeting.                                                                                                               |
+| 7   | Full circle     | Pinned | The wheel comes back, every turn is marked and the ring closes. The store buttons sit inside it, and the footer runs round it.                                                                         |
 
-## Sections, in order
+Pinned, free, pinned, then three free, then pinned: the set pieces have room to breathe. You scroll at your own speed throughout, and nothing takes the scroll away from you. A pin is a sticky stage inside a taller track, so the page keeps scrolling while the stage holds still. Every anchor lands at the top of its section.
 
-| Section            | Component               | What it holds                                                                                                                                                                                    |
-| ------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Header             | `mt-site-header`        | Wordmark, anchors to How it works, Calculator, Pricing and FAQ, a "Get the app" Button to the store buttons                                                                                      |
-| Hero               | `mt-hero-section`       | "Ten friends. One pot. Every turn comes." and a line on running a njangi without the notebook; the phone, drawn from Ndop Cards, Badge and Button; links to the calculator and the store buttons |
-| How a njangi works | `mt-how-section`        | Four steps (agree the amount, draw the order, pay in each month, one member chops the pot) and the notebook moment: the treasurer's exercise book beside the same month in Chop                  |
-| Calculator         | `mt-calculator-section` | The signature moment, below                                                                                                                                                                      |
-| Features           | `mt-features-section`   | Six features on Cards: reminders before each meeting, who has paid, the draw for the order, swapping turns, contributions for a member's wedding, birth or funeral, and the treasurer's record   |
-| Trust              | `mt-trust-section`      | What Chop doesn't do: it never holds, moves or lends money, and only the circle's members see the circle's book. No licence claims, no mobile money provider named                               |
-| Pricing            | `mt-pricing-section`    | A Toggle Group for monthly or yearly; two Cards: Circle (free, one circle) and Treasurer (several circles), in FCFA, marked fictional, with a Badge on the yearly saving                         |
-| FAQ                | `mt-faq-section`        | An Accordion of six questions, answered with the checked facts                                                                                                                                   |
-| Get the app        | `mt-get-app-section`    | Two store buttons, placeholder links (decision 9)                                                                                                                                                |
-| Footer             | `mt-page-footer`        | Chop's details and "Made in Bamenda", then the series footer with the fictional-brand note                                                                                                       |
+## Header and footer, this page's own
 
-## Signature moment: the calculator
+Chop's header and footer stop being shared. The series facts become data, beside `SITE` in `@motifs/pages-manifest` (plain TypeScript, so the e2e suites can import it too), and each page lays them out in its own world. `<mt-series-footer>` in `libs/site` keeps spelling the facts out itself, since importing them put Fil 56 bytes over its 120 kB budget; its unit test checks that it says what `seriesFacts()` says. So Fil and the atelier don't change:
 
-**Model** (`circle/circle.ts`), pure functions with unit tests:
+```ts
+export interface SeriesFacts {
+  series: { label: string; href: string }; // "Motifs", "/"
+  source: { label: string; href: string }; // "Source on GitHub", the page's folder
+  ndop: { label: string; href: string }; // "Built with Ndop UI"
+  note: string; // "Fictional brand, design study. Any likeness to a real business is unintended."
+}
+
+export function seriesFacts(slug: string, name: string): SeriesFacts;
+```
+
+The manifest's unit test covers `seriesFacts()`. Chop's e2e reads the same facts and checks that the page shows all four, with working links. Fil and the atelier keep `<mt-series-footer>` until they are revisited, which is separate work.
+
+**Header: the dial.** The header is the wordmark "Chop" and a small dial in the corner.
+
+- The dial's hand follows the page's scroll, and it has seven marks, one per section. The mark of the section in view lights up. This uses each section's view timeline, shared through `timeline-scope`, with no JavaScript.
+- The dial is a button that opens the navigation in a popover: the seven sections laid out round the dial. In the DOM it is a plain list of links, in page order. `popover` and `popovertarget` are HTML, so the menu opens without JavaScript.
+- On phones the header stays, and the dial is its only control.
+
+**Footer: the closing ring.** The footer is the last part of "Full circle".
+
+- The series facts sit at the ring's four quarters: Motifs at the top, the source on the right, Ndop UI at the bottom and the fictional-brand note on the left. They are set straight, never on a curved path, so they read easily.
+- "Made in Bamenda" sits under the store buttons, inside the ring.
+- On phones the four facts stack under the ring.
+
+## 1 · The year (pinned)
+
+The wheel's centre sits below the screen, so only its top arc shows, with the month names round the rim and a "This month" pointer at the top. The scroll turns it by one month per step, and it rests at each month that carries a card:
+
+| Month    | Who chops | Card                                                                                                                       |
+| -------- | --------- | -------------------------------------------------------------------------------------------------------------------------- |
+| January  | Ama       | "Ten friends. One pot. Every turn comes." and the tagline. This is the page's `h1` and its largest paint, visible at rest. |
+| February | Ngwa      | Agree the amount: 25,000 FCFA a month each.                                                                                |
+| March    | Ebai      | Draw the order: at the first meeting, often by drawing; members can swap by agreement before money changes hands.          |
+| April    | Lum       | Play every month: everyone pays in at every meeting, whoever's turn it is.                                                 |
+| May      | Kum       | Chop the pot: each meeting's money goes to one member, until everyone has had a turn.                                      |
+| Jun–Oct  | Bih … Yuh | No cards: the wheel spins through five turns in one run, and each member's initial on the rim turns green as they chop.    |
+| October  | Yuh       | "Everyone has had the pot once." Then the wheel shrinks into the header's dial.                                            |
+
+"Try the calculator" and "Get the app" are fixed on the stage, below the cards, and never fade. No card holds a link or a control, so focus can never land on something faded out.
+
+Track length: about five screens on desktop and four on phones.
+
+## 2 · Your circle (free): the calculator
+
+**Model** (`circle/circle.ts`), unchanged, with its unit tests:
 
 ```ts
 interface Circle {
@@ -47,142 +89,169 @@ interface Turn {
 
 function turns(circle: Circle): readonly Turn[];
 function summary(circle: Circle): string;
-// "10 members at 25,000 FCFA: each takes 250,000 FCFA once; the last turn is October 2027."
 ```
 
-**Controls**, all Ndop:
+**Controls**, all Ndop and as built in unit 2: Members (Slider, 3 to 20), Each pays a month (Slider, 5,000 to 100,000 FCFA), First turn (Select, January to December 2027), and Show as a table (Toggle).
 
-| Control           | Ndop item                         | Does                                                |
-| ----------------- | --------------------------------- | --------------------------------------------------- |
-| Members           | Slider                            | 3 to 20; arrow keys by one, Page Up and Down by ten |
-| Each pays a month | Slider                            | 5,000 to 100,000 FCFA, in steps of 5,000            |
-| First turn        | Select                            | January to December 2027                            |
-| Show as a table   | Toggle (in a Toggle Group of one) | Swaps the chart for the visible table               |
+**The wheel chart.** One wedge per turn, clockwise from the top in month order. Each wedge's length is what that member has paid in by their turn, and a dashed ring marks the pot.
 
-**The chart:** Ndop's bar Chart, one bar per turn, each the member's paid-in-by-then, against a dashed line at the pot. The bar the chart's arrow keys or pointer are on is drawn in full green with its tooltip (month, member, paid in, takes); at rest it's the first turn. The pot line and that bar are plain SVG in our template, since Ndop's Chart is drawn there. The first member's bar is one payment tall and the last reaches the line: the arithmetic fact, drawn.
+- The first member's wedge is one payment long, and the last one reaches the ring. It is the same arithmetic fact as the bars, drawn as the page's motif.
+- The wedge in focus is drawn in full green, and its tooltip shows the month, the member, what they have paid in and what they take.
+- Changing a control redraws the chart at once, with no tween.
+- As the section enters, the wedges grow out from the centre. This is the one entrance animation in the section.
 
-**Number format:** amounts as "250,000 FCFA" in the copy, set in tabular figures, through one `fcfa(n)` formatter with its own test.
+It is built on Ndop's Chart: `ndChartContainer`, the tooltip, the legend and `ndChartPlot`. The plot keeps its keyboard (the arrow keys, Home and End step through the turns) and its hidden table. Its pointer picks a point by x alone, which doesn't fit a wheel, so `trackPointer` is off and each wedge sets the active turn on `pointerenter`. That is logged as an Ndop gap.
 
-**Keyboard:** each slider by arrow keys and Page Up and Down; the Select by Ndop's own keys; the chart is one tab stop whose arrow keys step through the turns. **Screen readers:** after a change settles, a polite live region reads the summary once; Ndop's Chart reads each bar and keeps a hidden table. **Without JavaScript:** the prerendered example (10 members, 25,000 FCFA, January 2027) shows as the table.
+**Layout.** The controls are not boxed in a frame. They sit round the wheel: the members slider above it, the amount below, and the month and the table toggle beside it. On phones they stack under the wheel. The pot and the last turn are written in the wheel's centre.
 
-## The hero phone
+**Without JavaScript**, the prerendered example (10 members, 25,000 FCFA, January 2027) shows as the table, as now. The calculator stays in `@defer (hydrate on viewport)`.
 
-A phone frame drawn in CSS, its screen made of the page's own Ndop components, so it is real UI rather than a picture:
+## 3 · A month in Chop (pinned)
 
-- A Card for "Mami Ama's circle", with a Badge "This month: Ebai".
-- The ring of ten members' initials, the pot "250,000 FCFA this month" in its middle, and a marker on the member whose turn it is.
-- A "Mark Lum as paid" Button that does nothing but look like the app (inert, `aria-hidden` with the rest of the screen); a caption below the phone says what it shows, for screen readers.
+A 30-day dial runs from one meeting to the next, with a phone-sized app screen at its centre, built from Ndop Card, Badge and Button. The screen is inert and `aria-hidden`; the visible text beside the dial carries the content. The hand sweeps the month, and at each day the screen changes and a caption appears:
 
-As the hero scrolls away, the marker turns one member per step, by `transform`, and the month under the ring rolls with it: ten stacked lines moved by `translateY` in steps. The letters stay upright because only the marker's orbit rotates, never the ring.
+| Day | Feature                    | On the screen                                                                    |
+| --- | -------------------------- | -------------------------------------------------------------------------------- |
+| 1   | The treasurer's book       | "March: Ebai took 250,000 FCFA", recorded in the book.                           |
+| 9   | Swaps, agreed              | Bih and Tabe swap turns; the treasurer approves; the order changes for everyone. |
+| 17  | Gifts for life's big days  | The group gives for Fru's wedding, apart from the pot.                           |
+| 29  | A reminder before meetings | "Tomorrow: 25,000 FCFA. It's Lum's turn."                                        |
+| 30  | Who has paid, at a glance  | Nine paid and one owing; Lum takes the pot.                                      |
 
-## The notebook moment
+The draw, the sixth feature, is already March's card in the opening wheel.
 
-In "How a njangi works", two Cards side by side (stacked on phones). Before: the treasurer's exercise book, with ruled lines, a margin, ticks, a crossing-out and "paid? ask!", set in Plus Jakarta Sans italic in biro blue (no handwriting face, decision 7). After: the same month as Chop shows it, every member's status as a Badge. As the section enters, the notebook's rows rise into the app card's rows.
+Track length: about four screens on desktop and three on phones.
+
+## 4 · The book (free): trust
+
+"Chop keeps the book, never the money." The treasurer's exercise book is drawn full width: ruled lines, a red margin, biro in Plus Jakarta Sans italic, as in unit 2's notebook.
+
+- As the page scrolls past, row by row, each biro mark ("paid? ask!", "owes 10 000 ??") is struck through and Chop's status is written in over it as a Badge. The motion is a strike drawn and a wipe; nothing fades and rises.
+- Below the book, the four promises are set out as the rules of the book, numbered in the margin: no money passes through Chop, the circle's book is the circle's, the same pot for everyone, leave with your book.
+
+## 5 · Dues (free): pricing
+
+There are two plans, and each is drawn as rings, not as a card grid:
+
+- Circle is one ring of up to twenty seats. It is free.
+- Treasurer is ten small rings in a cluster. It costs 1,500 FCFA a month or 15,000 FCFA a year.
+
+The Toggle Group switches the period, and the new price rolls up into place. A Badge reads "Two months free" on yearly. Each plan has its Button. The note says the prices are fictional.
+
+## 6 · Questions (free): the FAQ
+
+There are six questions and answers, as now. Each question carries the initial and name of the member asking it ("Lum asks"). The Accordion is Ndop's, with the `motion-reduce` fix. The section stays in `@defer (hydrate on viewport)`.
+
+## 7 · Full circle (pinned)
+
+The wheel rises back into view at December.
+
+- The ten members' initials turn green one after another, and the ring's stroke closes.
+- Inside the ring: "Start the next circle on Chop.", the two store buttons (decision 9 of the first plan), and "Chop is a design study: there's no app to download."
+- The footer facts sit round the ring.
+
+Track length: about two and a half screens. The pin ends as the page ends.
+
+## Fidelity
+
+Every component, phone and app screen has to look like a real product, not a wireframe.
+
+- **Ndop components, finished.** Buttons, Cards, Badges, Sliders, the Select, the Toggle Group and the Accordion keep Ndop's anatomy, with this page's finish: soft layered shadows, a pressed state, focus rings in the green, and hover states. They are touched only through classes and tokens in Chop's copies, never by forking an item's behaviour.
+- **The phone.** It follows modern phone proportions (19.5:9), with a thin even bezel, a continuous corner radius, a camera island, side buttons drawn on the frame's edge, and a glass highlight. It is CSS and SVG only, with no photograph and no real device's name or logo.
+- **The app screens.** Each is a screen of one consistent Chop app, at real phone scale:
+  - a status bar (9:41, signal, Wi-Fi and battery glyphs) and a home indicator;
+  - a large title and a navigation bar;
+  - list rows with members' initials in avatars, amounts in tabular figures, and a four-tab bar (Circle, Book, Members, You);
+  - Ndop Card, Badge and Button wherever the app would have them.
+
+  Each screen is inert and `aria-hidden`, and the text beside it carries the content.
+
+- **The wheel's cards** are Ndop Cards, with the card's header, title and description slots.
 
 ## Motion
 
-All scroll-linked motion is CSS scroll-driven animation (`animation-timeline: view()`), as on the atelier and Fil: no JavaScript, transform and opacity only, behind `@supports (animation-timeline: view())` and `prefers-reduced-motion: no-preference`. Section styles are imported by `theme.css` and scoped by the component's tag, not `styleUrl`.
+All motion is CSS scroll-driven animation: `scroll()` and `view()` timelines, named timelines, and `timeline-scope` for the header dial. There is no JavaScript and no scroll hijacking.
 
-| Where           | Moves                                                                                                                                                       |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Header          | Sticky from 40rem; its surface slims and a soft shadow comes in over the first 8rem of scroll. On phones it scrolls away.                                   |
-| Hero            | The label, line and links rise in; the phone settles up into place. The headline stays still: it is the largest paint. Then the marker turns as you scroll. |
-| How it works    | Steps rise in one after another; the notebook's rows rise into the app card.                                                                                |
-| Calculator      | Bars grow from the baseline as the section enters. A change in the controls redraws at once, with no tween, so the chart never lags the sliders.            |
-| Features, trust | Cards rise in.                                                                                                                                              |
-| Pricing         | A new price rolls up into its place when the period changes.                                                                                                |
-| FAQ             | Ndop's own height animation, with the `motion-reduce` fix as on Fil.                                                                                        |
-| Footer          | The ring turns once into place.                                                                                                                             |
+- The wheel turns on the compositor. Its rotation, each card's counter-rotation and each card's fade are `transform` and `opacity` keyframes with their own `animation-range` on the track's timeline. No animated custom property drives them. The board's specimen used one, `--w`, which means recalculating style on every frame.
+- The closing ring's stroke and the book's strikes are small SVG strokes; they are the only non-transform properties animated.
+- Section styles are imported by `theme.css` and scoped by the component's tag, as now.
 
-With reduced motion, or without scroll timelines, the ring stays still on March, Ebai's turn, the bars are drawn in full, and nothing moves.
+**Reduced motion, or no scroll timelines.** The layout is built as progressive enhancement. The base layout is a plain column:
+
+- The tracks have their natural height.
+- The opening wheel's cards are a list of months in order, with the wheel drawn once, still, above them.
+- The month dial is a list of five days.
+- The book shows Chop's statuses beside the biro marks.
+- The closing ring is drawn closed.
+
+The pinned and turning layout applies only under `@supports (animation-timeline: scroll())` and `prefers-reduced-motion: no-preference`. The text order is the same in both layouts.
 
 ## Ndop items
 
-`ndop add` per ADR-0002: `slider`, `select`, `chart`, `accordion`, `toggle-group` (with `toggle`), `card`, `button`, `badge`. `icons.ts` keeps only the icons these items draw. The brief allows Tabs or Toggle Group for the pricing period; Toggle Group is used, so the manifest's `ndopItems` swaps `tabs` for `toggle-group` at launch.
+`slider`, `select`, `chart`, `accordion`, `toggle-group` (with `toggle`), `card`, `button`, `badge`, as now. No new items.
 
-## Theme (`src/theme.css`)
+## Theme, fonts, copy
 
-| Token                           | Value                 | Role                                                       |
-| ------------------------------- | --------------------- | ---------------------------------------------------------- |
-| `--background`                  | sand `#F1E9DA`        | Page ground, with the ring as a faint 28px tile            |
-| `--card`                        | `#FBF7EF`             | Cards, the phone's screen                                  |
-| `--foreground`                  | ink `#1C2A22`         | Text, 12.4:1 on sand                                       |
-| `--primary`                     | green `#2F7D5B`       | Buttons (white text, 5.0:1), bars, the ring and its marker |
-| `--accent-text`                 | `#2A7353`             | Green words: 4.7:1 on sand, 5.4:1 on card                  |
-| `--muted`, `--muted-foreground` | sand shade, `#5B6B60` | Quiet surfaces and secondary text, 4.7:1 on sand           |
-| `--radius`                      | `1.25rem`             | Soft, like the app's screens                               |
+These are unchanged from unit 1:
 
-**A correction to the board:** it said `#2F7D5B` passes 4.5:1 for text on sand. It doesn't: 4.1:1 on sand, 4.7:1 on the card. So the brief's green stays for fills and white-on-green buttons, and green words take `--accent-text`, the same hue a step darker.
-
-Light only: the brief's look is warm sand, and the page has no theme switch. All values written in OKLCH in the file, and every text pairing is checked in the e2e axe run on the rendered page, as on Fil.
-
-**The ring tile** is a small SVG data-URI tile, not a repeating gradient, after the scroll jank fixed on the index and the atelier.
-
-**Fonts:** Plus Jakarta Sans alone, SIL OFL, self-hosted through Fontsource, with `font-variant-numeric: tabular-nums` on every amount. A fallback face sized like it (Arial or Liberation Sans, with `size-adjust` and ascent and descent overrides) is declared in `index.html`, as on Fil.
-
-## Copy
-
-Warm, plain and short, the way a friend explains a njangi: real amounts, no finance-speak, no superlatives. Sample lines:
-
-- Hero: "Ten friends. One pot. Every turn comes." / "Run your njangi without the notebook."
-- How it works: "Put the notebook down. Ebai has paid. Lum takes the pot on Sunday."
-- Trust: "Chop keeps the book, never the money. You pay each other as you always have."
-- FAQ: "Is an early turn better? With no interest, an early turn works like a loan and a late one like savings: the first member takes the whole pot after one payment, the last after paying in all of it."
-- Pricing: "Prices are fictional: Chop is a design study."
-
-Facts in the copy come only from the board's checked claims, with their sources in the app README. Lending at interest, bidding for turns, membership numbers and any real app's figures stay out. The member names are common first names, for fictional people; Bamenda appears only as the team's home.
-
-## Assets
-
-| Asset                       | Source                                                   | Where         |
-| --------------------------- | -------------------------------------------------------- | ------------- |
-| No photographs (decision 6) | —                                                        | —             |
-| The ring, marker and tile   | Drawn in CSS and SVG for this page                       | Everywhere    |
-| `og` (1200 × 630)           | Rendered from the page's own hero phone, as on the index | Open Graph    |
-| Favicon                     | The ring motif from the index's motif set, in green      | Tab           |
-| Store buttons               | Drawn with Ndop Button and Lucide icons                  | Get the app   |
-| Plus Jakarta Sans           | Fontsource, SIL OFL                                      | Type          |
-| Icons the items draw        | Lucide, ISC                                              | Select, FAQ … |
+- **Theme:** sand, card, ink and green, with `#2A7353` for green words. The opening and closing wheels sit on a deep green ground, `#1F3A2D`. Sand text on it is 10.2:1, and the pale green `#CFE6D9` for small labels is 9.4:1. The brief's green is only 2.5:1 on it, so on the dark ground it marks turns as a fill, never as text. Every pairing is checked by axe on the rendered page.
+- **Fonts:** Plus Jakarta Sans, self-hosted, with tabular figures for every amount.
+- **Copy:** reworded where a card or a day needs it. Every fact still comes from the first board's checked claims. The revisit needs no new claims, since A's agenda and C's exercise book are dropped.
 
 ## JS budget
 
-The default is 120 kB. Ndop's Slider and Select import `@angular/forms` for their forms bridge, about 7 kB, though no form uses them here. The first unit of work measures it. If the copies can drop that bridge as Fil's Textarea dropped `NdInput`, keeping `[(value)]`, the page keeps 120 kB; if not, it takes the atelier's 124 kB with the gap named in ADR-0004 (decision 8). Chart adds 3.6 kB gzip.
+The page stays within 120 kB, with the same `@defer (hydrate on viewport)` blocks as unit 2: the calculator, pricing and the FAQ. The wheel, the dial, the header menu and the book are CSS and HTML, so they add no script.
 
-## Ndop gaps (expected)
+**Blocking time.** The first Lighthouse run of the redo measured a median of 355 ms total blocking time, over the 200 ms bar. Most of it was style and layout for sections far below the first screen, under the CPU throttling. The sections below the opening wheel now have `content-visibility: auto`, so the browser skips them until they come near. Each has a placeholder about its real height, and the pinned month's is its five-screen track, so anchors and the dial's timelines stay right. Locally, blocking time fell from 106–156 ms to 37–62 ms, and style and layout time from about 340 ms to 130 ms.
 
-- **Forms code in Slider and Select.** As above; logged with the atelier's entry in the spec's gaps table.
-- **The pot line and the highlighted bar.** Expected to be plain SVG in our template; confirmed in the first unit of work.
-- **Reduced motion.** The accordion, and the Select's list if it animates like the other overlays, take the same `motion-reduce` variants as on Fil.
+## Ndop gaps
 
-## The rename
+- **Forms code in Slider and Select**, and **the Select's weight**: as logged in unit 2.
+- **Chart pointer on a radial plot.** `ndChartPlot` picks the nearest point by x only. The wheel turns `trackPointer` off and sets the active turn per wedge. A future option could be `ndChartPlot` taking a hit-test function.
+- **Reduced motion:** the Accordion and the Select take the `motion-reduce` fix, as on Fil.
 
-Moving from `njangi` to `chop` touches:
+## What happens to unit 2
 
-- `libs/pages-manifest/src/lib/pages.ts`: slug `chop`, name `Chop`, tagline "Run your njangi with friends, without the notebook.", `ndopItems` with `toggle-group` for `tabs`.
-- `apps/motifs/src/app/motifs/motifs.ts` and `specimens.ts`: the `njangi` keys become `chop`. The index card's specimen keeps its own copy.
-- The index's OG image, rerendered, since it shows the card names.
-- `assemble-site.spec.ts` uses `njangi` as a sample app name; it changes to `chop` so the fixture matches the manifest.
+Unit 2 is still uncommitted. It isn't committed as it stands, since most of its layout goes. The working tree is reworked into the new units, so history never holds a page that was thrown away.
 
-The new apps are `apps/chop` and `apps/chop-e2e`, served on port 4303 in `.claude/launch.json`.
+| Kept from unit 2                                                                                                                                                                            | Replaced                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `content.ts` (reworded), the calculator's controls and logic, pricing's period logic, the Accordion and Select fixes, `withIncrementalHydration()` and the `@defer` blocks, the e2e harness | The hero and its phone, How, Features, Trust, the site header, the page footer, `motion.css` |
+
+## Units
+
+1. **Shell and the opening wheel.**
+   - `seriesFacts()` in `libs/site`, with its test, and `expectSeriesFacts(page)`.
+   - The dial header with its popover navigation.
+   - Section 1 with its fallback column.
+   - E2E: the plateaus, reduced motion, no JavaScript, anchors and axe.
+2. **Your circle and A month in Chop.** The wheel chart and the month dial, with their tests.
+3. **The book, Dues, Questions and Full circle**, with the closing-ring footer.
+4. **Launch:** the README, the OG image (rendered from the opening wheel), the launch note and the manifest.
+
+Each unit ends with Lighthouse, axe, a reduced-motion pass and a no-JS pass, and with commit messages and `git add` commands for Valery.
 
 ## Tests
 
-- Unit: `turns()` and `summary()` at 3 and 20 members, the smallest and largest contribution, a start month that runs into 2028; `fcfa()`; the pricing period; the table toggle.
-- E2E: both sliders and the Select by keyboard and their summary in the live region; the chart's arrow keys; "Show as a table"; the pricing toggle; the FAQ by keyboard; reduced motion; the page reads without JavaScript, with the prerendered table; axe on the page, an open FAQ item, the open Select and the table view.
-- Lighthouse on `/chop/` within the quality bar.
+- Unit:
+  - `turns()`, `summary()` and `fcfa()`, as now.
+  - The wedge geometry: angles and lengths at 3 and 20 members.
+  - `seriesFacts()`.
+- E2E:
+  - Scroll each pinned track to each plateau and check that the right card or day is shown.
+  - The header dial's marks follow the section in view, and the popover nav works by keyboard.
+  - Every anchor lands at its section.
+  - The calculator by keyboard, with the live-region summary and the table toggle.
+  - The pricing toggle and the FAQ.
+  - Reduced motion gives the column, and the page reads without JavaScript.
+  - `expectSeriesFacts()`.
+  - Axe on the page, an open FAQ item, the open Select, the table view and the open nav.
+- Lighthouse on `/chop/` within the quality bar, and no long frames while scrolling a pinned track (checked in a trace).
 
 ## Decisions
 
-1. **Direction:** The Circle (A), with B's notebook as one moment.
-2. **Name:** Chop; slug `chop`.
-3. **Facts:** all of the board's claims confirmed, FCFA (XAF) included.
-4. **Money:** Chop keeps the book, never the money; no licence claims, no mobile money provider named.
-5. **Prices:** fictional, in FCFA. Circle free for one circle; Treasurer 1,500 FCFA a month or 15,000 FCFA a year.
-6. **Photographs:** none; the hero phone is built from Ndop components.
-7. **Fonts:** Plus Jakarta Sans alone.
-8. **JS budget:** 124 kB if the forms code can't be dropped.
-
-Answered by Valery on 27 October 2026. New in this plan, and approved with it:
-
-9. **Store buttons, not badges.** Apple's and Google's badges are their trademarks, for apps really in their stores. The page draws its own two buttons ("iPhone" and "Android", with Lucide icons), linking to `#get-app` with "Chop is a design study: there's no app to download."
-10. **Green text:** `#2A7353` for green words, since the brief's green fails 4.5:1 on sand.
+1. **Direction:** the Year Wheel as a page of seven sections, three of them pinned (the opening wheel, the month dial, the closing ring) and four free.
+2. **The calculator as a wheel**, built on Ndop's Chart with per-wedge pointer handling, rather than the bar chart.
+3. **The header and footer are this page's own:** a dial with a popover nav, and the closing ring. The series facts come from `libs/site` as data, and an e2e helper checks them. Fil and the atelier follow when they're revisited.
+4. **The brief's line.** The spec's "the classic app landing page, done well" becomes: "An app landing page that runs as a njangi's year: a wheel of months turns with the scroll, and the classic sections, from how it works to download, are its months." The spec doc is edited once this plan is approved.
+5. **Unit 2** isn't committed as it stands. It is reworked into units 1 to 3 above.
