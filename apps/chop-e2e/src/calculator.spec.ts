@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
+import { calculatorReady } from './calculator-ready';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
-  // Hydrated once the toggle answers.
-  await expect(page.getByRole('slider', { name: 'Members' })).toBeVisible();
+  await calculatorReady(page);
 });
 
 test('sets the circle by keyboard and announces it once it settles', async ({
@@ -39,15 +39,7 @@ test('sets the circle by keyboard and announces it once it settles', async ({
 });
 
 test('reads each turn with the chart’s arrow keys', async ({ page }) => {
-  const plot = page.locator('#circle [data-slot="chart-plot"]');
-  await plot.scrollIntoViewIfNeeded();
-  // The calculator hydrates once it's in view; until then, keys do nothing.
-  // Focus marks the first turn once it has.
-  await expect(async () => {
-    await plot.blur();
-    await plot.focus();
-    await expect(plot).toHaveAttribute('data-active', '0', { timeout: 500 });
-  }).toPass();
+  await page.locator('#circle [data-slot="chart-plot"]').focus();
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('ArrowRight');
 

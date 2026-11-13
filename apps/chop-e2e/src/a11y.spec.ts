@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { calculatorReady } from './calculator-ready';
 
 // The quality bar is zero axe violations against WCAG 2.2 A and AA.
 const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -20,6 +21,7 @@ test('has no axe violations', async ({ page }) => {
 
 test('has no axe violations with the table shown', async ({ page }) => {
   await page.goto('./');
+  await calculatorReady(page);
   await page.getByRole('button', { name: 'Show as a table' }).click();
   await expect(
     page.getByRole('table', { name: 'Each turn of the circle' }),
@@ -30,6 +32,7 @@ test('has no axe violations with the table shown', async ({ page }) => {
 
 test('has no axe violations with the Select open', async ({ page }) => {
   await page.goto('./');
+  await calculatorReady(page);
   await page.getByRole('combobox', { name: 'First turn' }).click();
   await expect(page.getByRole('listbox')).toBeVisible();
 
