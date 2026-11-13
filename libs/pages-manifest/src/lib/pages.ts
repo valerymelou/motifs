@@ -64,7 +64,7 @@ export const PAGES: readonly Page[] = [
     tagline: 'Single-origin coffee from smallholders on the Bamboutos slopes.',
     mood: 'immersive',
     accent: '#B4322A',
-    status: 'soon',
+    status: 'live',
     ndopItems: [
       'tabs',
       'select',

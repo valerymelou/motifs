@@ -75,11 +75,7 @@ describe('assemble-site executor', () => {
     fakeBuild(root, 'dist/apps/motifs/browser', 'index');
     fakeBuild(root, 'dist/apps/fil/fil', 'fil');
     fakeBuild(root, 'dist/apps/chop/chop', 'chop');
-    fakeBuild(
-      root,
-      'dist/apps/bamboutos-coffee/bamboutos-coffee',
-      'bamboutos-coffee',
-    );
+    fakeBuild(root, 'dist/apps/lobe-house/lobe-house', 'lobe-house');
     const context = contextFor(root, {
       motifs: app('motifs', 'dist/apps/motifs'),
       fil: app('fil', { base: 'dist/apps/fil', browser: 'fil' }, [
@@ -88,9 +84,9 @@ describe('assemble-site executor', () => {
       chop: app('chop', { base: 'dist/apps/chop', browser: 'chop' }, [
         'type:landing',
       ]),
-      'bamboutos-coffee': app(
-        'bamboutos-coffee',
-        { base: 'dist/apps/bamboutos-coffee', browser: 'bamboutos-coffee' },
+      'lobe-house': app(
+        'lobe-house',
+        { base: 'dist/apps/lobe-house', browser: 'lobe-house' },
         ['type:landing'],
       ),
     });
@@ -101,10 +97,10 @@ describe('assemble-site executor', () => {
       'Sitemap: https://motifs.valerymelou.com/sitemap.xml',
     );
     expect(read('404.html')).toContain('<h1>Page not found</h1>');
-    // Fil and Chop are live in the manifest; Bamboutos Coffee is still "soon".
+    // Fil and Chop are live in the manifest; Lobé House is still "soon".
     expect(read('sitemap.xml')).toContain('/fil/');
     expect(read('sitemap.xml')).toContain('/chop/');
-    expect(read('sitemap.xml')).not.toContain('/bamboutos-coffee/');
+    expect(read('sitemap.xml')).not.toContain('/lobe-house/');
   });
 
   it('replaces whatever an earlier run left behind', async () => {
