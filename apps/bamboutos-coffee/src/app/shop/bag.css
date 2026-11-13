@@ -1,0 +1,50 @@
+/* A bag with its label (bag.ts). The label sits over the blank front of
+   the kraft bag, sized in container units so it scales with the photo.
+   Imported by theme.css, scoped by the component's tag. */
+mt-bag {
+  position: relative;
+  display: block;
+  container-type: inline-size;
+
+  .bag-label {
+    position: absolute;
+    top: 46%;
+    left: 35.5%;
+    width: 26%;
+    display: grid;
+    justify-items: center;
+    gap: 0.6cqw;
+    padding: 2.4cqw 1.6cqw;
+    border-radius: 0.6cqw;
+    background: oklch(0.97 0.012 85);
+    color: var(--soil);
+    text-align: center;
+    box-shadow: 0 0.3cqw 0.8cqw oklch(0.2 0.04 50 / 25%);
+    rotate: -0.6deg;
+  }
+
+  .bag-brand {
+    font-family: var(--font-display);
+    font-size: 2.3cqw;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bag-roast {
+    padding-block: 0.6cqw;
+    border-block: 0.3cqw solid var(--cherry);
+    font-family: var(--font-display);
+    font-size: 4cqw;
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--cherry);
+  }
+
+  .bag-origin {
+    font-size: 1.7cqw;
+    line-height: 1.2;
+  }
+}

@@ -48,7 +48,10 @@ export const siteHeader = {
   route: 'Route',
   routeTitle: 'The way down',
   close: 'Close',
-  cart: { label: 'Cart', href: '#shop' },
+  cart: {
+    label: 'Cart',
+    href: '#shop',
+  },
 } as const;
 
 export const rim = {
@@ -193,6 +196,125 @@ export const walk = {
       alt: 'Freshly roasted beans turning in the cooling tray of a small drum roaster.',
     },
   ] as readonly Station[],
+} as const;
+
+export const roasts = {
+  id: 'roasts',
+  kicker: '1,400 m · The roastery',
+  title: 'Three roasts, from one slope.',
+  intro:
+    'The same washed arabica, taken to three points. Choose one to see how it’s roasted and what it tastes of.',
+  tabsLabel: 'Roast',
+  notes: 'Tasting notes',
+  curve: {
+    caption: 'How it’s roasted',
+    firstCrack: 'First crack',
+    drop: 'Drop',
+    /** The curve in words, for its caption: the SVG is a picture of it. */
+    summary: (firstCrack: string, drop: string, temp: number) =>
+      `first crack at ${firstCrack}, out of the drum at ${drop} and ${temp} °C.`,
+  },
+  bag: { origin: 'Bamboutos, Cameroon', process: 'Washed arabica' },
+  brewsBest: 'Best brewed:',
+  fictional: 'Profiles, notes and prices are the roaster’s own, and fictional.',
+} as const;
+
+export interface Recipe {
+  id: string;
+  name: string;
+  dose: string;
+  water: string;
+  temperature: string;
+  grind: string;
+  time: string;
+  steps: readonly string[];
+}
+
+/** The house recipes: the roaster's own, not facts about Cameroon. */
+export const brew = {
+  id: 'brew',
+  kicker: '1,400 m · Brew guide',
+  title: 'Three ways to brew it.',
+  photo: {
+    name: 'cup-pourover',
+    alt: 'Water poured from a kettle into a pour-over dripper over a glass carafe.',
+  },
+  labels: {
+    dose: 'Coffee',
+    water: 'Water',
+    temperature: 'Temperature',
+    grind: 'Grind',
+    time: 'Time',
+  },
+  recipes: [
+    {
+      id: 'pour-over',
+      name: 'Pour-over',
+      dose: '15 g',
+      water: '250 ml',
+      temperature: '93 °C',
+      grind: 'Medium-fine',
+      time: 'About 3 min',
+      steps: [
+        'Rinse the paper filter with hot water and pour that water away.',
+        'Pour 40 ml over the grounds and wait 30 seconds while they bloom.',
+        'Pour the rest in slow circles, keeping the bed just covered.',
+      ],
+    },
+    {
+      id: 'press',
+      name: 'French press',
+      dose: '30 g',
+      water: '500 ml',
+      temperature: '94 °C',
+      grind: 'Coarse',
+      time: '4 min',
+      steps: [
+        'Pour all the water over the grounds and stir once.',
+        'Put the lid on and leave it for four minutes.',
+        'Press the plunger down slowly, and pour straight away.',
+      ],
+    },
+    {
+      id: 'moka',
+      name: 'Moka pot',
+      dose: 'Basket filled level',
+      water: 'Up to the valve',
+      temperature: 'Hot from the kettle',
+      grind: 'Fine',
+      time: 'Until it gurgles',
+      steps: [
+        'Fill the base with hot water to just under the valve.',
+        'Fill the basket level, without pressing the coffee down.',
+        'Heat it gently, lid open, and take it off as it starts to gurgle.',
+      ],
+    },
+  ] as readonly Recipe[],
+} as const;
+
+export const shop = {
+  id: 'shop',
+  kicker: '1,400 m · The shop',
+  title: 'Roasted the week you order.',
+  note: 'Prices are fictional: Bamboutos Coffee is a design study, and nothing is sold or shipped.',
+  size: 'Size',
+  grind: 'Grind',
+  add: 'Add to cart',
+  added: 'Added to cart',
+  undo: 'Undo',
+  bag: (name: string) => `${name} roast`,
+  cart: {
+    title: 'Your cart',
+    empty: 'Your cart is empty. Choose a roast above.',
+    quantity: 'Quantity',
+    less: (item: string) => `One less: ${item}`,
+    more: (item: string) => `One more: ${item}`,
+    total: 'Total',
+    checkout: 'Checkout',
+    checkoutNote:
+      'Bamboutos Coffee is a design study: nothing is sold or shipped.',
+    close: 'Close the cart',
+  },
 } as const;
 
 export const trailhead = {

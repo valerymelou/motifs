@@ -25,3 +25,34 @@ test('has no axe violations with the route card open', async ({ page }) => {
 
   expect(await violations(page)).toEqual([]);
 });
+
+test('has no axe violations with the cart open', async ({ page }) => {
+  await page.goto('./');
+  const shop = page.locator('#shop');
+  await shop.scrollIntoViewIfNeeded();
+  await expect(async () => {
+    await shop
+      .getByRole('button', { name: 'Add to cart: Light roast' })
+      .click();
+    await expect(page.locator('header .cart-count')).toHaveText('1', {
+      timeout: 700,
+    });
+  }).toPass();
+  await page.locator('header .cart').click();
+  await expect(page.getByRole('dialog', { name: 'Your cart' })).toBeVisible();
+
+  expect(await violations(page)).toEqual([]);
+});
+
+test('has no axe violations with a grind list open', async ({ page }) => {
+  await page.goto('./');
+  const shop = page.locator('#shop');
+  await shop.scrollIntoViewIfNeeded();
+  const grind = shop.getByRole('combobox', { name: 'Grind' }).first();
+  await expect(async () => {
+    await grind.click();
+    await expect(page.getByRole('listbox')).toBeVisible({ timeout: 700 });
+  }).toPass();
+
+  expect(await violations(page)).toEqual([]);
+});

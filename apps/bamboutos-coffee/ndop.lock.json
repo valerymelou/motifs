@@ -2,6 +2,28 @@
   "$schema": "https://ndop.dev/schema/lock.json",
   "lockfileVersion": 1,
   "items": {
+    "@ndop/accordion": {
+      "name": "accordion",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/accordion/accordion.ts",
+          "sha256": "568bd7893247b6ddcf5a3cbe2d50f57c917e5a218c38138520f930a7f5c65ee6"
+        }
+      ]
+    },
+    "@ndop/badge": {
+      "name": "badge",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/badge/badge.ts",
+          "sha256": "654940fa556e46db301755db0099f042898b3ba21466512201abc678ec8173bc"
+        }
+      ]
+    },
     "@ndop/button": {
       "name": "button",
       "registry": "@ndop",
@@ -38,6 +60,50 @@
         {
           "path": "src/app/lib/icons.ts",
           "sha256": "4cdc274c96220c42c09a47a708519c064636e87001fdc4a475c1eec04c99d7b5"
+        }
+      ]
+    },
+    "@ndop/select": {
+      "name": "select",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/select/select.ts",
+          "sha256": "8cbdf98b9398b690a1a35e8d629feeb9d4e8aa7a0101d03a7e64ee63b97ac94f"
+        }
+      ]
+    },
+    "@ndop/sheet": {
+      "name": "sheet",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/sheet/sheet.ts",
+          "sha256": "8b0dc3bc79ae1b5c458bf9ec94f04ec8dfe121d0078fbf3521b2178e61971cbd"
+        }
+      ]
+    },
+    "@ndop/tabs": {
+      "name": "tabs",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/tabs/tabs.ts",
+          "sha256": "bd833ac1bf45ebeadf89fa2f9141b65d6f128025f2caee57e39281f72dbc2bee"
+        }
+      ]
+    },
+    "@ndop/toast": {
+      "name": "toast",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/toast/toast.ts",
+          "sha256": "fb052181aa63a64178f78784475869b8288e7a2f565ac70464c814d992c9c1c8"
         }
       ]
     },

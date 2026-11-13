@@ -3,5 +3,17 @@
   <mt-rim-section />
   <mt-plots-section />
   <mt-walk-section />
+  <!-- The interactive sections are prerendered, then hydrated only once
+       they scroll into view: their code, the Select's and the Sheet's
+       overlay above all, stays out of the first load. -->
+  @defer (hydrate on viewport) {
+    <mt-roasts-section />
+  }
+  @defer (hydrate on viewport) {
+    <mt-brew-section />
+  }
+  @defer (hydrate on viewport) {
+    <mt-shop-section />
+  }
 </main>
 <mt-trailhead-footer />

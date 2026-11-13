@@ -219,8 +219,16 @@ Unit 1 measures it. If the page still goes over, the Ndop gap it hits is logged 
 ## Ndop gaps to expect
 
 - **Forms code in Select:** the same gap as on Chop and the atelier.
-- **Toast and Sheet with reduced motion:** the `motion-reduce` fix, if they animate regardless.
-- **The Toast's Undo:** whether Ndop's Toast takes an action, and pauses its timer on hover and focus. If not, logged as a gap.
+- **Toast and Sheet with reduced motion:** the Toast already has `motion-reduce:transition-none`; the Sheet's slide is checked in the reduced-motion pass.
+- **The Toast's Undo:** not a gap. Ndop's Toast takes an action and pauses its timer while the pointer is over it or focus is inside.
+
+## As built in unit 3
+
+- **Script:** 93 kB initial. The roasts, the brew guide and the shop load their code as they come into view: 4 kB, 3 kB and 13 kB, plus 21 kB of overlay code the Select and the Sheet share.
+- **Icons:** only the five the page draws, written out in Ndop's node format, instead of the generated 65 through `@lucide/angular`.
+- **The headline's font:** Big Shoulders is declared in `index.html` and copied to `fonts/`, as the index does. Declared in the deferred stylesheet, it started loading after the stylesheet, and in two of three Lighthouse runs the headline was recorded again when it swapped in, at 2.7 s. Now LCP is 0.75 to 0.79 s in five runs out of five.
+- **Contrast on the roasts' grounds:** the warmer grounds take the cherry red only to 4.2:1, so red words there use `#8E241E`, a step darker, at 4.8:1 or more.
+- **Button names:** Add to cart is labelled with its roast ("Add to cart: Light roast"), and the header's cart reads "Cart 2 bags", each starting with its visible words.
 
 ## Units
 

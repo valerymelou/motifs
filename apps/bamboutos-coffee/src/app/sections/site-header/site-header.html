@@ -19,18 +19,22 @@
     </div>
 
     <button type="button" class="route-button" popovertarget="route">
-      {{ copy.route }}
+      <span class="route-label">{{ copy.route }}</span>
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="m6 9 6 6 6-6" />
       </svg>
     </button>
 
-    <a class="cart" [href]="copy.cart.href">
+    <a class="cart" [href]="copy.cart.href" (click)="openCart($event)">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M6 7h12l-1 13H7L6 7Z" />
         <path d="M9 7V5a3 3 0 0 1 6 0v2" />
       </svg>
       {{ copy.cart.label }}
+      @if (cart.count() > 0) {
+        <span class="cart-count figures">{{ cart.count() }}</span>
+        <span class="sr-only">{{ cart.count() === 1 ? 'bag' : 'bags' }}</span>
+      }
     </a>
   </div>
 </header>

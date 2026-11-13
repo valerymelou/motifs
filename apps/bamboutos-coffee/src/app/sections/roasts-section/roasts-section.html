@@ -1,0 +1,126 @@
+<section [id]="copy.id" class="roasts" aria-labelledby="roasts-title">
+  <div class="inner">
+    <div class="intro">
+      <p class="kicker">{{ copy.kicker }}</p>
+      <h2 id="roasts-title" class="title">{{ copy.title }}</h2>
+      <p class="lead">{{ copy.intro }}</p>
+    </div>
+
+    <div ndTabs defaultValue="medium" class="tabs">
+      <div ndTabsList [attr.aria-label]="copy.tabsLabel" class="tab-list">
+        @for (roast of roasts; track roast.id) {
+          <button
+            ndTabsTrigger
+            [value]="roast.id"
+            [attr.data-roast]="roast.id"
+            class="tab"
+          >
+            {{ roast.name }}
+          </button>
+        }
+      </div>
+
+      @for (roast of roasts; track roast.id) {
+        <div ndTabsContent [value]="roast.id" class="panel">
+          <div class="bag">
+            <mt-bag
+              [photo]="roast.photo"
+              [name]="roast.name"
+              sizes="(min-width: 64rem) 30rem, 92vw"
+            />
+          </div>
+
+          <div class="detail">
+            <h3 class="roast-name">{{ roast.name }}</h3>
+            <p class="roast-text">{{ roast.text }}</p>
+            <div class="notes">
+              <span class="notes-label">{{ copy.notes }}</span>
+              <ul>
+                @for (note of roast.notes; track note) {
+                  <li>
+                    <span ndBadge variant="secondary" class="note">{{
+                      note
+                    }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <figure class="curve">
+              <svg
+                [attr.viewBox]="'0 0 ' + frame.width + ' ' + frame.height"
+                aria-hidden="true"
+              >
+                @for (tick of roast.curve.degrees; track tick.label) {
+                  <line
+                    class="grid"
+                    [attr.x1]="frame.left"
+                    [attr.x2]="frame.width - frame.right"
+                    [attr.y1]="tick.y"
+                    [attr.y2]="tick.y"
+                  />
+                  <text
+                    class="axis"
+                    [attr.x]="frame.left - 6"
+                    [attr.y]="tick.y + 4"
+                    text-anchor="end"
+                  >
+                    {{ tick.label }}
+                  </text>
+                }
+                @for (tick of roast.curve.minutes; track tick.label) {
+                  <text
+                    class="axis"
+                    [attr.x]="tick.x"
+                    [attr.y]="frame.height - 10"
+                    text-anchor="middle"
+                  >
+                    {{ tick.label }}
+                  </text>
+                }
+                <path class="line" pathLength="1" [attr.d]="roast.curve.path" />
+                <g class="mark">
+                  <circle
+                    [attr.cx]="roast.curve.firstCrack.x"
+                    [attr.cy]="roast.curve.firstCrack.y"
+                    r="5"
+                  />
+                  <text
+                    [attr.x]="roast.curve.firstCrack.x - 8"
+                    [attr.y]="roast.curve.firstCrack.y - 10"
+                    text-anchor="end"
+                  >
+                    {{ copy.curve.firstCrack }}
+                  </text>
+                </g>
+                <g class="mark drop">
+                  <circle
+                    [attr.cx]="roast.curve.drop.x"
+                    [attr.cy]="roast.curve.drop.y"
+                    r="6"
+                  />
+                  <text
+                    [attr.x]="roast.curve.drop.x"
+                    [attr.y]="roast.curve.drop.y - 12"
+                    text-anchor="end"
+                  >
+                    {{ copy.curve.drop }} · {{ roast.profile.drop.temp }} °C
+                  </text>
+                </g>
+              </svg>
+              <figcaption>
+                <b>{{ copy.curve.caption }}:</b> {{ roast.summary }}
+              </figcaption>
+            </figure>
+
+            <p class="brews">
+              {{ copy.brewsBest }}
+              <a [href]="'#recipe-' + roast.brew">{{ roast.brewName }}</a>
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+    <p class="fictional">{{ copy.fictional }}</p>
+  </div>
+</section>

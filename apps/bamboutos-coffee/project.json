@@ -21,6 +21,11 @@
           {
             "glob": "**/*",
             "input": "apps/bamboutos-coffee/public"
+          },
+          {
+            "glob": "big-shoulders-display-latin-wght-normal.woff2",
+            "input": "node_modules/@fontsource-variable/big-shoulders-display/files",
+            "output": "fonts"
           }
         ],
         "styles": ["apps/bamboutos-coffee/src/theme.css"],

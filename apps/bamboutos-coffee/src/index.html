@@ -8,6 +8,23 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <style>
       /*
+       * The headline's face, declared here, not in theme.css: the build
+       * defers the full stylesheet, so a face declared there would only
+       * start loading once it arrives, late for the page's largest paint,
+       * and the headline would repaint with it after it. The build copies
+       * the latin file to fonts/ (project.json). As on the index, it isn't
+       * preloaded.
+       */
+      @font-face {
+        font-family: 'Big Shoulders Display Variable';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('fonts/big-shoulders-display-latin-wght-normal.woff2')
+          format('woff2-variations');
+      }
+
+      /*
        * Fallbacks sized like the web fonts, so the name and the text take
        * the same room before and after the fonts arrive. Declared here, not
        * in theme.css: the build inlines only the critical rules and defers

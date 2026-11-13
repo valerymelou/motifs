@@ -1,0 +1,271 @@
+/* The roasts. A pill of three Ndop tabs, then the chosen roast: its bag
+   beside its notes and its curve. The ground warms towards the roast's
+   brown, read from the active tab's state with :has(), so it needs no
+   script of its own and follows the keyboard as well as the pointer.
+
+   The bag and its label are mt-bag (shop/bag.ts). Imported by theme.css,
+   scoped by the component's tag. */
+mt-roasts-section {
+  --roast-ground: oklch(0.925 0.035 78);
+  /* #8E241E: the cherry red a step darker, for red words on the warmer
+     grounds; 4.8:1 even on the dark roast's. */
+  --cherry-deep: oklch(0.43 0.145 28);
+
+  display: block;
+
+  .roasts {
+    background: var(--roast-ground);
+    transition: background-color 400ms ease;
+  }
+
+  /* The ground for each roast. Text stays the brown throughout, 8:1 or
+     more on all three, and red words take --cherry-deep. */
+  .roasts:has([data-roast='light'][data-state='active']) {
+    --roast-ground: oklch(0.925 0.035 78);
+  }
+
+  .roasts:has([data-roast='medium'][data-state='active']) {
+    --roast-ground: oklch(0.875 0.05 72);
+  }
+
+  .roasts:has([data-roast='dark'][data-state='active']) {
+    --roast-ground: oklch(0.82 0.06 66);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roasts {
+      transition: none;
+    }
+  }
+
+  .inner {
+    display: grid;
+    gap: 2rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: clamp(5rem, 12vh, 8rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cherry-deep);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    line-height: 0.92;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .lead {
+    max-width: 44ch;
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  .tabs {
+    gap: 1.75rem;
+  }
+
+  /* Ndop's tab list, as a pill of three. */
+  .tab-list {
+    justify-self: start;
+    width: fit-content;
+    height: auto;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: oklch(0.286 0.042 51.7 / 10%);
+  }
+
+  .tab {
+    height: 2.5rem;
+    color: var(--soil);
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    &[data-state='active'] {
+      background: var(--soil);
+      color: var(--cream);
+      box-shadow: 0 6px 14px -8px oklch(0.2 0.04 50 / 70%);
+    }
+  }
+
+  .panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .bag {
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 24px 44px -28px oklch(0.2 0.04 50 / 70%);
+  }
+
+  .detail {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .roast-name {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.85;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .roast-text {
+    max-width: 36ch;
+    font-size: 1.1875rem;
+    line-height: 1.45;
+  }
+
+  .notes {
+    display: grid;
+    gap: 0.5rem;
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  }
+
+  .notes-label {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .note {
+    padding: 0.375rem 0.75rem;
+    border-radius: 999px;
+    background: var(--soil);
+    color: var(--cream);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .curve {
+    margin: 0;
+    padding: 1rem 1rem 0.75rem;
+    border-radius: 0.5rem;
+    background: oklch(0.974 0.014 84.6 / 85%);
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    figcaption {
+      padding-top: 0.5rem;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+    }
+  }
+
+  .grid {
+    stroke: oklch(0.286 0.042 51.7 / 14%);
+    stroke-width: 1;
+  }
+
+  .axis {
+    fill: var(--bark);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .line {
+    fill: none;
+    stroke: var(--cherry);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mark {
+    circle {
+      fill: var(--card);
+      stroke: var(--soil);
+      stroke-width: 2.5;
+    }
+
+    text {
+      fill: var(--soil);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    &.drop circle {
+      fill: var(--cherry);
+      stroke: var(--card);
+    }
+  }
+
+  .brews {
+    font-size: 1.0625rem;
+
+    a {
+      font-weight: 600;
+      color: var(--cherry-deep);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .fictional {
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 52rem) {
+    .panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* The curve draws itself as its panel shows. */
+  @media (prefers-reduced-motion: no-preference) {
+    .panel[data-state='active'] .line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+      animation: mt-roast-draw 900ms cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+  }
+}
+
+@keyframes mt-roast-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}

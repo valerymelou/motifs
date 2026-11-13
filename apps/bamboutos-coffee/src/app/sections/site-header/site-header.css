@@ -158,6 +158,19 @@ mt-site-header {
     }
   }
 
+  .cart-count {
+    display: grid;
+    place-items: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--soil);
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+  }
+
   .cart {
     background: var(--cherry);
     border-color: var(--cherry);
@@ -188,6 +201,16 @@ mt-site-header {
     .route-button,
     .cart {
       padding: 0 0.625rem;
+    }
+
+    /* Hidden, not removed: it stays the button's name. */
+    .route-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
   }
 

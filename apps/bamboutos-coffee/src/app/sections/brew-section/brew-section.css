@@ -1,0 +1,151 @@
+/* The brew guide: the pour-over photo beside the recipes. Each recipe is
+   an Ndop Accordion item: the method and its dose and water on the
+   trigger, then its five facts as a ruled card and its steps. Imported by
+   theme.css, scoped by the component's tag. */
+mt-brew-section {
+  display: block;
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: clamp(5rem, 12vh, 8rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .photo {
+    position: sticky;
+    top: 5rem;
+    margin: 0;
+    padding: 0.625rem;
+    background: oklch(0.99 0.004 85);
+    box-shadow: 0 24px 44px -28px oklch(0.2 0.04 50 / 70%);
+    rotate: -1deg;
+  }
+
+  .guide {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cherry);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    line-height: 0.92;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .recipes {
+    margin-top: 1.25rem;
+    border-top: 2px solid var(--soil);
+  }
+
+  .recipe {
+    scroll-margin-top: 5rem;
+    border-bottom: 1px solid oklch(0.286 0.042 51.7 / 22%);
+  }
+
+  .trigger {
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 1.125rem;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:hover .method {
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+  }
+
+  .method {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .summary {
+    font-size: 1rem;
+    color: var(--bark);
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    margin: 0 0 1.25rem;
+    overflow: hidden;
+    border: 1px solid oklch(0.286 0.042 51.7 / 18%);
+    border-radius: 0.5rem;
+    background: var(--card);
+
+    /* Ruled by each cell's own edges, so a short last row leaves no gap. */
+    div {
+      display: grid;
+      gap: 0.25rem;
+      padding: 0.75rem 0.875rem;
+      box-shadow:
+        inset -1px 0 oklch(0.286 0.042 51.7 / 14%),
+        inset 0 -1px oklch(0.286 0.042 51.7 / 14%);
+    }
+
+    dt {
+      font-family: var(--font-display);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bark);
+    }
+
+    dd {
+      margin: 0;
+      font-size: 1.0625rem;
+      font-weight: 600;
+    }
+  }
+
+  .steps {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding-left: 1.4rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+
+    li::marker {
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--cherry);
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .photo {
+      position: relative;
+      top: 0;
+      width: min(100%, 22rem);
+    }
+  }
+}

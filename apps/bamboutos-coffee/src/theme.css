@@ -1,14 +1,17 @@
 @import 'tailwindcss' source('./');
 @import '@ndop/core/styles.css';
-@import '@fontsource-variable/big-shoulders-display';
 @import '@fontsource-variable/newsreader/wght.css';
 
 /* The components' own styles, imported here rather than through styleUrl:
    Angular ships component styles inside the JavaScript bundle. Each file
    scopes its rules to its component's tag. */
 @import './app/sections/site-header/site-header.css';
+@import './app/shop/bag.css';
+@import './app/sections/brew-section/brew-section.css';
 @import './app/sections/plots-section/plots-section.css';
 @import './app/sections/rim-section/rim-section.css';
+@import './app/sections/roasts-section/roasts-section.css';
+@import './app/sections/shop-section/shop-section.css';
 @import './app/sections/trailhead-footer/trailhead-footer.css';
 @import './app/sections/walk-section/walk-section.css';
 
@@ -20,7 +23,8 @@
  *
  * Big Shoulders Display for display, Newsreader for text, both the
  * weight-only cuts: Newsreader's optical-size cut is 132 kB against 58 kB,
- * and would share the slow-4G bandwidth with the rim's photo.
+ * and would share the slow-4G bandwidth with the rim's photo. Big
+ * Shoulders, the headline's face, is declared in index.html, not here.
  */
 
 /* The 'Big Shoulders Fallback' and 'Newsreader Fallback' faces are declared

@@ -1,0 +1,202 @@
+<section [id]="copy.id" class="shop" aria-labelledby="shop-title">
+  <div class="inner">
+    <div class="head">
+      <div class="intro">
+        <p class="kicker">{{ copy.kicker }}</p>
+        <h2 id="shop-title" class="title">{{ copy.title }}</h2>
+      </div>
+      <button
+        ndButton
+        variant="outline"
+        class="open-cart"
+        (click)="setOpen(true)"
+      >
+        {{ copy.cart.title }}
+        <span class="figures">({{ cart.count() }})</span>
+      </button>
+    </div>
+
+    <ul class="products">
+      @for (roast of roasts; track roast.id) {
+        @let pick = choice(roast);
+        <li class="product">
+          <mt-bag
+            [photo]="roast.photo"
+            [name]="roast.name"
+            sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, 92vw"
+          />
+          <div class="product-body">
+            <h3 class="product-name">{{ copy.bag(roast.name) }}</h3>
+            <p class="product-notes">{{ roast.notes.join(' · ') }}</p>
+            <p class="price figures">{{ fcfa(roast.price[pick.weight()]) }}</p>
+
+            <div class="choose" role="group" [attr.aria-label]="copy.size">
+              <span class="choose-label" aria-hidden="true">{{
+                copy.size
+              }}</span>
+              <div class="sizes">
+                @for (weight of weights; track weight.id) {
+                  <button
+                    ndButton
+                    variant="outline"
+                    size="sm"
+                    class="size"
+                    [attr.aria-pressed]="pick.weight() === weight.id"
+                    (click)="pick.weight.set(weight.id)"
+                  >
+                    {{ weight.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="choose">
+              <label class="choose-label" [for]="'grind-' + roast.id">{{
+                copy.grind
+              }}</label>
+              <ng-container ndSelect [(value)]="pick.grind">
+                <button
+                  ndSelectTrigger
+                  [id]="'grind-' + roast.id"
+                  class="grind"
+                >
+                  <span ndSelectValue></span>
+                  <svg ndIcon="chevron-down" class="size-4 opacity-60"></svg>
+                </button>
+                <div ndSelectContent>
+                  @for (grind of grinds; track grind.id) {
+                    <div ndSelectItem [value]="grind.id">
+                      <span ndSelectItemIndicator
+                        ><svg ndIcon="check"></svg
+                      ></span>
+                      <span ndSelectItemText>{{ grind.label }}</span>
+                    </div>
+                  }
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Named in full, with the roast: screen readers hear which bag. The
+                 name starts with the visible words, so voice control finds it. -->
+            <button
+              ndButton
+              class="add"
+              [attr.aria-label]="copy.add + ': ' + copy.bag(roast.name)"
+              (click)="add(roast)"
+            >
+              {{ copy.add }}
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+    <p class="note">{{ copy.note }}</p>
+  </div>
+
+  <ng-container ndSheet [open]="cart.open()" (openChange)="setOpen($event)">
+    <ng-template ndSheetPortal>
+      <div ndSheetOverlay></div>
+      <div ndSheetContent side="end" class="cart-sheet">
+        <div ndSheetHeader>
+          <h2 ndSheetTitle class="cart-title">{{ copy.cart.title }}</h2>
+          <p ndSheetDescription class="cart-count figures">
+            {{ cart.count() }} {{ cart.count() === 1 ? 'bag' : 'bags' }}
+          </p>
+        </div>
+        <button ndSheetCloseButton [attr.aria-label]="copy.cart.close">
+          <svg ndIcon="x"></svg>
+        </button>
+
+        @if (cart.lines().length === 0) {
+          <p class="cart-empty">{{ copy.cart.empty }}</p>
+        } @else {
+          <ul class="cart-lines">
+            @for (line of cart.lines(); track line.key) {
+              @let item = cart.describe(line);
+              <li class="cart-line">
+                <div class="cart-item">
+                  <span class="cart-name">{{ item }}</span>
+                  <span class="cart-price figures">{{
+                    fcfa(cart.price(line) * line.quantity)
+                  }}</span>
+                </div>
+                <div
+                  class="stepper"
+                  role="group"
+                  [attr.aria-label]="copy.cart.quantity + ': ' + item"
+                >
+                  <button
+                    ndButton
+                    variant="outline"
+                    size="icon-sm"
+                    [attr.aria-label]="copy.cart.less(item)"
+                    (click)="step(line, -1)"
+                  >
+                    <svg ndIcon="minus"></svg>
+                  </button>
+                  <span class="quantity figures" aria-live="polite">{{
+                    line.quantity
+                  }}</span>
+                  <button
+                    ndButton
+                    variant="outline"
+                    size="icon-sm"
+                    [attr.aria-label]="copy.cart.more(item)"
+                    (click)="step(line, 1)"
+                  >
+                    <svg ndIcon="plus"></svg>
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+
+        <div ndSheetFooter class="cart-foot">
+          <p class="total">
+            <span>{{ copy.cart.total }}</span>
+            <b class="figures">{{ fcfa(cart.total()) }}</b>
+          </p>
+          @if (checkedOut()) {
+            <p class="checkout-note" role="status">
+              {{ copy.cart.checkoutNote }}
+            </p>
+          } @else {
+            <button
+              ndButton
+              size="lg"
+              class="checkout"
+              [disabled]="cart.lines().length === 0"
+              (click)="checkedOut.set(true)"
+            >
+              {{ copy.cart.checkout }}
+            </button>
+          }
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template ndToaster>
+    <section ndToastRegion>
+      <ol ndToastList>
+        @for (toast of toaster.toasts(); track toast.id) {
+          <li [ndToast]="toast" class="toast">
+            <div ndToastContent>
+              <p ndToastTitle>{{ toast.title }}</p>
+              @if (toast.description) {
+                <p ndToastDescription>{{ toast.description }}</p>
+              }
+            </div>
+            @if (toast.action; as action) {
+              <button ndToastAction>{{ action.label }}</button>
+            }
+            <button ndToastClose aria-label="Close">
+              <svg ndIcon="x"></svg>
+            </button>
+          </li>
+        }
+      </ol>
+    </section>
+  </ng-template>
+</section>

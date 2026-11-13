@@ -1,0 +1,54 @@
+<section [id]="copy.id" class="brew" aria-labelledby="brew-title">
+  <div class="inner">
+    <figure class="photo">
+      <mt-photo
+        [name]="copy.photo.name"
+        [alt]="copy.photo.alt"
+        ratio="4 / 5"
+        focus="62% 50%"
+        sizes="(min-width: 56rem) 28rem, 92vw"
+      />
+    </figure>
+
+    <div class="guide">
+      <p class="kicker">{{ copy.kicker }}</p>
+      <h2 id="brew-title" class="title">{{ copy.title }}</h2>
+
+      <div ndAccordion collapsible defaultValue="pour-over" class="recipes">
+        @for (recipe of copy.recipes; track recipe.id) {
+          <div
+            ndAccordionItem
+            [value]="recipe.id"
+            [id]="'recipe-' + recipe.id"
+            class="recipe"
+          >
+            <h3 ndAccordionHeader>
+              <button ndAccordionTrigger class="trigger">
+                <span class="method">{{ recipe.name }}</span>
+                <span class="summary figures"
+                  >{{ recipe.dose }} · {{ recipe.water }}</span
+                >
+                <svg ndIcon="chevron-down"></svg>
+              </button>
+            </h3>
+            <div ndAccordionContent>
+              <dl class="facts">
+                @for (fact of facts; track fact) {
+                  <div>
+                    <dt>{{ copy.labels[fact] }}</dt>
+                    <dd class="figures">{{ recipe[fact] }}</dd>
+                  </div>
+                }
+              </dl>
+              <ol class="steps">
+                @for (step of recipe.steps; track $index) {
+                  <li>{{ step }}</li>
+                }
+              </ol>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
