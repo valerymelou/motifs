@@ -1,0 +1,177 @@
+/* The trailhead: the page's footer, on the brown of the slope's foot. A
+   signpost of four boards, each pointing its own way, beside a cast
+   benchmark plate. The boards are planks cut to a point by clip-path; the
+   plate is a raised panel with a sunk border. Drawn in CSS, no images.
+   Imported by theme.css, scoped by the component's tag. */
+mt-trailhead-footer {
+  display: block;
+
+  .trailhead {
+    background-color: var(--soil);
+    background-image: var(--grain);
+    color: var(--cream);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: clamp(4rem, 10vh, 7rem) clamp(1rem, 5vw, 4rem);
+  }
+
+  .signpost {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    padding-bottom: 3rem;
+  }
+
+  .post {
+    position: absolute;
+    top: -1rem;
+    bottom: 0;
+    left: 50%;
+    width: 1.125rem;
+    margin-left: -0.5625rem;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(
+      90deg,
+      oklch(0.42 0.05 55),
+      oklch(0.52 0.06 60) 45%,
+      oklch(0.38 0.045 52)
+    );
+    box-shadow: 0 0 0 1px oklch(0.2 0.03 50 / 40%);
+  }
+
+  .boards {
+    position: relative;
+    display: grid;
+    gap: 0.875rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .board {
+    --tip: 1.25rem;
+
+    a {
+      display: block;
+      min-width: 15rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(
+        180deg,
+        oklch(0.88 0.05 72),
+        oklch(0.82 0.06 68)
+      );
+      color: var(--soil);
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: inset 0 -3px 0 oklch(0.286 0.042 51.7 / 18%);
+      outline: none;
+      transition: transform 150ms ease;
+    }
+
+    a:hover {
+      background: linear-gradient(180deg, var(--cream), oklch(0.86 0.05 70));
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--tan);
+      outline-offset: 3px;
+    }
+  }
+
+  .to-left a {
+    clip-path: polygon(var(--tip) 0, 100% 0, 100% 100%, var(--tip) 100%, 0 50%);
+    padding-left: calc(1.5rem + var(--tip) / 2);
+    transform: translateX(-1.25rem) rotate(-1.5deg);
+  }
+
+  .to-right a {
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--tip)) 0,
+      100% 50%,
+      calc(100% - var(--tip)) 100%,
+      0 100%
+    );
+    padding-right: calc(1.5rem + var(--tip) / 2);
+    transform: translateX(1.25rem) rotate(1.5deg);
+  }
+
+  .up a {
+    background: linear-gradient(180deg, oklch(0.56 0.16 28.1), var(--cherry));
+    color: oklch(1 0 0);
+  }
+
+  .up a:hover {
+    background: var(--cherry);
+  }
+
+  /* The benchmark plate: a raised panel in the tan, its border sunk. */
+  .plate {
+    display: grid;
+    gap: 0.625rem;
+    padding: 1.75rem 1.75rem 1.5rem;
+    border-radius: 0.875rem;
+    background: linear-gradient(
+      160deg,
+      oklch(0.86 0.055 70),
+      oklch(0.78 0.06 66)
+    );
+    color: var(--soil);
+    box-shadow:
+      inset 0 0 0 3px oklch(0.286 0.042 51.7 / 22%),
+      inset 0 0 0 6px oklch(0.9 0.04 72 / 60%),
+      0 22px 40px -24px oklch(0 0 0 / 70%);
+  }
+
+  .plate-mark {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .plate-place {
+    padding-bottom: 0.625rem;
+    border-bottom: 2px solid oklch(0.286 0.042 51.7 / 25%);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .plate-line {
+    font-size: 1.0625rem;
+    line-height: 1.45;
+
+    &.small {
+      font-size: 0.9375rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .board a {
+      min-width: 13rem;
+      font-size: 1rem;
+    }
+  }
+}

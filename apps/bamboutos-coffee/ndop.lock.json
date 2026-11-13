@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ndop.dev/schema/lock.json",
+  "lockfileVersion": 1,
+  "items": {
+    "@ndop/button": {
+      "name": "button",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/button/button.ts",
+          "sha256": "38b1dc2238fd3f9800223d78bca9c92634790592c48d7d9b0e7e5e6752e529cf"
+        }
+      ]
+    },
+    "@ndop/card": {
+      "name": "card",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/ui/card/card.ts",
+          "sha256": "0bae505a5faf85821d8b3a0716c1a19b095b423e7f8b95c9115c7c3b3c41f729"
+        }
+      ]
+    },
+    "@ndop/default": {
+      "name": "default",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": []
+    },
+    "@ndop/icons": {
+      "name": "icons",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/icons.ts",
+          "sha256": "4cdc274c96220c42c09a47a708519c064636e87001fdc4a475c1eec04c99d7b5"
+        }
+      ]
+    },
+    "@ndop/utils": {
+      "name": "utils",
+      "registry": "@ndop",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "src/app/lib/utils.ts",
+          "sha256": "cce7a4c0003b6d9d1775cb302d79661be40e48d24fbe976f5b1e0b61072c0c82"
+        }
+      ]
+    }
+  }
+}

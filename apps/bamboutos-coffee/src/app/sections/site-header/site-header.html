@@ -1,0 +1,61 @@
+<header class="site-header">
+  <a class="wordmark" [href]="copy.home"
+    >{{ copy.name }} <span class="coffee">{{ copy.coffee }}</span></a
+  >
+
+  <div class="tools">
+    <div class="altimeter" aria-hidden="true">
+      <span class="alt-label">{{ copy.altitude }}</span>
+      <span class="alt-window">
+        <span class="alt-roll">
+          @for (reading of readings; track reading.altitude) {
+            <span class="alt-line"
+              ><b class="figures">{{ reading.altitude }}</b>
+              <span class="alt-place">{{ reading.place }}</span></span
+            >
+          }
+        </span>
+      </span>
+    </div>
+
+    <button type="button" class="route-button" popovertarget="route">
+      {{ copy.route }}
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    <a class="cart" [href]="copy.cart.href">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 7h12l-1 13H7L6 7Z" />
+        <path d="M9 7V5a3 3 0 0 1 6 0v2" />
+      </svg>
+      {{ copy.cart.label }}
+    </a>
+  </div>
+</header>
+
+<div #route id="route" popover class="route-card">
+  <p class="route-title">{{ copy.routeTitle }}</p>
+  <nav [attr.aria-label]="copy.route">
+    <ol>
+      @for (stop of stops; track stop.id) {
+        <li>
+          <a [href]="'#' + stop.id" (click)="close()">
+            <span class="route-name">{{ stop.name }}</span>
+            <span class="route-leader" aria-hidden="true"></span>
+            <span class="route-altitude figures">{{ stop.altitude }}</span>
+          </a>
+        </li>
+      }
+    </ol>
+  </nav>
+  <button
+    type="button"
+    class="route-close"
+    popovertarget="route"
+    popovertargetaction="hide"
+  >
+    {{ copy.close }}
+  </button>
+</div>

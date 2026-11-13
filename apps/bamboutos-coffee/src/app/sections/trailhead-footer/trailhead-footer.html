@@ -1,0 +1,35 @@
+<footer [id]="copy.id" class="trailhead" [attr.aria-label]="copy.label">
+  <div class="inner">
+    <nav class="signpost" aria-label="Series">
+      <span class="post" aria-hidden="true"></span>
+      <ul class="boards">
+        <li class="board to-left">
+          <a [href]="facts.series.href">{{ facts.series.label }} · Motifs</a>
+        </li>
+        <li class="board to-right">
+          <a [href]="facts.source.href" target="_blank" rel="noopener"
+            >{{ facts.source.label
+            }}<span class="sr-only"> (opens in a new tab)</span></a
+          >
+        </li>
+        <li class="board to-left">
+          <a [href]="facts.ndop.href" target="_blank" rel="noopener"
+            >{{ facts.ndop.label
+            }}<span class="sr-only"> (opens in a new tab)</span></a
+          >
+        </li>
+        <li class="board to-right up">
+          <a [href]="copy.up.href">{{ copy.up.label }}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="plate">
+      <p class="plate-mark">{{ copy.plate.mark }}</p>
+      <p class="plate-place">{{ copy.plate.place }}</p>
+      <p class="plate-line">{{ facts.byline }}</p>
+      <p class="plate-line">{{ copy.studyNote }}</p>
+      <p class="plate-line small">{{ facts.note }}</p>
+    </div>
+  </div>
+</footer>

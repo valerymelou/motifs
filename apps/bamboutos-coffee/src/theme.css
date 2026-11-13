@@ -1,0 +1,126 @@
+@import 'tailwindcss' source('./');
+@import '@ndop/core/styles.css';
+@import '@fontsource-variable/big-shoulders-display';
+@import '@fontsource-variable/newsreader/wght.css';
+
+/* The components' own styles, imported here rather than through styleUrl:
+   Angular ships component styles inside the JavaScript bundle. Each file
+   scopes its rules to its component's tag. */
+@import './app/sections/site-header/site-header.css';
+@import './app/sections/rim-section/rim-section.css';
+@import './app/sections/trailhead-footer/trailhead-footer.css';
+
+/*
+ * Bamboutos Coffee: the cream of a contour map, the volcanic brown of the
+ * slope and one cherry red. The red carries white text (6.1:1) and is dark
+ * enough for words on cream (5.1:1), but only 2.4:1 on the brown, so on
+ * the brown, words are cream or --tan and the red is a fill.
+ *
+ * Big Shoulders Display for display, Newsreader for text, both the
+ * weight-only cuts: Newsreader's optical-size cut is 132 kB against 58 kB,
+ * and would share the slow-4G bandwidth with the rim's photo.
+ */
+
+/* The 'Big Shoulders Fallback' and 'Newsreader Fallback' faces are declared
+   in index.html: see there. */
+
+@theme {
+  --font-display:
+    'Big Shoulders Display Variable', 'Big Shoulders Fallback', 'Arial Narrow',
+    Impact, sans-serif;
+  --font-serif:
+    'Newsreader Variable', 'Newsreader Fallback', Georgia, 'Times New Roman',
+    serif;
+  --font-sans: var(--font-serif);
+  --color-soil: var(--soil);
+  --color-tan: var(--tan);
+  --color-cream: var(--cream);
+}
+
+:root {
+  /* Cream #F4EAD9, brown #3B2416, cherry #B4322A. */
+  --cream: oklch(0.94 0.025 81.1);
+  --soil: oklch(0.286 0.042 51.7);
+  --cherry: oklch(0.515 0.168 28.1);
+  /* #E7C9A8: small labels on the brown, 9.2:1. */
+  --tan: oklch(0.853 0.056 69.6);
+  /* #6F5A4A: secondary text on cream, 5.4:1. */
+  --bark: oklch(0.484 0.037 59);
+
+  --background: var(--cream);
+  --foreground: var(--soil);
+  /* Card #FBF6EC; muted surfaces #E9DBC3. */
+  --card: oklch(0.974 0.014 84.6);
+  --card-foreground: var(--soil);
+  --popover: oklch(0.974 0.014 84.6);
+  --popover-foreground: var(--soil);
+  --primary: var(--cherry);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.896 0.036 81.3);
+  --secondary-foreground: var(--soil);
+  --muted: oklch(0.896 0.036 81.3);
+  --muted-foreground: var(--bark);
+  --accent: oklch(0.896 0.036 81.3);
+  --accent-foreground: var(--soil);
+  --destructive: var(--cherry);
+  --border: oklch(0.286 0.042 51.7 / 16%);
+  --input: oklch(0.286 0.042 51.7 / 26%);
+  --ring: var(--cherry);
+  --radius: 0.5rem;
+
+  /* The page's grain, drawn once as a small tile and laid over the dark
+     grounds: a gradient or filter would be redrawn as they scroll. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.82 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* The contour map's lines, as a tile in the brown at low opacity. */
+  --contours: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Cg fill='none' stroke='%233b2416' stroke-opacity='.09' stroke-width='1.4'%3E%3Cpath d='M0 30c40-18 80 18 120 0s80 18 120 0'/%3E%3Cpath d='M0 70c40-22 80 22 120 0s80 22 120 0'/%3E%3Cpath d='M0 108c40-14 80 14 120 0s80 14 120 0'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@layer base {
+  /* Links to a section glide there. The header floats over the page, so
+     each section starts at the top of the screen. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Each section's view timeline, shared with the whole page so the
+     header's altimeter can follow them all (site-header.css). */
+  body {
+    background-color: var(--background);
+    background-image: var(--contours);
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-serif);
+    timeline-scope: --rim, --plots, --walk, --roasts, --brew, --shop;
+  }
+
+  #rim {
+    view-timeline: --rim block;
+  }
+  #plots {
+    view-timeline: --plots block;
+  }
+  #walk {
+    view-timeline: --walk block;
+  }
+  #roasts {
+    view-timeline: --roasts block;
+  }
+  #brew {
+    view-timeline: --brew block;
+  }
+  #shop {
+    view-timeline: --shop block;
+  }
+
+  ::selection {
+    background: var(--cherry);
+    color: var(--primary-foreground);
+  }
+}
+
+/* Every altitude and price lines up. */
+@utility figures {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

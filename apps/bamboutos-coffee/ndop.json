@@ -1,0 +1,12 @@
+{
+  "$schema": "https://ndop.dev/schema/config.json",
+  "style": "default",
+  "tailwind": { "css": "src/theme.css" },
+  "aliases": {
+    "ui": "src/app/ui",
+    "lib": "src/app/lib",
+    "blocks": "src/app/blocks"
+  },
+  "importAlias": "@/",
+  "iconLibrary": "lucide"
+}

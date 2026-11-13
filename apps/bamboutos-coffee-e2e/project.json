@@ -1,0 +1,9 @@
+{
+  "name": "bamboutos-coffee-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/bamboutos-coffee-e2e/src",
+  "implicitDependencies": ["bamboutos-coffee"],
+  "// targets": "to see all targets run: nx show project bamboutos-coffee-e2e --web",
+  "targets": {}
+}

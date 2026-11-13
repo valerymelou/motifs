@@ -1,0 +1,335 @@
+/* The header: a brown bar across the top with the wordmark, the
+   altimeter, the Route button and the cart.
+
+   The altimeter's reading is a stack of lines in a one-line window, rolled
+   by transform as the page goes down the slope. Each roll is a keyframe
+   animation on a section's view timeline, shared through timeline-scope
+   (theme.css): the rim's takes it from 2,600 m to the plots' 2,000 m as the
+   rim leaves; the walk's steps it through the five stations, resting where
+   the walk rests. The walk's only applies from its start, so before that
+   the rim's reading holds. Scroll-driven CSS, no JavaScript. With reduced
+   motion, or without scroll timelines, the altimeter shows the rim.
+
+   The route card is a popover under the bar: the stops in order, each with
+   its altitude, like a trail card. Imported by theme.css, scoped by the
+   component's tag. */
+mt-site-header {
+  --bar: 3.5rem;
+  --line: 1.5rem;
+
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--bar);
+    padding: 0 clamp(1rem, 3vw, 1.75rem);
+    background-color: var(--soil);
+    background-image: var(--grain);
+    color: var(--cream);
+    box-shadow: 0 10px 24px -18px oklch(0.2 0.04 50 / 80%);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    outline: none;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--tan);
+      border-radius: 2px;
+    }
+  }
+
+  /* The red is too dark for words on the brown, so "Coffee" takes the tan,
+     and the red marks it with an underline. */
+  .coffee {
+    color: var(--tan);
+    text-decoration: underline 3px var(--cherry);
+    text-underline-offset: 0.12em;
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .altimeter {
+    display: grid;
+    gap: 0.125rem;
+    margin-right: 0.75rem;
+    text-align: right;
+  }
+
+  .alt-label {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tan);
+  }
+
+  .alt-window {
+    display: block;
+    height: var(--line);
+    overflow: hidden;
+  }
+
+  .alt-roll {
+    display: grid;
+  }
+
+  .alt-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    height: var(--line);
+    white-space: nowrap;
+
+    b {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      line-height: var(--line);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  .alt-place {
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--tan);
+  }
+
+  .route-button,
+  .cart {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    border: 1px solid oklch(0.94 0.025 81.1 / 28%);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    transition:
+      background-color 150ms ease,
+      transform 150ms ease;
+
+    &:hover {
+      background: oklch(0.94 0.025 81.1 / 10%);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--tan);
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .cart {
+    background: var(--cherry);
+    border-color: var(--cherry);
+
+    &:hover {
+      background: oklch(0.47 0.16 28.1);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .alt-label,
+    .alt-place {
+      display: none;
+    }
+
+    .altimeter {
+      margin-right: 0.25rem;
+    }
+
+    .wordmark {
+      font-size: 1.375rem;
+    }
+
+    .coffee {
+      display: none;
+    }
+
+    .route-button,
+    .cart {
+      padding: 0 0.625rem;
+    }
+  }
+
+  /* The route card. */
+  .route-card {
+    position: fixed;
+    inset: calc(var(--bar) + 0.5rem) clamp(1rem, 3vw, 1.75rem) auto auto;
+    width: min(23rem, calc(100vw - 2rem));
+    margin: 0;
+    padding: 1.25rem 1.25rem 1rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background-color: var(--card);
+    background-image: var(--contours);
+    color: var(--soil);
+    box-shadow:
+      0 1px 0 oklch(0.286 0.042 51.7 / 8%),
+      0 30px 50px -28px oklch(0.2 0.04 50 / 70%);
+
+    &::backdrop {
+      background: oklch(0.2 0.04 50 / 30%);
+    }
+  }
+
+  .route-title {
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .route-card ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 2px dashed oklch(0.515 0.168 28.1 / 50%);
+  }
+
+  .route-card a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 1.0625rem;
+    outline: none;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--muted);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--cherry);
+    }
+  }
+
+  .route-leader {
+    flex: 1;
+    border-bottom: 1.5px dotted oklch(0.286 0.042 51.7 / 35%);
+    transform: translateY(-0.25rem);
+  }
+
+  .route-altitude {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--cherry);
+  }
+
+  .route-close {
+    margin-top: 0.75rem;
+    height: 2.25rem;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--soil);
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--card),
+        0 0 0 4px var(--cherry);
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .alt-roll {
+        animation-name: mt-alt-rim, mt-alt-walk;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both, forwards;
+        animation-timeline: --rim, --walk;
+        animation-range:
+          contain 70% exit 60%,
+          contain 0% contain 100%;
+      }
+    }
+  }
+}
+
+@keyframes mt-alt-rim {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(var(--line) * -1));
+  }
+}
+
+/* The walk's five stations, resting where the walk rests: the same
+   percentages as its own keyframes in walk-section.css. */
+@keyframes mt-alt-walk {
+  0%,
+  8% {
+    transform: translateY(calc(var(--line) * -1));
+  }
+  20%,
+  28% {
+    transform: translateY(calc(var(--line) * -2));
+  }
+  40%,
+  48% {
+    transform: translateY(calc(var(--line) * -3));
+  }
+  60%,
+  68% {
+    transform: translateY(calc(var(--line) * -4));
+  }
+  82%,
+  100% {
+    transform: translateY(calc(var(--line) * -5));
+  }
+}

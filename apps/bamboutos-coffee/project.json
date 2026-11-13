@@ -1,0 +1,97 @@
+{
+  "name": "bamboutos-coffee",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "mt",
+  "sourceRoot": "apps/bamboutos-coffee/src",
+  "tags": ["type:landing"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/bamboutos-coffee",
+          "browser": "bamboutos-coffee"
+        },
+        "browser": "apps/bamboutos-coffee/src/main.ts",
+        "tsConfig": "apps/bamboutos-coffee/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/bamboutos-coffee/public"
+          }
+        ],
+        "styles": ["apps/bamboutos-coffee/src/theme.css"],
+        "server": "apps/bamboutos-coffee/src/main.server.ts",
+        "outputMode": "static",
+        "security": {
+          "allowedHosts": []
+        },
+        "baseHref": "/bamboutos-coffee/"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4304
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "bamboutos-coffee:build:production"
+        },
+        "development": {
+          "buildTarget": "bamboutos-coffee:build:development"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"],
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "bamboutos-coffee:build",
+        "port": 4304,
+        "staticFilePath": "dist/apps/bamboutos-coffee",
+        "spa": false
+      }
+    }
+  }
+}

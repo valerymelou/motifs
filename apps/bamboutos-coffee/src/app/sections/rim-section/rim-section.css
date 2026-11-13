@@ -1,0 +1,207 @@
+/* The rim: the scene fills the first screen, the name across its sky.
+
+   With scroll timelines and motion welcome, the section is a track two
+   screens tall whose stage pins: the scene eases back and up, a band of
+   mist rises from the valley, the words lift away, and the contour map
+   fades in over everything, so the plots below start on its cream. Each is
+   a transform or opacity keyframe on the section's view timeline, --rim.
+   Without either, the rim is one screen and nothing moves.
+
+   Imported by theme.css, scoped by the component's tag. */
+mt-rim-section {
+  display: block;
+
+  .rim {
+    position: relative;
+    background: var(--soil);
+  }
+
+  .stage {
+    position: relative;
+    display: grid;
+    align-content: start;
+    min-height: min(100svh, 60rem);
+    overflow: clip;
+    color: var(--cream);
+  }
+
+  .scene,
+  .mist,
+  .map {
+    position: absolute;
+    inset: 0;
+  }
+
+  .scene svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mist {
+    background: linear-gradient(
+      to top,
+      var(--cream) 0%,
+      oklch(0.94 0.025 81.1 / 70%) 22%,
+      oklch(0.94 0.025 81.1 / 0%) 55%
+    );
+    opacity: 0;
+    transform: translateY(40%);
+  }
+
+  .map {
+    background-color: var(--cream);
+    background-image: var(--contours);
+    opacity: 0;
+  }
+
+  .copy {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+    max-width: 72rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: calc(3.5rem + clamp(2rem, 9vh, 6rem)) clamp(1rem, 5vw, 4rem) 3rem;
+  }
+
+  .name {
+    display: grid;
+    font-family: var(--font-display);
+    line-height: 0.82;
+    font-weight: 900;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+  }
+
+  .name-main {
+    font-size: clamp(4.25rem, 15vw, 12rem);
+  }
+
+  .name-sub {
+    font-size: clamp(2.25rem, 7vw, 5.5rem);
+    color: var(--tan);
+  }
+
+  .tagline {
+    max-width: 30ch;
+    font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  /* Wider than either label in either face, so the swap from the fallback
+     to Big Shoulders moves nothing. */
+  .action {
+    min-width: 14rem;
+    height: 3rem;
+    padding-inline: 1.375rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 24px -14px oklch(0 0 0 / 70%);
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  .ghost {
+    border-color: oklch(0.94 0.025 81.1 / 45%);
+    background: oklch(0.286 0.042 51.7 / 35%);
+    color: var(--cream);
+    backdrop-filter: blur(4px);
+
+    &:hover {
+      background: oklch(0.286 0.042 51.7 / 55%);
+      color: var(--cream);
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .rim {
+        height: 220vh;
+      }
+
+      .stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        min-height: 0;
+      }
+
+      .scene,
+      .mist,
+      .map,
+      .copy {
+        animation-fill-mode: both;
+        animation-timeline: --rim;
+      }
+
+      .scene {
+        animation-name: mt-rim-scene;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        animation-range: contain 0% contain 100%;
+      }
+
+      .mist {
+        animation-name: mt-rim-mist;
+        animation-timing-function: ease-out;
+        animation-range: contain 15% contain 75%;
+      }
+
+      .copy {
+        animation-name: mt-rim-copy;
+        animation-timing-function: ease-in;
+        animation-range: contain 35% contain 70%;
+      }
+
+      .map {
+        animation-name: mt-rim-map;
+        animation-timing-function: linear;
+        animation-range: contain 70% contain 100%;
+      }
+    }
+  }
+}
+
+@keyframes mt-rim-scene {
+  to {
+    transform: translateY(-6%) scale(1.12);
+  }
+}
+
+@keyframes mt-rim-mist {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mt-rim-copy {
+  to {
+    opacity: 0;
+    transform: translateY(-10vh);
+  }
+}
+
+@keyframes mt-rim-map {
+  to {
+    opacity: 1;
+  }
+}

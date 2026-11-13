@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bamboutos Coffee</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <style>
+      /*
+       * Fallbacks sized like the web fonts, so the name and the text take
+       * the same room before and after the fonts arrive. Declared here, not
+       * in theme.css: the build inlines only the critical rules and defers
+       * the full stylesheet, and leaves @font-face out of the inlined part.
+       * Measured in Chromium on a line of the page's copy: Big Shoulders
+       * Display runs 80.4% of Arial Narrow's width at 500 and 91.1% at 800,
+       * with ascent and descent of 0.98em and 0.21em; Newsreader runs 4.5%
+       * wider than Times New Roman at 400 and 4.9% at 600, with 0.74em and
+       * 0.26em. The overrides are divided by size-adjust, which scales them
+       * too. Liberation Sans Narrow and Liberation Serif are the Linux twins.
+       */
+      @font-face {
+        font-family: 'Big Shoulders Fallback';
+        src:
+          local('Arial Narrow'), local('ArialNarrow'),
+          local('Liberation Sans Narrow');
+        font-weight: 100 600;
+        size-adjust: 80.4%;
+        ascent-override: 121.89%;
+        descent-override: 26.12%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'Big Shoulders Fallback';
+        src:
+          local('Arial Narrow Bold'), local('ArialNarrow-Bold'),
+          local('Liberation Sans Narrow Bold');
+        font-weight: 700 900;
+        size-adjust: 91.1%;
+        ascent-override: 107.57%;
+        descent-override: 23.05%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'Newsreader Fallback';
+        src:
+          local('Times New Roman'), local('TimesNewRomanPSMT'),
+          local('Liberation Serif');
+        font-weight: 100 500;
+        size-adjust: 104.5%;
+        ascent-override: 70.81%;
+        descent-override: 24.88%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'Newsreader Fallback';
+        src:
+          local('Times New Roman Bold'), local('TimesNewRomanPS-BoldMT'),
+          local('Liberation Serif Bold');
+        font-weight: 600 900;
+        size-adjust: 104.9%;
+        ascent-override: 70.54%;
+        descent-override: 24.79%;
+        line-gap-override: 0%;
+      }
+    </style>
+  </head>
+  <body>
+    <mt-root></mt-root>
+  </body>
+</html>
