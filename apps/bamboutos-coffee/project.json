@@ -136,6 +136,19 @@
         "{projectRoot}/src/app/photos/manifest.ts"
       ],
       "cache": true
+    },
+    "og": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --no-warnings apps/bamboutos-coffee/og/render-og.mts apps/bamboutos-coffee/public/og.png"
+      },
+      "inputs": [
+        "{projectRoot}/og/**",
+        "{projectRoot}/images-src/rim-dawn.jpeg",
+        "{projectRoot}/src/app/content.ts"
+      ],
+      "outputs": ["{projectRoot}/public/og.png"],
+      "cache": true
     }
   }
 }
