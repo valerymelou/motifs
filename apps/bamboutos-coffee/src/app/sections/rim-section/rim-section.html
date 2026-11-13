@@ -1,46 +1,23 @@
 <section [id]="copy.id" class="rim" aria-labelledby="rim-title">
   <div class="stage">
-    <!-- The stand-in for rim-dawn: drawn, until the photo arrives. -->
-    <div class="scene" role="img" [attr.aria-label]="copy.sceneLabel">
-      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
-        <defs>
-          <linearGradient id="rim-sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#20140d" />
-            <stop offset="0.45" stop-color="#4a2a1c" />
-            <stop offset="0.72" stop-color="#9a5a3a" />
-            <stop offset="0.86" stop-color="#e2a878" />
-          </linearGradient>
-          <radialGradient id="rim-sun" cx="0.68" cy="0.7" r="0.35">
-            <stop offset="0" stop-color="#f6d9a8" stop-opacity="0.9" />
-            <stop offset="1" stop-color="#f6d9a8" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient id="rim-mist" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#f4ead9" stop-opacity="0" />
-            <stop offset="1" stop-color="#f4ead9" stop-opacity="0.55" />
-          </linearGradient>
-        </defs>
-        <rect width="1600" height="900" fill="url(#rim-sky)" />
-        <rect width="1600" height="900" fill="url(#rim-sun)" />
-        <path
-          d="M0 610 C 160 560 260 590 380 540 S 600 470 720 520 S 940 600 1080 540 S 1360 470 1600 520 V900 H0Z"
-          fill="#7a4a35"
-        />
-        <rect y="560" width="1600" height="140" fill="url(#rim-mist)" />
-        <path
-          d="M0 680 C 220 640 340 690 520 640 S 820 600 980 650 S 1280 700 1600 640 V900 H0Z"
-          fill="#5a3424"
-        />
-        <rect y="650" width="1600" height="120" fill="url(#rim-mist)" />
-        <path
-          d="M0 760 C 180 720 380 770 560 730 S 900 700 1100 750 S 1420 780 1600 740 V900 H0Z"
-          fill="#3b2416"
-        />
-        <path
-          d="M0 830 C 260 800 480 840 720 810 S 1160 790 1600 820 V900 H0Z"
-          fill="#24160d"
-        />
-      </svg>
-    </div>
+    <!-- The slope at dawn: a landscape frame from 40rem, an upright crop of
+         its phone twin below. The page's largest paint, so it loads first. -->
+    <picture class="scene">
+      <source
+        media="(min-width: 40rem)"
+        [attr.srcset]="photos.wide"
+        sizes="100vw"
+      />
+      <img
+        [src]="photos.fallback"
+        [srcset]="photos.tall"
+        sizes="100vw"
+        [alt]="copy.sceneLabel"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <div class="scrim" aria-hidden="true"></div>
     <div class="mist" aria-hidden="true"></div>
     <div class="map" aria-hidden="true"></div>
 

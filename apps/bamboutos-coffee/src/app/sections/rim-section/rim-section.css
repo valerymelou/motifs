@@ -26,16 +26,36 @@ mt-rim-section {
   }
 
   .scene,
+  .scrim,
   .mist,
   .map {
     position: absolute;
     inset: 0;
   }
 
-  .scene svg {
+  .scene img {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: 60% 60%;
+  }
+
+  /* The dawn sky is pale: the brown comes down over it from the top and
+     the left, where the words are, and leaves the ridges clear. */
+  .scrim {
+    background:
+      linear-gradient(
+        180deg,
+        oklch(0.2 0.035 50 / 82%) 0%,
+        oklch(0.2 0.035 50 / 55%) 38%,
+        oklch(0.2 0.035 50 / 0%) 70%
+      ),
+      linear-gradient(
+        90deg,
+        oklch(0.2 0.035 50 / 45%) 0%,
+        oklch(0.2 0.035 50 / 0%) 60%
+      );
   }
 
   .mist {
@@ -142,6 +162,7 @@ mt-rim-section {
       }
 
       .scene,
+      .scrim,
       .mist,
       .map,
       .copy {
@@ -149,7 +170,8 @@ mt-rim-section {
         animation-timeline: --rim;
       }
 
-      .scene {
+      .scene,
+      .scrim {
         animation-name: mt-rim-scene;
         animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
         animation-range: contain 0% contain 100%;

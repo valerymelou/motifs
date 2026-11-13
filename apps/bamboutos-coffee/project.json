@@ -92,6 +92,45 @@
         "staticFilePath": "dist/apps/bamboutos-coffee",
         "spa": false
       }
+    },
+    "images": {
+      "executor": "@motifs/workspace-plugin:optimize-images",
+      "options": {
+        "input": "apps/bamboutos-coffee/images-src",
+        "output": "apps/bamboutos-coffee/public/images",
+        "manifest": "apps/bamboutos-coffee/src/app/photos/manifest.ts",
+        "exclude": ["rim-dawn-phone"],
+        "crops": [
+          {
+            "name": "rim-dawn-tall",
+            "from": "rim-dawn-phone",
+            "aspect": 0.8,
+            "focusX": 0.6,
+            "widths": [480, 768, 1080],
+            "blur": 0.8
+          },
+          {
+            "name": "plate-beds",
+            "from": "parchment-beds",
+            "aspect": 1.3333333333333333,
+            "focusX": 0.55,
+            "widths": [480, 768, 1080, 1440]
+          },
+          {
+            "name": "plate-roast",
+            "from": "roast-cooling",
+            "aspect": 1.3333333333333333,
+            "focusX": 0.5,
+            "widths": [480, 768, 1080, 1440]
+          }
+        ]
+      },
+      "inputs": ["{projectRoot}/images-src/**/*"],
+      "outputs": [
+        "{projectRoot}/public/images",
+        "{projectRoot}/src/app/photos/manifest.ts"
+      ],
+      "cache": true
     }
   }
 }
