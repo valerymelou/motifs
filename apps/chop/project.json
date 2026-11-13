@@ -92,6 +92,19 @@
         "staticFilePath": "dist/apps/chop",
         "spa": false
       }
+    },
+    "og": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --no-warnings apps/chop/og/render-og.mts apps/chop/public/og.png"
+      },
+      "inputs": [
+        "{projectRoot}/og/**",
+        "{projectRoot}/src/app/content.ts",
+        "{projectRoot}/src/app/circle/circle.ts"
+      ],
+      "outputs": ["{projectRoot}/public/og.png"],
+      "cache": true
     }
   }
 }
