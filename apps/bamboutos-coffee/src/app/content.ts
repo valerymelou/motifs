@@ -62,6 +62,139 @@ export const rim = {
     'Dawn over the ridges of the Bamboutos massif, mist in the valleys below.',
 } as const;
 
+export interface Plot {
+  /** The plot's number on the map. */
+  n: number;
+  farmer: string;
+  altitude: string;
+  size: string;
+  beside: string;
+  picking: string;
+}
+
+/**
+ * The plots: three fictional smallholdings on the upper slope, shown
+ * through their plots, never their farmers' faces. Sizes, altitudes and
+ * weeks are the roaster's own, fictional.
+ */
+export const plots = {
+  id: 'plots',
+  kicker: '2,000 m · The plots',
+  title: 'Grown on small plots, high on the slope.',
+  intro:
+    'We buy from smallholders who each work a couple of hectares, coffee among beans and plantain. Every season, only their red cherries.',
+  mapLabel:
+    'A contour map of the upper slope, with the three plots marked at their altitudes.',
+  labels: {
+    altitude: 'Altitude',
+    size: 'Size',
+    beside: 'Beside the coffee',
+    picking: 'Picking',
+  },
+  items: [
+    {
+      n: 1,
+      farmer: 'Pauline’s plot',
+      altitude: '2,040 m',
+      size: '1.6 ha',
+      beside: 'Beans, plantain',
+      picking: 'Late October to December',
+    },
+    {
+      n: 2,
+      farmer: 'Emmanuel’s plot',
+      altitude: '1,960 m',
+      size: '2.1 ha',
+      beside: 'Bananas, maize',
+      picking: 'November to mid-December',
+    },
+    {
+      n: 3,
+      farmer: 'Odile’s plot',
+      altitude: '1,890 m',
+      size: '1.5 ha',
+      beside: 'Plantain, cocoyams',
+      picking: 'Late October to December',
+    },
+  ] as readonly Plot[],
+  prints: {
+    rows: {
+      photo: 'plot-rows',
+      alt: 'Rows of coffee under banana trees on a terraced plot, a hoe and a basket at the end of a row.',
+      caption: 'Coffee under plantain, Pauline’s plot.',
+    },
+    beans: {
+      photo: 'green-beans',
+      alt: 'Two hands holding green coffee beans over an open jute sack.',
+      caption: 'Last season’s beans.',
+    },
+  },
+} as const;
+
+export interface Station {
+  altitude: string;
+  place: string;
+  title: string;
+  text: string;
+  photo: string;
+  alt: string;
+}
+
+/**
+ * Cherry to cup: the walk down the slope, five stations. The process
+ * facts are the board's confirmed claims; the altitudes are the roaster's
+ * own, fictional.
+ */
+export const walk = {
+  id: 'walk',
+  kicker: '2,000 → 1,400 m · Cherry to cup',
+  title: 'From the cherry to the cup, down the slope.',
+  profileLabel:
+    'The slope’s profile, from the farms at 2,000 m down to the roastery at 1,400 m.',
+  stations: [
+    {
+      altitude: '2,000 m',
+      place: 'The farms',
+      title: 'Grown high, on small plots.',
+      text: 'Among beans and plantain on the massif’s upper slopes, the cherries ripen from green to red.',
+      photo: 'cherries-branch',
+      alt: 'A coffee branch heavy with cherries, most of them ripe red, a few still green.',
+    },
+    {
+      altitude: '1,850 m',
+      place: 'Picking',
+      title: 'Only the red cherries.',
+      text: 'Picked by hand, a tree at a time, from October to December, as the cherries ripen.',
+      photo: 'picking-hands',
+      alt: 'Hands picking ripe red cherries into a woven basket.',
+    },
+    {
+      altitude: '1,620 m',
+      place: 'The washing station',
+      title: 'Floated, pulped, fermented.',
+      text: 'The floaters are sorted out; the rest are pulped, fermented in tanks for up to 36 hours, then washed.',
+      photo: 'float-tank',
+      alt: 'Red cherries poured from a basket into a concrete tank of water.',
+    },
+    {
+      altitude: '1,480 m',
+      place: 'The drying beds',
+      title: 'Seven to ten days in the sun.',
+      text: 'Turned on raised beds until the beans in their parchment are down to about 12% moisture.',
+      photo: 'plate-beds',
+      alt: 'Raised drying beds covered in pale parchment coffee on a hillside, a rake across one bed.',
+    },
+    {
+      altitude: '1,400 m',
+      place: 'The roastery',
+      title: 'Roasted the week you order.',
+      text: 'Light, medium or dark, then on to the shop at the foot of the slope.',
+      photo: 'plate-roast',
+      alt: 'Freshly roasted beans turning in the cooling tray of a small drum roaster.',
+    },
+  ] as readonly Station[],
+} as const;
+
 export const trailhead = {
   id: 'trailhead',
   label: 'The trailhead',

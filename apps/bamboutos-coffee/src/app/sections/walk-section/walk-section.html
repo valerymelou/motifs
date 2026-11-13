@@ -1,0 +1,143 @@
+<section [id]="copy.id" class="walk" aria-labelledby="walk-title">
+  <div class="stage">
+    <div class="intro">
+      <p class="kicker">{{ copy.kicker }}</p>
+      <h2 id="walk-title" class="title">{{ copy.title }}</h2>
+    </div>
+
+    <div class="land">
+      <svg
+        viewBox="0 0 1700 1150"
+        role="img"
+        [attr.aria-label]="copy.profileLabel"
+      >
+        <path class="ground" [attr.d]="ground" />
+        <path class="trail" [attr.d]="slope" />
+        <g class="rows">
+          <circle cx="250" cy="330" r="10" />
+          <circle cx="280" cy="350" r="8" />
+          <circle cx="330" cy="352" r="10" />
+          <circle cx="360" cy="372" r="9" />
+          <circle cx="200" cy="322" r="9" />
+        </g>
+        <g class="buildings">
+          <path d="M600 520 h70 v-34 l-35 -20 l-35 20 Z" />
+          <path d="M1060 742 h80 v-40 h-12 v-24 h-12 v24 h-56 Z" />
+        </g>
+        <g class="beds">
+          <line x1="790" y1="610" x2="900" y2="660" />
+          <line x1="800" y1="628" x2="910" y2="678" />
+        </g>
+        @for (station of stations; track station.altitude) {
+          <g class="station">
+            <circle
+              [attr.cx]="station.point.x"
+              [attr.cy]="station.point.y"
+              r="7"
+            />
+            <text
+              [attr.x]="station.point.x"
+              [attr.y]="station.point.y + 62"
+              text-anchor="middle"
+            >
+              {{ station.altitude }} · {{ station.place }}
+            </text>
+          </g>
+        }
+      </svg>
+    </div>
+
+    <!-- The bean, changing at each station: drawing only. -->
+    <div class="bean" aria-hidden="true">
+      <svg viewBox="-32 -32 64 64" class="b0">
+        <circle r="22" fill="#6f8a3a" />
+        <path
+          d="M-4 -24 q 6 -10 16 -8"
+          stroke="#3b2416"
+          stroke-width="3"
+          fill="none"
+        />
+      </svg>
+      <svg viewBox="-32 -32 64 64" class="b1">
+        <circle r="22" fill="#b4322a" />
+        <ellipse cx="-7" cy="-8" rx="6" ry="4" fill="#ffffff55" />
+        <path
+          d="M-4 -24 q 6 -10 16 -8"
+          stroke="#3b2416"
+          stroke-width="3"
+          fill="none"
+        />
+      </svg>
+      <svg viewBox="-32 -32 64 64" class="b2">
+        <ellipse
+          rx="18"
+          ry="24"
+          fill="#e9d6ab"
+          stroke="#c9b083"
+          stroke-width="2"
+        />
+        <path
+          d="M0 -20 q -6 20 0 40"
+          stroke="#c9b083"
+          stroke-width="2.5"
+          fill="none"
+        />
+      </svg>
+      <svg viewBox="-32 -32 64 64" class="b3">
+        <ellipse rx="18" ry="24" fill="#9aa47a" />
+        <path
+          d="M0 -20 q -6 20 0 40"
+          stroke="#5f6a43"
+          stroke-width="3"
+          fill="none"
+        />
+      </svg>
+      <svg viewBox="-32 -32 64 64" class="b4">
+        <ellipse rx="18" ry="24" fill="#5a3420" />
+        <ellipse cx="-6" cy="-8" rx="5" ry="8" fill="#ffffff22" />
+        <path
+          d="M0 -20 q -6 20 0 40"
+          stroke="#24160d"
+          stroke-width="3"
+          fill="none"
+        />
+      </svg>
+    </div>
+
+    <ol class="stations">
+      @for (
+        station of stations;
+        track station.altitude;
+        let i = $index;
+        let first = $first;
+        let last = $last
+      ) {
+        <li
+          class="station-item"
+          [class.first]="first"
+          [class.last]="last"
+          [style.--from]="station.from"
+          [style.--to]="station.to"
+        >
+          <figure class="plate">
+            <mt-photo
+              [name]="station.photo"
+              [alt]="station.alt"
+              ratio="4 / 3"
+              sizes="(min-width: 64rem) 32rem, 88vw"
+            />
+            <figcaption class="mount">
+              <span class="figures">{{ station.altitude }}</span>
+              <span>Station {{ i + 1 }} of 5</span>
+            </figcaption>
+          </figure>
+          <div class="caption">
+            <p class="where">{{ station.altitude }} · {{ station.place }}</p>
+            <h3 class="station-title">{{ station.title }}</h3>
+            <p class="station-text">{{ station.text }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

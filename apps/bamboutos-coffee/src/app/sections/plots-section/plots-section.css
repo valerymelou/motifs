@@ -1,0 +1,312 @@
+/* The plots: a survey sheet of the upper slope. On a card-coloured sheet,
+   contour rings run down from a summit off the top right, the three plots
+   are numbered pins, and each plot's card sits beside its pin. Two field
+   prints are taped to the sheet: the rows of one plot, and its beans.
+
+   From 64rem everything is placed on the sheet, in percentages of its
+   16:10 frame, so the cards stay by their pins at any width. Below that,
+   the sheet is a column: the words, the map with its pins, the cards, then
+   the prints side by side. As the section enters, the pins drop onto the
+   map one after another: transform and opacity on its view timeline.
+
+   Imported by theme.css, scoped by the component's tag. */
+mt-plots-section {
+  display: block;
+
+  .plots {
+    padding: clamp(5rem, 12vh, 8rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .sheet {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background: var(--card);
+    box-shadow:
+      0 0 0 1px oklch(0.286 0.042 51.7 / 10%),
+      0 30px 60px -36px oklch(0.2 0.04 50 / 55%);
+  }
+
+  .map {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 0.375rem;
+    background: oklch(0.955 0.02 82);
+  }
+
+  .contours {
+    ellipse {
+      fill: none;
+      stroke: oklch(0.286 0.042 51.7 / 22%);
+      stroke-width: 1.5;
+    }
+  }
+
+  .marker {
+    circle {
+      fill: var(--cherry);
+      stroke: var(--card);
+      stroke-width: 4;
+    }
+
+    text {
+      fill: oklch(1 0 0);
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+    }
+  }
+
+  /* Below 64rem the map is narrow, so its pins are drawn larger. */
+  @media (max-width: 63.99rem) {
+    .marker {
+      circle {
+        r: 34px;
+        stroke-width: 6;
+      }
+
+      text {
+        font-size: 34px;
+      }
+    }
+  }
+
+  .cartouche {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cherry);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    line-height: 0.92;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .intro {
+    max-width: 34ch;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: var(--bark);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plot-card {
+    gap: 0.75rem;
+    padding-block: 1rem;
+    border-color: oklch(0.286 0.042 51.7 / 12%);
+    border-radius: 0.5rem;
+    background: var(--background);
+    box-shadow: 0 14px 28px -20px oklch(0.2 0.04 50 / 60%);
+  }
+
+  .plot-head {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-inline: 1rem;
+  }
+
+  .plot-n {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+    border-radius: 50%;
+    background: var(--cherry);
+    color: oklch(1 0 0);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .plot-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .plot-facts {
+    display: grid;
+    gap: 0.375rem;
+    margin: 0;
+    padding-inline: 1rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-top: 0.375rem;
+      border-top: 1px dashed oklch(0.286 0.042 51.7 / 22%);
+      font-size: 0.9375rem;
+    }
+
+    dt {
+      color: var(--bark);
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+      font-weight: 600;
+    }
+  }
+
+  /* The field prints: a white border, a caption in the margin, a strip of
+     tape across the top. */
+  .print {
+    margin: 0;
+    padding: 0.5rem 0.5rem 0;
+    background: oklch(0.99 0.004 85);
+    box-shadow: 0 18px 30px -18px oklch(0.2 0.04 50 / 65%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -0.75rem;
+      left: 50%;
+      width: 4.5rem;
+      height: 1.5rem;
+      margin-left: -2.25rem;
+      background: oklch(0.9 0.04 80 / 75%);
+      transform: rotate(-3deg);
+    }
+
+    figcaption {
+      padding: 0.5rem 0.25rem 0.625rem;
+      font-size: 0.9375rem;
+      font-style: italic;
+      color: var(--bark);
+    }
+  }
+
+  .print-rows,
+  .print-beans {
+    position: relative;
+  }
+
+  .print-rows {
+    rotate: -1.5deg;
+  }
+
+  .print-beans {
+    justify-self: end;
+    width: min(100%, 15rem);
+    rotate: 2.5deg;
+  }
+
+  /* On the sheet: every piece placed in percentages of its frame. */
+  @media (min-width: 64rem) {
+    .sheet {
+      display: block;
+      aspect-ratio: 16 / 10;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .map {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: inherit;
+    }
+
+    .cartouche,
+    .card-slot,
+    .print {
+      position: absolute;
+    }
+
+    .cartouche {
+      top: 6%;
+      left: 4%;
+      width: 40%;
+      padding: 1.25rem 1.5rem;
+      border: 1.5px solid oklch(0.286 0.042 51.7 / 30%);
+      background: oklch(0.974 0.014 84.6 / 92%);
+    }
+
+    .cards {
+      display: block;
+    }
+
+    .card-slot {
+      width: 20%;
+    }
+
+    .card-slot[data-plot='1'] {
+      top: 6%;
+      left: 59%;
+    }
+
+    .card-slot[data-plot='2'] {
+      top: 37%;
+      left: 74%;
+    }
+
+    .card-slot[data-plot='3'] {
+      top: 64%;
+      left: 55%;
+    }
+
+    .print-rows {
+      top: 56%;
+      left: 5%;
+      width: 34%;
+    }
+
+    .print-beans {
+      top: 4%;
+      left: 82%;
+      width: 15%;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .pin {
+        animation: mt-plot-pin cubic-bezier(0.3, 1.4, 0.6, 1) both;
+        animation-timeline: --plots;
+        animation-range: entry calc(30% + var(--i) * 8%) entry
+          calc(60% + var(--i) * 8%);
+      }
+    }
+  }
+}
+
+@keyframes mt-plot-pin {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.6);
+  }
+}

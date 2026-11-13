@@ -1,0 +1,446 @@
+/* Cherry to cup. The base layout, for reduced motion and for browsers
+   without scroll timelines: the slope's profile drawn once, then the five
+   stations as captioned figures, the brief's fallback.
+
+   With scroll timelines and motion welcome, the section is a track six
+   screens tall whose stage pins. The land, one 1700 × 1150 drawing, is
+   anchored at the bean and moved by transform alone so that each station's
+   point on the slope lands under it; the bean changes at each station; the
+   station's photo plate and caption fade in round its rest. The rests are
+   the same percentages as the header's altimeter (site-header.css), so the
+   two can't drift apart. Everything is a transform or opacity keyframe on
+   the section's view timeline, --walk.
+
+   Imported by theme.css, scoped by the component's tag. */
+mt-walk-section {
+  /* Where the bean stands on the stage. */
+  --bx: 36%;
+  --by: 52%;
+
+  display: block;
+
+  .walk {
+    position: relative;
+  }
+
+  .stage {
+    display: grid;
+    gap: 2rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: clamp(5rem, 12vh, 8rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cherry);
+  }
+
+  .title {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    line-height: 0.92;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  /* In the column the drawing is clipped to its box; pinned, the ground
+     overflows it on every side. */
+  .land {
+    overflow: clip;
+  }
+
+  .land svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .ground {
+    fill: var(--soil);
+  }
+
+  .trail {
+    fill: none;
+    stroke: var(--cherry);
+    stroke-width: 3;
+    stroke-dasharray: 2 9;
+    stroke-linecap: round;
+  }
+
+  .rows circle {
+    fill: oklch(0.6 0.11 125);
+  }
+
+  .buildings path {
+    fill: var(--cream);
+  }
+
+  .beds line {
+    stroke: var(--cream);
+    stroke-width: 4;
+  }
+
+  .station {
+    circle {
+      fill: var(--cream);
+      stroke: var(--cherry);
+      stroke-width: 3;
+    }
+
+    text {
+      fill: var(--cream);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  }
+
+  .bean {
+    display: none;
+  }
+
+  .stations {
+    display: grid;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .station-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  /* The photo plate: mounted like a survey photograph, its altitude and
+     station written on the mount. */
+  .plate {
+    margin: 0;
+    padding: 0.625rem 0.625rem 0;
+    background: oklch(0.99 0.004 85);
+    box-shadow: 0 22px 40px -24px oklch(0.2 0.04 50 / 70%);
+  }
+
+  .mount {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.625rem 0.25rem 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bark);
+
+    .figures {
+      color: var(--cherry);
+    }
+  }
+
+  .caption {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .where {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cherry);
+  }
+
+  .station-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    line-height: 0.95;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .station-text {
+    max-width: 34ch;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: var(--bark);
+  }
+
+  @media (max-width: 48rem) {
+    .station-item {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* The pinned walk. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .walk {
+        height: 600vh;
+      }
+
+      .stage {
+        position: sticky;
+        top: 0;
+        display: block;
+        max-width: none;
+        height: 100svh;
+        padding: 0;
+        overflow: clip;
+      }
+
+      .intro {
+        position: absolute;
+        z-index: 3;
+        top: calc(3.5rem + 1.5rem);
+        left: clamp(1rem, 4vw, 3rem);
+        width: min(30rem, 40vw);
+      }
+
+      .title {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+      }
+
+      .land {
+        position: absolute;
+        top: var(--by);
+        left: var(--bx);
+        width: 1700px;
+        height: 1150px;
+        overflow: visible;
+        will-change: transform;
+      }
+
+      .land svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .bean {
+        position: absolute;
+        z-index: 2;
+        top: var(--by);
+        left: var(--bx);
+        display: block;
+        width: 4.5rem;
+        height: 4.5rem;
+        margin: -2.25rem 0 0 -2.25rem;
+
+        svg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+        }
+      }
+
+      .stations {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        display: block;
+        pointer-events: none;
+      }
+
+      .station-item {
+        position: absolute;
+        inset: 0;
+        display: block;
+      }
+
+      .plate {
+        position: absolute;
+        top: calc(3.5rem + 2rem);
+        right: clamp(1rem, 4vw, 3rem);
+        width: min(40vw, 34rem);
+        rotate: 1.5deg;
+      }
+
+      .caption {
+        position: absolute;
+        bottom: clamp(1.25rem, 5vh, 3rem);
+        left: clamp(1rem, 4vw, 3rem);
+        width: min(28rem, 40vw);
+        padding: 1.25rem 1.5rem 1.375rem;
+        border-radius: 0.5rem;
+        background: var(--card);
+        box-shadow: 0 18px 36px -22px oklch(0.2 0.04 50 / 65%);
+      }
+
+      .land,
+      .bean svg,
+      .station-item {
+        animation-fill-mode: both;
+        animation-timeline: --walk;
+      }
+
+      .land {
+        animation-name: mt-walk-land;
+        animation-timing-function: ease-in-out;
+        animation-range: contain 0% contain 100%;
+      }
+
+      .station-item {
+        animation-name: mt-walk-show;
+        animation-timing-function: linear;
+        animation-range: contain var(--from) contain var(--to);
+      }
+
+      .station-item.first {
+        animation-name: mt-walk-first;
+      }
+
+      .station-item.last {
+        animation-name: mt-walk-last;
+      }
+
+      .bean svg {
+        animation-name: mt-walk-show;
+        animation-timing-function: linear;
+      }
+
+      .bean .b0 {
+        animation-name: mt-walk-first;
+        animation-range: contain 0% contain 14%;
+      }
+      .bean .b1 {
+        animation-range: contain 14% contain 34%;
+      }
+      .bean .b2 {
+        animation-range: contain 34% contain 54%;
+      }
+      .bean .b3 {
+        animation-range: contain 54% contain 74%;
+      }
+      .bean .b4 {
+        animation-name: mt-walk-last;
+        animation-range: contain 74% contain 100%;
+      }
+    }
+
+    /* On phones: the words at the top, the plate under them, the bean in
+       the lower half and the caption at the foot. */
+    @media (prefers-reduced-motion: no-preference) and (max-width: 48rem) {
+      --bx: 50%;
+      --by: 66%;
+
+      .walk {
+        height: 520vh;
+      }
+
+      .intro {
+        top: calc(3.5rem + 0.75rem);
+        right: 1rem;
+        width: auto;
+      }
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .plate {
+        top: calc(3.5rem + 5.75rem);
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+        max-width: 26rem;
+        margin: 0 auto;
+        padding: 0.375rem 0.375rem 0;
+      }
+
+      .mount {
+        padding-block: 0.375rem 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      .caption {
+        right: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        width: auto;
+        padding: 0.875rem 1rem 1rem;
+      }
+
+      .station-title {
+        font-size: 1.5rem;
+      }
+
+      .station-text {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+/* Each station's point on the slope, 24px under the bean's centre: the
+   points are measured from the path (walk-section.ts). */
+@keyframes mt-walk-land {
+  0%,
+  8% {
+    transform: translate(-300px, -329px);
+  }
+  20%,
+  28% {
+    transform: translate(-480px, -420px);
+  }
+  40%,
+  48% {
+    transform: translate(-660px, -523px);
+  }
+  60%,
+  68% {
+    transform: translate(-850px, -624px);
+  }
+  82%,
+  100% {
+    transform: translate(-1010px, -713px);
+  }
+}
+
+@keyframes mt-walk-show {
+  0% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-walk-first {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mt-walk-last {
+  0% {
+    opacity: 0;
+  }
+  30%,
+  100% {
+    opacity: 1;
+  }
+}

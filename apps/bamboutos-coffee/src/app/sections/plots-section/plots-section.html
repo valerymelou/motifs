@@ -1,0 +1,94 @@
+<section [id]="copy.id" class="plots" aria-labelledby="plots-title">
+  <div class="sheet">
+    <svg
+      class="map"
+      viewBox="0 0 1000 625"
+      preserveAspectRatio="xMidYMid slice"
+      role="img"
+      [attr.aria-label]="copy.mapLabel"
+    >
+      <g class="contours">
+        @for (c of contours; track c.rx) {
+          <ellipse
+            cx="920"
+            cy="-40"
+            [attr.rx]="c.rx"
+            [attr.ry]="c.ry"
+            transform="rotate(-18 920 -40)"
+          />
+        }
+      </g>
+      @for (m of markers; track $index; let i = $index) {
+        <g
+          class="marker"
+          [attr.transform]="'translate(' + m.x + ' ' + m.y + ')'"
+        >
+          <!-- The pin drops in on its own group: the outer one's transform
+               attribute places it, and CSS would override that. -->
+          <g class="pin" [style.--i]="i">
+            <circle r="17" />
+            <text text-anchor="middle" dominant-baseline="central">
+              {{ i + 1 }}
+            </text>
+          </g>
+        </g>
+      }
+    </svg>
+
+    <div class="cartouche">
+      <p class="kicker">{{ copy.kicker }}</p>
+      <h2 id="plots-title" class="title">{{ copy.title }}</h2>
+      <p class="intro">{{ copy.intro }}</p>
+    </div>
+
+    <ol class="cards">
+      @for (plot of copy.items; track plot.n) {
+        <li class="card-slot" [attr.data-plot]="plot.n">
+          <article ndCard class="plot-card">
+            <div ndCardHeader class="plot-head">
+              <span class="plot-n" aria-hidden="true">{{ plot.n }}</span>
+              <h3 ndCardTitle class="plot-title">{{ plot.farmer }}</h3>
+            </div>
+            <dl ndCardContent class="plot-facts">
+              <div>
+                <dt>{{ copy.labels.altitude }}</dt>
+                <dd class="figures">{{ plot.altitude }}</dd>
+              </div>
+              <div>
+                <dt>{{ copy.labels.size }}</dt>
+                <dd class="figures">{{ plot.size }}</dd>
+              </div>
+              <div>
+                <dt>{{ copy.labels.beside }}</dt>
+                <dd>{{ plot.beside }}</dd>
+              </div>
+              <div>
+                <dt>{{ copy.labels.picking }}</dt>
+                <dd>{{ plot.picking }}</dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+      }
+    </ol>
+
+    <figure class="print print-rows">
+      <mt-photo
+        [name]="copy.prints.rows.photo"
+        [alt]="copy.prints.rows.alt"
+        ratio="16 / 9"
+        sizes="(min-width: 64rem) 30rem, 90vw"
+      />
+      <figcaption>{{ copy.prints.rows.caption }}</figcaption>
+    </figure>
+    <figure class="print print-beans">
+      <mt-photo
+        [name]="copy.prints.beans.photo"
+        [alt]="copy.prints.beans.alt"
+        ratio="1 / 1"
+        sizes="(min-width: 64rem) 15rem, 45vw"
+      />
+      <figcaption>{{ copy.prints.beans.caption }}</figcaption>
+    </figure>
+  </div>
+</section>

@@ -119,6 +119,15 @@ The cart is an Ndop Sheet from the side. It lists lines with their quantities, a
 
 The cart lives in a signal service. It holds no personal data and isn't stored, so it empties on reload. The shop, its Sheet and its Toast live in a `@defer (hydrate on viewport)` block.
 
+## The photos as they came
+
+Valery generated all fourteen on 13 November 2026. They pass the board's review: no faces, no stray text on the bags or sacks, hands and coffee as they should be. Some came at other ratios than the board asked, so the images target cuts what the page needs:
+
+- `rim-dawn-phone` came landscape: phones get `rim-dawn-tall`, an upright 4:5 crop of it, softened by a 0.8 px blur as on the atelier, 38 kB at 1080 px.
+- The station plates are all 4:3: three photos came at that ratio, and `plate-beds` and `plate-roast` are 4:3 crops of the two 16:9 photos.
+- The bags came square, which suits the shop's product cards in unit 3.
+- On the rim, a brown scrim from the top and left keeps the cream name legible on the pale dawn sky.
+
 ## Fidelity
 
 As on Chop, everything has to look like the real thing:

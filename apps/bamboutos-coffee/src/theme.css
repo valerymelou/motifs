@@ -7,8 +7,10 @@
    Angular ships component styles inside the JavaScript bundle. Each file
    scopes its rules to its component's tag. */
 @import './app/sections/site-header/site-header.css';
+@import './app/sections/plots-section/plots-section.css';
 @import './app/sections/rim-section/rim-section.css';
 @import './app/sections/trailhead-footer/trailhead-footer.css';
+@import './app/sections/walk-section/walk-section.css';
 
 /*
  * Bamboutos Coffee: the cream of a contour map, the volcanic brown of the
