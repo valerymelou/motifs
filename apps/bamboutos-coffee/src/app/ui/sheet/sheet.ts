@@ -106,7 +106,8 @@ export class SheetOverlay {
 
   protected readonly classes = computed(() =>
     cn(
-      'fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
+      // motion-reduce: Ndop's overlays animate even with reduced motion (an Ndop gap, logged in the spec).
+      'fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none',
       this.class(),
     ),
   );
@@ -114,7 +115,8 @@ export class SheetOverlay {
 
 /** Class table for {@link SheetContent}. */
 export const sheetVariants = variants({
-  base: 'fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500',
+  // motion-reduce: the slide too, for the same gap.
+  base: 'fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500 motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none',
   variants: {
     side: {
       end: 'inset-y-0 end-0 h-full w-3/4 border-s data-[state=closed]:slide-out-to-end data-[state=open]:slide-in-from-end sm:max-w-sm',

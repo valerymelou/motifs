@@ -73,6 +73,20 @@ test('opens the cart from the header, changes a quantity, and closes with Escape
   await expect(page.locator('header .cart-count')).toHaveText('3');
 });
 
+test.describe('with reduced motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+
+  test('opens the cart without its slide', async ({ page }) => {
+    await page.goto('./');
+    await addToCart(page, /Add to cart: Light roast/);
+    await page.locator('header .cart').click();
+    const sheet = page.getByRole('dialog', { name: 'Your cart' });
+    await expect(sheet).toBeVisible();
+
+    await expect(sheet).toHaveCSS('animation-name', 'none');
+  });
+});
+
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 

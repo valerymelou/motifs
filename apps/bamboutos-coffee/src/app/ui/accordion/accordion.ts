@@ -131,7 +131,9 @@ export class AccordionContent {
 
   protected readonly classes = computed(() =>
     cn(
-      'overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
+      // motion-reduce: Ndop's accordion animates even with reduced motion (an Ndop gap, logged in the spec).
+      // The data-state variants repeat there, so they outweigh the animation's own.
+      'overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:data-[state=closed]:animate-none motion-reduce:data-[state=open]:animate-none',
       // tw-animate-css's accordion keyframes read this height.
       '[--radix-accordion-content-height:var(--nd-accordion-content-height)]',
       // Space below the text as a pseudo-element, which the height
