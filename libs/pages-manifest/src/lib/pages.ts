@@ -46,7 +46,7 @@ export const PAGES: readonly Page[] = [
     tagline: 'Run your njangi with friends, without the notebook.',
     mood: 'playful',
     accent: '#2F7D5B',
-    status: 'soon',
+    status: 'live',
     ndopItems: [
       'slider',
       'select',

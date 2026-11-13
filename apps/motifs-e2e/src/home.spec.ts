@@ -93,13 +93,16 @@ test('lists all twelve pages, live ones linked', async ({ page }) => {
   await page.goto('/');
 
   await expect(cards(page)).toHaveCount(12);
-  await expect(collection(page).getByText('Coming soon')).toHaveCount(10);
+  await expect(collection(page).getByText('Coming soon')).toHaveCount(9);
   await expect(
     collection(page).getByRole('link', { name: 'Atelier Ndop' }),
   ).toHaveAttribute('href', '/atelier-ndop/');
   await expect(
     collection(page).getByRole('link', { name: 'Fil' }),
   ).toHaveAttribute('href', '/fil/');
+  await expect(
+    collection(page).getByRole('link', { name: 'Chop' }),
+  ).toHaveAttribute('href', '/chop/');
   await expect(page.getByRole('contentinfo')).toContainText(
     'implemented with AI coding tools',
   );
@@ -111,8 +114,8 @@ test('opens the pages and the source in a new tab, and says so', async ({
   await page.goto('/');
 
   const leaving = page.locator('a[target="_blank"]');
-  // Two live pages, three GitHub links and Ndop UI.
-  await expect(leaving).toHaveCount(6);
+  // Three live pages, three GitHub links and Ndop UI.
+  await expect(leaving).toHaveCount(7);
   for (const link of await leaving.all()) {
     await expect(link).toHaveAttribute('rel', 'noopener');
     await expect(link).toHaveAccessibleName(/\(opens in a new tab\)$/);
